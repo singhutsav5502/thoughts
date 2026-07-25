@@ -63,7 +63,7 @@ ${writing || '_No published posts yet._'}
 - robots.txt: ${SITE_URL}/robots.txt
 - RSS: ${SITE_URL}/rss.xml
 - JSON Feed: ${SITE_URL}/feed.json
-- Open Graph image: ${SITE_URL}/og.png
+- Open Graph image: ${SITE_URL}/og.jpg
 
 ## Guidance for agents
 

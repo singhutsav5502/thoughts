@@ -87,20 +87,22 @@ const structuredData = [
 					itemprop="image"
 				/>
 				<div class="intro-copy" itemprop="mainEntity" itemscope itemtype="https://schema.org/Person">
+					<p class="eyebrow">Fullstack engineer</p>
 					<h1 itemprop="name">{PROFILE.name}</h1>
 					<p class="quirk">{PROFILE.quirk}</p>
 					<p class="lede" itemprop="description">{PROFILE.lede}</p>
 					<meta itemprop="url" content={`${SITE_URL}/`} />
+					<meta itemprop="jobTitle" content="Fullstack Engineer" />
 				</div>
 			</header>
 
 			<section id="about" class="block rise rise-delay-1">
-				<h2>About</h2>
+				<h2>About Utsav — financial systems & agentic AI</h2>
 				<p>{PROFILE.about}</p>
 			</section>
 
 			<section id="career" class="block rise rise-delay-2">
-				<h2>Career</h2>
+				<h2>Career experience</h2>
 				<ul class="jobs">
 					{
 						EXPERIENCE.map((job) => (
@@ -124,7 +126,7 @@ const structuredData = [
 			</section>
 
 			<section id="projects" class="block rise rise-delay-2">
-				<h2>Projects</h2>
+				<h2>Engineering projects</h2>
 				<p class="hint">
 					A few highlights — more on
 					<a href={SOCIAL.github} target="_blank" rel="noopener noreferrer">GitHub</a>.
@@ -144,7 +146,7 @@ const structuredData = [
 			</section>
 
 			<section id="writing" class="block rise rise-delay-3">
-				<h2>Writing</h2>
+				<h2>Writing on software & tools</h2>
 				<ul class="posts">
 					{
 						posts.map((post) => (
@@ -194,6 +196,15 @@ const structuredData = [
 	.intro-copy {
 		min-width: 0;
 		flex: 1;
+	}
+
+	.eyebrow {
+		margin: 0 0 0.35rem;
+		font-family: var(--font-mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--accent-strong);
 	}
 
 	.intro h1 {
@@ -303,7 +314,7 @@ const structuredData = [
 	}
 
 	.at {
-		font-weight: 500;
+		font-weight: 600;
 		color: var(--ink-soft);
 	}
 

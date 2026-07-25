@@ -111,6 +111,18 @@ main:has(.page) {
 	}
 }
 
+@media (max-width: 480px) {
+	:root {
+		--space: 1.15rem;
+	}
+}
+
+@media (min-width: 1024px) {
+	main {
+		padding-block: clamp(2rem, 6vw, 4rem);
+	}
+}
+
 h1,
 h2,
 h3,
@@ -251,7 +263,7 @@ hr {
 	padding: 0.7rem 1.15rem;
 	font-family: var(--font-body);
 	font-size: 0.95rem;
-	font-weight: 500;
+	font-weight: 600;
 	color: var(--paper);
 	background: var(--ink);
 	border: 1px solid var(--ink);

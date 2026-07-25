@@ -1,7 +1,6 @@
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, renameSync, unlinkSync, statSync, existsSync } from 'node:fs';
 import sharp from 'sharp';
 
-// Geometric "U" so sharp/librsvg doesn't depend on local fonts.
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <rect width="32" height="32" rx="6" fill="#0a7c8c"/>
   <path fill="#f4f1ea" d="M9 7h3.4v11.2c0 2.9 1.5 4.5 3.6 4.5s3.6-1.6 3.6-4.5V7H23v11.4c0 5-2.9 7.8-7 7.8s-7-2.8-7-7.8V7z"/>
@@ -18,7 +17,6 @@ for (const size of sizes) {
 
 await sharp(Buffer.from(svg)).resize(180, 180).png().toFile('public/apple-touch-icon.png');
 
-/** Minimal PNG-in-ICO container (modern browsers accept PNG payloads). */
 function createIco(pngBuffers) {
 	const count = pngBuffers.length;
 	const headerSize = 6 + count * 16;
@@ -51,7 +49,16 @@ function createIco(pngBuffers) {
 
 writeFileSync('public/favicon.ico', createIco(pngs));
 
-// Twitter prefers a clear absolute JPG/PNG; keep a dedicated card asset.
-await sharp('public/og.png').jpeg({ quality: 92 }).toFile('public/twitter.jpg');
+const source = existsSync('public/og.jpg') ? 'public/og.jpg' : 'public/og.png';
+await sharp(source)
+	.resize(1200, 630, { fit: 'cover' })
+	.jpeg({ quality: 82, mozjpeg: true })
+	.toFile('public/og-tmp.jpg');
+renameSync('public/og-tmp.jpg', 'public/og.jpg');
+if (existsSync('public/og.png')) unlinkSync('public/og.png');
 
-console.log('Generated favicon.ico, favicon-*.png, apple-touch-icon.png, twitter.jpg');
+await sharp('public/og.jpg').jpeg({ quality: 84, mozjpeg: true }).toFile('public/twitter.jpg');
+
+console.log('favicon + apple-touch ready');
+console.log('og.jpg', Math.round(statSync('public/og.jpg').size / 1024), 'KB');
+console.log('twitter.jpg', Math.round(statSync('public/twitter.jpg').size / 1024), 'KB');
