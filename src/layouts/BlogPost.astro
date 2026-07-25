@@ -4,10 +4,41 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import JsonLd from '../components/JsonLd.astro';
+import { SITE_TITLE, SITE_URL, SOCIAL } from '../consts';
 
-type Props = CollectionEntry<'blog'>['data'];
+type Props = CollectionEntry<'blog'>['data'] & { slug?: string };
 
-const { title, description, pubDate, updatedDate, heroImage, tags, sourceUrl } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags, sourceUrl, slug } = Astro.props;
+const canonical = slug ? `${SITE_URL}/blog/${slug}/` : new URL(Astro.url.pathname, SITE_URL).href;
+
+const articleLd = {
+	'@context': 'https://schema.org',
+	'@type': 'BlogPosting',
+	headline: title,
+	description,
+	image: heroImage ? [heroImage] : [`${SITE_URL}/og.png`],
+	datePublished: pubDate.toISOString(),
+	dateModified: (updatedDate ?? pubDate).toISOString(),
+	author: {
+		'@type': 'Person',
+		name: SITE_TITLE,
+		url: `${SITE_URL}/`,
+		sameAs: [SOCIAL.github, SOCIAL.linkedin, SOCIAL.twitter],
+	},
+	publisher: {
+		'@type': 'Person',
+		name: SITE_TITLE,
+		url: `${SITE_URL}/`,
+	},
+	mainEntityOfPage: {
+		'@type': 'WebPage',
+		'@id': canonical,
+	},
+	keywords: tags.join(', '),
+	inLanguage: 'en-US',
+	url: canonical,
+};
 ---
 
 <html lang="en">
@@ -18,26 +49,37 @@ const { title, description, pubDate, updatedDate, heroImage, tags, sourceUrl } =
 			image={heroImage}
 			ogType="article"
 			imageAlt={title}
+			publishedTime={pubDate}
+			modifiedTime={updatedDate ?? pubDate}
+			tags={tags}
 		/>
+		<JsonLd data={articleLd} />
 	</head>
 	<body>
 		<Header />
 		<main>
-			<article class="post rise">
+			<article class="post rise" itemscope itemtype="https://schema.org/BlogPosting">
 				<header class="post-head">
 					<p class="meta">
-						<FormattedDate date={pubDate} />
+						<time itemprop="datePublished" datetime={pubDate.toISOString()}>
+							<FormattedDate date={pubDate} />
+						</time>
 						{
 							updatedDate && (
 								<>
 									{' · '}
-									Updated <FormattedDate date={updatedDate} />
+									Updated{' '}
+									<time itemprop="dateModified" datetime={updatedDate.toISOString()}>
+										<FormattedDate date={updatedDate} />
+									</time>
 								</>
 							)
 						}
 					</p>
-					<h1>{title}</h1>
-					<p class="lede">{description}</p>
+					<h1 itemprop="headline">{title}</h1>
+					<p class="lede" itemprop="description">{description}</p>
+					<meta itemprop="author" content={SITE_TITLE} />
+					<link itemprop="url" href={canonical} />
 					{
 						tags.length > 0 && (
 							<ul class="tags">

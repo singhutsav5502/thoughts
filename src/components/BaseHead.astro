@@ -8,6 +8,7 @@ import {
 	SITE_OG_TITLE,
 	SITE_TITLE,
 	SITE_TWITTER_IMAGE,
+	SITE_URL,
 	SOCIAL,
 } from '../consts';
 import { Font } from 'astro:assets';
@@ -19,6 +20,10 @@ interface Props {
 	twitterImage?: ImageMetadata | string;
 	ogType?: 'website' | 'article';
 	imageAlt?: string;
+	noindex?: boolean;
+	publishedTime?: Date;
+	modifiedTime?: Date;
+	tags?: string[];
 }
 
 const title = Astro.props.title ?? SITE_OG_TITLE;
@@ -27,6 +32,10 @@ const image = Astro.props.image ?? SITE_OG_IMAGE;
 const twitterImage = Astro.props.twitterImage ?? Astro.props.image ?? SITE_TWITTER_IMAGE;
 const ogType = Astro.props.ogType ?? 'website';
 const imageAlt = Astro.props.imageAlt ?? SITE_OG_IMAGE_ALT;
+const noindex = Astro.props.noindex ?? false;
+const publishedTime = Astro.props.publishedTime;
+const modifiedTime = Astro.props.modifiedTime;
+const tags = Astro.props.tags ?? [];
 
 const base = import.meta.env.BASE_URL;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -45,18 +54,38 @@ const twitterCardImage = toAbsolute(twitterImage);
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta name="theme-color" content="#0a7c8c" />
+<meta name="color-scheme" content="light" />
+<meta
+	name="robots"
+	content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}
+/>
+<meta name="googlebot" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+<meta name="bingbot" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
 <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
 <link rel="icon" href={`${base}favicon.ico`} sizes="any" />
 <link rel="apple-touch-icon" href={`${base}apple-touch-icon.png`} />
-<link rel="sitemap" href={`${base}sitemap-index.xml`} />
+<link rel="sitemap" type="application/xml" title="Sitemap" href={`${base}sitemap-index.xml`} />
+<link rel="author" type="text/plain" href={`${base}humans.txt`} />
+<link rel="alternate" type="text/plain" title="llms.txt" href={`${base}llms.txt`} />
+<link rel="alternate" type="text/plain" title="llms-full.txt" href={`${base}llms-full.txt`} />
 <link
 	rel="alternate"
 	type="application/rss+xml"
-	title={SITE_TITLE}
+	title={`${SITE_TITLE} RSS`}
 	href={new URL('rss.xml', Astro.site)}
+/>
+<link
+	rel="alternate"
+	type="application/feed+json"
+	title={`${SITE_TITLE} JSON Feed`}
+	href={new URL('feed.json', Astro.site)}
 />
 <meta name="generator" content={Astro.generator} />
 <meta name="author" content={SITE_TITLE} />
+<meta name="copyright" content={SITE_TITLE} />
+<link rel="me" href={SOCIAL.github} />
+<link rel="me" href={SOCIAL.linkedin} />
+<link rel="me" href={SOCIAL.twitter} />
 
 <Font cssVariable="--font-display" preload />
 <Font cssVariable="--font-body" preload />
@@ -66,6 +95,7 @@ const twitterCardImage = toAbsolute(twitterImage);
 
 <title>{title}</title>
 <meta name="description" content={description} />
+<meta name="keywords" content="Utsav Singh, fullstack engineer, financial systems, agentic AI, AI/ML, utsv.work" />
 
 <meta property="og:type" content={ogType} />
 <meta property="og:site_name" content={SITE_TITLE} />
@@ -79,6 +109,20 @@ const twitterCardImage = toAbsolute(twitterImage);
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content={imageAlt} />
+<meta property="og:see_also" content={SITE_URL} />
+
+{
+	ogType === 'article' && publishedTime && (
+		<meta property="article:published_time" content={publishedTime.toISOString()} />
+	)
+}
+{
+	ogType === 'article' && modifiedTime && (
+		<meta property="article:modified_time" content={modifiedTime.toISOString()} />
+	)
+}
+{ogType === 'article' && <meta property="article:author" content={SITE_TITLE} />}
+{ogType === 'article' && tags.map((tag) => <meta property="article:tag" content={tag} />)}
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content={SOCIAL.twitterHandle} />

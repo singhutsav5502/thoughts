@@ -1,0 +1,13 @@
+/* TEAM */
+Name: Utsav Singh
+Site: https://utsv.work/
+Location: Earth
+GitHub: https://github.com/singhutsav5502
+LinkedIn: https://www.linkedin.com/in/utsav-work/
+X: https://twitter.com/uts5501
+
+/* SITE */
+Standards: HTML5, CSS3, Astro
+Components: Markdown content collections, RSS, JSON Feed, llms.txt
+Doctype: HTML5
+Language: English

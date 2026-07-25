@@ -7,7 +7,15 @@ import { defineConfig, fontProviders } from 'astro/config';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://utsv.work',
-	integrations: [mdx(), sitemap()],
+	integrations: [
+		mdx(),
+		sitemap({
+			filter: (page) => !page.includes('/about'),
+			changefreq: 'weekly',
+			priority: 0.7,
+			lastmod: new Date(),
+		}),
+	],
 	fonts: [
 		{
 			provider: fontProviders.fontsource(),

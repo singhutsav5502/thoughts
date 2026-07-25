@@ -6,7 +6,11 @@ const aboutHref = `${import.meta.env.BASE_URL}#about`;
 
 <html lang="en">
 	<head>
-		<BaseHead title="About · Utsav Singh" description="About Utsav Singh" />
+		<BaseHead
+			title="About · Utsav Singh"
+			description="About Utsav Singh"
+			noindex={true}
+		/>
 		<meta http-equiv="refresh" content={`0;url=${aboutHref}`} />
 		<link rel="canonical" href={aboutHref} />
 	</head>

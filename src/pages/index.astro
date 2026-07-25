@@ -4,7 +4,8 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_OG_TITLE, SOCIAL } from '../consts';
+import JsonLd from '../components/JsonLd.astro';
+import { SITE_DESCRIPTION, SITE_OG_TITLE, SITE_TITLE, SITE_URL, SOCIAL } from '../consts';
 import { EXPERIENCE, HIGHLIGHT_PROJECTS, PROFILE } from '../data/profile';
 
 const posts = (await getCollection('blog'))
@@ -12,29 +13,84 @@ const posts = (await getCollection('blog'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const base = import.meta.env.BASE_URL;
+
+const personId = `${SITE_URL}/#person`;
+const websiteId = `${SITE_URL}/#website`;
+
+const structuredData = [
+	{
+		'@context': 'https://schema.org',
+		'@type': 'WebSite',
+		'@id': websiteId,
+		url: `${SITE_URL}/`,
+		name: SITE_TITLE,
+		description: SITE_DESCRIPTION,
+		inLanguage: 'en-US',
+		publisher: { '@id': personId },
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'Person',
+		'@id': personId,
+		name: PROFILE.name,
+		url: `${SITE_URL}/`,
+		image: PROFILE.avatar,
+		description: PROFILE.lede,
+		email: SOCIAL.email.replace('mailto:', ''),
+		jobTitle: EXPERIENCE[0]?.role,
+		worksFor: EXPERIENCE[0]
+			? {
+					'@type': 'Organization',
+					name: EXPERIENCE[0].company,
+				}
+			: undefined,
+		sameAs: [SOCIAL.github, SOCIAL.linkedin, SOCIAL.twitter],
+		knowsAbout: [
+			'financial systems',
+			'agentic systems',
+			'AI/ML',
+			'fullstack engineering',
+			'TypeScript',
+			'React',
+		],
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'ProfilePage',
+		'@id': `${SITE_URL}/#profile`,
+		url: `${SITE_URL}/`,
+		name: SITE_OG_TITLE,
+		description: SITE_DESCRIPTION,
+		mainEntity: { '@id': personId },
+		isPartOf: { '@id': websiteId },
+	},
+];
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<BaseHead title={SITE_OG_TITLE} description={SITE_DESCRIPTION} />
+		<JsonLd data={structuredData} />
 	</head>
 	<body>
 		<Header />
-		<main class="page">
+		<main class="page" itemscope itemtype="https://schema.org/ProfilePage">
 			<header class="intro rise">
 				<img
 					class="avatar"
 					src={PROFILE.avatar}
-					alt=""
+					alt={`${PROFILE.name} avatar`}
 					width="120"
 					height="144"
 					loading="eager"
+					itemprop="image"
 				/>
-				<div class="intro-copy">
-					<h1>{PROFILE.name}</h1>
+				<div class="intro-copy" itemprop="mainEntity" itemscope itemtype="https://schema.org/Person">
+					<h1 itemprop="name">{PROFILE.name}</h1>
 					<p class="quirk">{PROFILE.quirk}</p>
-					<p class="lede">{PROFILE.lede}</p>
+					<p class="lede" itemprop="description">{PROFILE.lede}</p>
+					<meta itemprop="url" content={`${SITE_URL}/`} />
 				</div>
 			</header>
 

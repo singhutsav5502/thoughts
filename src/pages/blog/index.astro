@@ -4,22 +4,41 @@ import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION } from '../../consts';
+import JsonLd from '../../components/JsonLd.astro';
+import { SITE_TITLE, SITE_URL } from '../../consts';
 
 const posts = (await getCollection('blog'))
 	.filter((p) => !p.data.draft)
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const base = import.meta.env.BASE_URL;
+const archiveDescription =
+	'Essays and build notes from Utsav Singh — parsers, tools, and shipping notes.';
+
+const collectionLd = {
+	'@context': 'https://schema.org',
+	'@type': 'CollectionPage',
+	name: 'Writing · Utsav Singh',
+	description: archiveDescription,
+	url: `${SITE_URL}/blog/`,
+	isPartOf: { '@type': 'WebSite', name: SITE_TITLE, url: `${SITE_URL}/` },
+	mainEntity: {
+		'@type': 'ItemList',
+		itemListElement: posts.map((post, index) => ({
+			'@type': 'ListItem',
+			position: index + 1,
+			url: `${SITE_URL}/blog/${post.id}/`,
+			name: post.data.title,
+		})),
+	},
+};
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead
-			title="Writing · Utsav Singh"
-			description="Essays and build notes from Utsav Singh — parsers, tools, and shipping notes."
-		/>
+		<BaseHead title="Writing · Utsav Singh" description={archiveDescription} />
+		<JsonLd data={collectionLd} />
 	</head>
 	<body>
 		<Header />
