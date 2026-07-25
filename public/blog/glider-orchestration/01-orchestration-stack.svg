@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="580" viewBox="0 0 680 580" role="img">
+  <rect width="100%" height="100%" fill="#f8fafc"/>
+  
+<defs>
+  <marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+    <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+  </marker>
+  <marker id="af" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+    <path d="M0,0 L8,3 L0,6 Z" fill="#c2410c"/>
+  </marker>
+</defs>
+
+  <text x="40" y="40" font-family="Fraunces, Georgia, serif" font-size="22" fill="#0f172a">Glider orchestration stack</text><rect x="80" y="70" width="520" height="64" rx="12" fill="#bae6fd" stroke="#1e3a5f" stroke-width="2"/><text x="340.0" y="102.0" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="14" fill="#1e3a5f">Dashboard :8081  ·  Gateway :8080  ·  MITM :8082</text><rect x="80" y="170" width="520" height="64" rx="12" fill="#fde68a" stroke="#1e3a5f" stroke-width="2"/><text x="340.0" y="202.0" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="14" fill="#1e3a5f">Router  →  Transform  →  Orchestrator</text><rect x="80" y="270" width="240" height="72" rx="12" fill="#bbf7d0" stroke="#1e3a5f" stroke-width="2"/><text x="200.0" y="297.0" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="14" fill="#1e3a5f">Loop Manager</text><text x="200.0" y="315.0" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="14" fill="#1e3a5f">(hoops / stages)</text><rect x="360" y="270" width="240" height="72" rx="12" fill="#fbcfe8" stroke="#1e3a5f" stroke-width="2"/><text x="480.0" y="297.0" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="14" fill="#1e3a5f">Swarm Runner</text><text x="480.0" y="315.0" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="14" fill="#1e3a5f">(templates / waves)</text><rect x="80" y="380" width="520" height="64" rx="12" fill="#fed7aa" stroke="#1e3a5f" stroke-width="2"/><text x="340.0" y="412.0" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="14" fill="#1e3a5f">Tools registry  +  runs/&lt;id&gt;/{work,out}</text><rect x="80" y="480" width="520" height="64" rx="12" fill="#e2e8f0" stroke="#1e3a5f" stroke-width="2"/><text x="340.0" y="512.0" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="14" fill="#1e3a5f">Backends: Ollama / vLLM / BYOK cloud</text><line x1="340" y1="134" x2="340" y2="170" stroke="#334155" stroke-width="2" marker-end="url(#a)"/><line x1="340" y1="234" x2="200" y2="270" stroke="#334155" stroke-width="2" marker-end="url(#a)"/><line x1="340" y1="234" x2="480" y2="270" stroke="#334155" stroke-width="2" marker-end="url(#a)"/><line x1="340" y1="342" x2="340" y2="380" stroke="#334155" stroke-width="2" marker-end="url(#a)"/><line x1="340" y1="444" x2="340" y2="480" stroke="#334155" stroke-width="2" marker-end="url(#a)"/>
+</svg>

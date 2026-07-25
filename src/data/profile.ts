@@ -42,6 +42,12 @@ export type HighlightProject = {
 
 export const HIGHLIGHT_PROJECTS: HighlightProject[] = [
 	{
+		name: 'Glider',
+		blurb:
+			'Local AI harness above Cursor — gateway/MITM routing, Loop Engineering hoops, swarms, and per-run workspaces.',
+		href: '/blog/glider-orchestration/',
+	},
+	{
 		name: 'Graphite Editor',
 		blurb:
 			'Open-source contributions (Rust / Wasm / TypeScript) — measurement overlays, node catalog filtering, transform cage work; 6+ merged PRs.',
