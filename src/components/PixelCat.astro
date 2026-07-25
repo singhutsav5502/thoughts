@@ -1,0 +1,178 @@
+---
+/** Desktop-only pixel cat that peeks from the right edge and tracks the cursor. */
+---
+
+<aside class="pixel-cat" aria-hidden="true">
+	<canvas class="pixel-cat-canvas" width="32" height="32"></canvas>
+	<span class="pixel-cat-bubble"></span>
+</aside>
+
+<script>
+	const root = document.querySelector('.pixel-cat');
+	const canvas = root?.querySelector('.pixel-cat-canvas');
+	const bubble = root?.querySelector('.pixel-cat-bubble');
+	if (!(root instanceof HTMLElement) || !(canvas instanceof HTMLCanvasElement) || !(bubble instanceof HTMLElement)) {
+		/* no-op */
+	} else {
+		const ctx = canvas.getContext('2d');
+		const fine = window.matchMedia('(pointer: fine) and (min-width: 900px)');
+		const motionOk = window.matchMedia('(prefers-reduced-motion: no-preference)');
+		const lines = ['mrrp?', 'purr', '…', 'oh', 'hi'];
+		let lineIndex = 0;
+		let armed = false;
+		let frame = 0;
+		let near = false;
+		let targetY = window.innerHeight * 0.45;
+		let y = targetY;
+		let raf = 0;
+
+		// 16×16 sprite, 2 frames (sit / peek). Palette: ink, paper, accent, accent-soft, nose.
+		const P = [null, '#12151a', '#f4f1ea', '#0a7c8c', '#5aaeb8', '#c45c4a'];
+		const FRAMES = [
+			[
+				'0000001100000000',
+				'0000013310000000',
+				'0000133331000000',
+				'0001333333100000',
+				'0013333333310000',
+				'0133133133310000',
+				'1333333333331000',
+				'1333555333331000',
+				'0133333333310000',
+				'0013333333100000',
+				'0001333331000000',
+				'0000133310000000',
+				'0000011100000000',
+				'0000000000000000',
+				'0000000000000000',
+				'0000000000000000',
+			],
+			[
+				'0000001100000000',
+				'0000013310000000',
+				'0000133331000000',
+				'0011333333100000',
+				'0133333333310000',
+				'1333133133331000',
+				'1333333333333100',
+				'1333555333333100',
+				'0133333333331000',
+				'0013333333310000',
+				'0001333333100000',
+				'0000133331000000',
+				'0000013310000000',
+				'0000001100000000',
+				'0000000000000000',
+				'0000000000000000',
+			],
+		];
+
+		const draw = (peek) => {
+			if (!ctx) return;
+			const sprite = FRAMES[peek ? 1 : 0];
+			ctx.clearRect(0, 0, 32, 32);
+			ctx.imageSmoothingEnabled = false;
+			for (let row = 0; row < 16; row++) {
+				for (let col = 0; col < 16; col++) {
+					const color = P[Number(sprite[row][col])];
+					if (!color) continue;
+					ctx.fillStyle = color;
+					ctx.fillRect(col * 2, row * 2, 2, 2);
+				}
+			}
+		};
+
+		const setEnabled = () => {
+			const on = fine.matches && motionOk.matches;
+			root.classList.toggle('is-on', on);
+			if (!on) {
+				root.classList.remove('is-near');
+				cancelAnimationFrame(raf);
+				return;
+			}
+			tick();
+		};
+
+		const tick = () => {
+			y += (targetY - y) * 0.12;
+			root.style.setProperty('--cat-y', `${y}px`);
+			frame += 1;
+			if (frame % 18 === 0) draw(near);
+			raf = requestAnimationFrame(tick);
+		};
+
+		const onMove = (event) => {
+			if (!root.classList.contains('is-on')) return;
+			targetY = Math.min(window.innerHeight - 48, Math.max(48, event.clientY));
+			near = window.innerWidth - event.clientX < 72;
+			root.classList.toggle('is-near', near);
+			if (near && !armed) {
+				armed = true;
+				bubble.textContent = lines[lineIndex % lines.length];
+				lineIndex += 1;
+			}
+			if (!near) armed = false;
+		};
+
+		draw(false);
+		setEnabled();
+		fine.addEventListener('change', setEnabled);
+		motionOk.addEventListener('change', setEnabled);
+		window.addEventListener('pointermove', onMove, { passive: true });
+	}
+</script>
+
+<style>
+	.pixel-cat {
+		display: none;
+		--cat-y: 45vh;
+	}
+
+	.pixel-cat.is-on {
+		display: block;
+		position: fixed;
+		top: var(--cat-y);
+		right: 0;
+		z-index: 40;
+		width: 40px;
+		height: 40px;
+		margin-top: -20px;
+		pointer-events: none;
+		transform: translateX(22px);
+		transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.pixel-cat.is-near {
+		transform: translateX(4px);
+	}
+
+	.pixel-cat-canvas {
+		display: block;
+		width: 36px;
+		height: 36px;
+		image-rendering: pixelated;
+	}
+
+	.pixel-cat-bubble {
+		position: absolute;
+		right: 38px;
+		top: 4px;
+		padding: 0.15rem 0.4rem;
+		font-family: var(--font-mono);
+		font-size: 0.62rem;
+		letter-spacing: 0.04em;
+		color: var(--paper);
+		background: var(--ink);
+		opacity: 0;
+		transform: translateX(8px);
+		transition:
+			opacity 180ms ease,
+			transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+		white-space: nowrap;
+	}
+
+	.pixel-cat.is-near .pixel-cat-bubble {
+		opacity: 1;
+		transform: translateX(0);
+	}
+</style>

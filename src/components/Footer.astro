@@ -1,0 +1,71 @@
+---
+import { SOCIAL } from '../consts';
+
+const year = new Date().getFullYear();
+const base = import.meta.env.BASE_URL;
+---
+
+<footer>
+	<div class="inner">
+		<p>&copy; {year} Utsav Singh</p>
+		<div class="links">
+			<a href={SOCIAL.github}>GitHub</a>
+			<a href={SOCIAL.linkedin}>LinkedIn</a>
+			<a href={SOCIAL.twitter}>X</a>
+			<a href={`${base}rss.xml`}>RSS</a>
+		</div>
+	</div>
+</footer>
+
+<style>
+	footer {
+		border-top: 1px solid var(--line);
+		margin-top: auto;
+	}
+
+	.inner {
+		width: min(100% - 2 * var(--space), 38rem);
+		margin-inline: auto;
+		padding-block: 1.5rem 2.75rem;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
+		gap: 0.95rem 1.25rem;
+		font-size: 0.95rem;
+		color: var(--ink-soft);
+	}
+
+	.inner p {
+		margin: 0;
+	}
+
+	.links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.85rem 1.15rem;
+	}
+
+	.links a {
+		color: var(--ink-soft);
+		text-decoration: none;
+		padding: 0.2rem 0;
+	}
+
+	.links a:hover {
+		color: var(--accent-strong);
+	}
+
+	@media (max-width: 560px) {
+		.inner {
+			flex-direction: column;
+			align-items: flex-start;
+			padding-block: 1.65rem 2.5rem;
+			font-size: 1rem;
+		}
+
+		.links {
+			gap: 0.75rem 1.25rem;
+		}
+	}
+</style>

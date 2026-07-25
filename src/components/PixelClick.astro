@@ -1,0 +1,196 @@
+---
+/** Retro 8-bit sprite pops on click — same pixel language as the edge cat. */
+---
+
+<canvas class="pixel-click" aria-hidden="true"></canvas>
+
+<script>
+	const canvas = document.querySelector('.pixel-click');
+	if (canvas instanceof HTMLCanvasElement) {
+		const ctx = canvas.getContext('2d');
+		const motionOk = window.matchMedia('(prefers-reduced-motion: no-preference)');
+		// Match PixelCat palette: transparent, ink, paper, accent, accent-soft, nose
+		const P = [null, '#12151a', '#f4f1ea', '#0a7c8c', '#5aaeb8', '#c45c4a'];
+		const SCALE = 3;
+		const SIZE = 16;
+		const FRAME_HOLD = 4;
+
+		// Classic RPG-style spark: tight → burst → ring → fade
+		const FRAMES = [
+			[
+				'0000000000000000',
+				'0000000000000000',
+				'0000000000000000',
+				'0000000000000000',
+				'0000000000000000',
+				'0000000330000000',
+				'0000003443000000',
+				'0000034554300000',
+				'0000034554300000',
+				'0000003443000000',
+				'0000000330000000',
+				'0000000000000000',
+				'0000000000000000',
+				'0000000000000000',
+				'0000000000000000',
+				'0000000000000000',
+			],
+			[
+				'0000000000000000',
+				'0000000400000000',
+				'0000003430000000',
+				'0000040404000000',
+				'0000003430000000',
+				'0004033333040000',
+				'0034334443334000',
+				'0403445554430400',
+				'0034334443334000',
+				'0004033333040000',
+				'0000003430000000',
+				'0000040404000000',
+				'0000003430000000',
+				'0000000400000000',
+				'0000000000000000',
+				'0000000000000000',
+			],
+			[
+				'0000040000400000',
+				'0000004004000000',
+				'0400003330000400',
+				'0040034443004000',
+				'0000345554300000',
+				'0003452225430000',
+				'4034522252540300',
+				'0034522252540000',
+				'0003452225430000',
+				'0000345554300000',
+				'0040034443004000',
+				'0400003330000400',
+				'0000004004000000',
+				'0000040000400000',
+				'0000000000000000',
+				'0000000000000000',
+			],
+			[
+				'0400000000000400',
+				'0004000000040000',
+				'0000400000400000',
+				'0000040004000000',
+				'4000003330000040',
+				'0000034443000000',
+				'0000340004300000',
+				'0003400000430000',
+				'0000340004300000',
+				'0000034443000000',
+				'4000003330000040',
+				'0000040004000000',
+				'0000400000400000',
+				'0004000000040000',
+				'0400000000000400',
+				'0000000000000000',
+			],
+			[
+				'4000000000000040',
+				'0000000000000000',
+				'0000000000000000',
+				'0000000400000000',
+				'0000000000000000',
+				'0000000000000000',
+				'0000040004000000',
+				'0000000000000000',
+				'0000040004000000',
+				'0000000000000000',
+				'0000000000000000',
+				'0000000400000000',
+				'0000000000000000',
+				'0000000000000000',
+				'4000000000000040',
+				'0000000000000000',
+			],
+		];
+
+		/** @type {{ x: number; y: number; age: number }[]} */
+		const pops = [];
+		let raf = 0;
+		let running = false;
+
+		const resize = () => {
+			const dpr = Math.min(window.devicePixelRatio || 1, 2);
+			canvas.width = Math.floor(window.innerWidth * dpr);
+			canvas.height = Math.floor(window.innerHeight * dpr);
+			canvas.style.width = `${window.innerWidth}px`;
+			canvas.style.height = `${window.innerHeight}px`;
+			if (!ctx) return;
+			ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+			ctx.imageSmoothingEnabled = false;
+		};
+
+		const drawSprite = (sprite, ox, oy) => {
+			if (!ctx) return;
+			for (let row = 0; row < SIZE; row++) {
+				for (let col = 0; col < SIZE; col++) {
+					const color = P[Number(sprite[row][col])];
+					if (!color) continue;
+					ctx.fillStyle = color;
+					ctx.fillRect(ox + col * SCALE, oy + row * SCALE, SCALE, SCALE);
+				}
+			}
+		};
+
+		const tick = () => {
+			if (!ctx) return;
+			ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+			const maxAge = FRAMES.length * FRAME_HOLD;
+
+			for (let i = pops.length - 1; i >= 0; i--) {
+				const pop = pops[i];
+				const frame = Math.min(FRAMES.length - 1, (pop.age / FRAME_HOLD) | 0);
+				const px = Math.round(pop.x - (SIZE * SCALE) / 2);
+				const py = Math.round(pop.y - (SIZE * SCALE) / 2);
+				drawSprite(FRAMES[frame], px, py);
+				pop.age += 1;
+				if (pop.age >= maxAge) pops.splice(i, 1);
+			}
+
+			if (pops.length) {
+				raf = requestAnimationFrame(tick);
+			} else {
+				running = false;
+				cancelAnimationFrame(raf);
+				ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+			}
+		};
+
+		const spawn = (x, y) => {
+			if (!motionOk.matches) return;
+			pops.push({ x, y, age: 0 });
+			if (!running) {
+				running = true;
+				raf = requestAnimationFrame(tick);
+			}
+		};
+
+		resize();
+		window.addEventListener('resize', resize, { passive: true });
+		window.addEventListener(
+			'pointerdown',
+			(event) => {
+				if (event.button !== 0) return;
+				spawn(event.clientX, event.clientY);
+			},
+			{ passive: true },
+		);
+	}
+</script>
+
+<style>
+	.pixel-click {
+		position: fixed;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		z-index: 50;
+		image-rendering: pixelated;
+	}
+</style>

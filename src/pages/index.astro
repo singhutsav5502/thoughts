@@ -1,0 +1,348 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE, SOCIAL } from '../consts';
+import { EXPERIENCE, HIGHLIGHT_PROJECTS, PROFILE } from '../data/profile';
+
+const posts = (await getCollection('blog'))
+	.filter((p) => !p.data.draft)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const base = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main class="page">
+			<header class="intro rise">
+				<img
+					class="avatar"
+					src={PROFILE.avatar}
+					alt=""
+					width="120"
+					height="144"
+					loading="eager"
+				/>
+				<div class="intro-copy">
+					<h1>{PROFILE.name}</h1>
+					<p class="quirk">{PROFILE.quirk}</p>
+					<p class="lede">{PROFILE.lede}</p>
+				</div>
+			</header>
+
+			<section id="about" class="block rise rise-delay-1">
+				<h2>About</h2>
+				<p>{PROFILE.about}</p>
+			</section>
+
+			<section id="career" class="block rise rise-delay-2">
+				<h2>Career</h2>
+				<ul class="jobs">
+					{
+						EXPERIENCE.map((job) => (
+							<li>
+								<div class="job-head">
+									<h3>
+										{job.role}
+										<span class="at"> at {job.company}</span>
+									</h3>
+									<p class="meta">{job.dates}</p>
+								</div>
+								<ul>
+									{job.bullets.map((b) => (
+										<li>{b}</li>
+									))}
+								</ul>
+							</li>
+						))
+					}
+				</ul>
+			</section>
+
+			<section id="projects" class="block rise rise-delay-2">
+				<h2>Projects</h2>
+				<p class="hint">
+					A few highlights — more on
+					<a href={SOCIAL.github} target="_blank" rel="noopener noreferrer">GitHub</a>.
+				</p>
+				<ul class="plain">
+					{
+						HIGHLIGHT_PROJECTS.map((project) => (
+							<li>
+								<a href={project.href} target="_blank" rel="noopener noreferrer">
+									{project.name}
+								</a>
+								— {project.blurb}
+							</li>
+						))
+					}
+				</ul>
+			</section>
+
+			<section id="writing" class="block rise rise-delay-3">
+				<h2>Writing</h2>
+				<ul class="posts">
+					{
+						posts.map((post) => (
+							<li>
+								<a href={`${base}blog/${post.id}/`}>
+									<span class="post-title">{post.data.title}</span>
+									<span class="meta">
+										<FormattedDate date={post.data.pubDate} />
+									</span>
+								</a>
+							</li>
+						))
+					}
+				</ul>
+				<p class="hint">
+					<a href={`${base}blog/`}>All posts →</a>
+				</p>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.page {
+		width: min(100% - 2 * var(--space), 38rem);
+		margin-inline: auto;
+		padding-block: clamp(1.5rem, 5vw, 2.75rem) clamp(2.75rem, 8vw, 4.5rem);
+	}
+
+	.intro {
+		display: flex;
+		align-items: flex-start;
+		gap: 1.15rem 1.35rem;
+		margin-bottom: clamp(2rem, 6vw, 3rem);
+	}
+
+	.avatar {
+		width: 96px;
+		height: 116px;
+		object-fit: cover;
+		border: 1px solid var(--line);
+		background: var(--paper-deep);
+		flex: none;
+	}
+
+	.intro-copy {
+		min-width: 0;
+		flex: 1;
+	}
+
+	.intro h1 {
+		font-size: clamp(2.15rem, 8vw, 3.1rem);
+		margin-bottom: 0.55rem;
+		line-height: 1.1;
+	}
+
+	.quirk {
+		font-size: 1.15rem;
+		line-height: 1.4;
+		letter-spacing: 0.35em;
+		margin: 0 0 0.9rem;
+	}
+
+	.lede {
+		font-size: clamp(1.08rem, 3.8vw, 1.22rem);
+		line-height: 1.55;
+		color: var(--ink);
+		margin: 0;
+		max-width: 36ch;
+	}
+
+	.block {
+		padding-top: clamp(1.65rem, 5vw, 2.15rem);
+		margin-top: clamp(0.35rem, 1.5vw, 0.65rem);
+		border-top: 1px solid var(--line);
+	}
+
+	.block h2 {
+		font-size: clamp(1.3rem, 4.5vw, 1.5rem);
+		margin-bottom: 0.95rem;
+	}
+
+	.block > p {
+		margin-bottom: 1rem;
+		font-size: 1.02rem;
+		line-height: 1.7;
+		color: #2f3640;
+	}
+
+	.hint {
+		font-size: 1rem;
+		line-height: 1.55;
+	}
+
+	@media (max-width: 560px) {
+		.intro {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 1.1rem;
+			margin-bottom: 2.25rem;
+		}
+
+		.avatar {
+			width: 88px;
+			height: 106px;
+		}
+
+		.intro h1 {
+			font-size: clamp(2.35rem, 11vw, 2.85rem);
+			margin-bottom: 0.45rem;
+		}
+
+		.quirk {
+			font-size: 1.25rem;
+			letter-spacing: 0.28em;
+			margin-bottom: 0.75rem;
+		}
+
+		.lede {
+			font-size: 1.12rem;
+			max-width: none;
+		}
+
+		.block > p {
+			font-size: 1.05rem;
+		}
+	}
+
+	.jobs,
+	.plain,
+	.posts {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.jobs > li + li {
+		margin-top: 1.75rem;
+	}
+
+	.job-head {
+		display: flex;
+		flex-direction: column;
+		gap: 0.3rem;
+		margin-bottom: 0.65rem;
+	}
+
+	.job-head h3 {
+		font-family: var(--font-body);
+		font-size: 1.08rem;
+		font-weight: 600;
+		letter-spacing: 0;
+		line-height: 1.35;
+		margin: 0;
+	}
+
+	.at {
+		font-weight: 500;
+		color: var(--ink-soft);
+	}
+
+	.jobs ul {
+		margin: 0;
+		padding-left: 1.2rem;
+		color: #2f3640;
+		font-size: 1rem;
+		line-height: 1.65;
+	}
+
+	.jobs ul li + li {
+		margin-top: 0.5rem;
+	}
+
+	.plain li {
+		margin-bottom: 1rem;
+		color: #2f3640;
+		font-size: 1rem;
+		line-height: 1.65;
+	}
+
+	.plain a {
+		font-weight: 600;
+		color: var(--ink);
+		text-decoration: none;
+	}
+
+	.plain a:hover {
+		color: var(--accent-strong);
+	}
+
+	.posts li {
+		border-top: 1px solid var(--line);
+	}
+
+	.posts li:first-child {
+		border-top: none;
+	}
+
+	.posts a {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		padding: 1.05rem 0;
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.post-title {
+		font-family: var(--font-display);
+		font-size: clamp(1.12rem, 4vw, 1.25rem);
+		font-weight: 600;
+		color: var(--ink);
+		line-height: 1.35;
+	}
+
+	.posts a:hover .post-title {
+		color: var(--accent-strong);
+	}
+
+	.meta {
+		text-transform: none;
+		letter-spacing: 0.02em;
+		font-size: 0.85rem;
+	}
+
+	@media (max-width: 560px) {
+		.meta {
+			font-size: 0.88rem;
+		}
+
+		.jobs ul {
+			font-size: 1.02rem;
+		}
+	}
+
+	@media (min-width: 640px) {
+		.job-head {
+			flex-direction: row;
+			align-items: baseline;
+			justify-content: space-between;
+			gap: 1rem;
+		}
+
+		.posts a {
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: baseline;
+			gap: 1rem;
+		}
+
+		.post-title {
+			flex: 1;
+			min-width: 0;
+		}
+	}
+</style>

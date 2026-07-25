@@ -1,0 +1,16 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+
+const aboutHref = `${import.meta.env.BASE_URL}#about`;
+---
+
+<html lang="en">
+	<head>
+		<BaseHead title="About · Utsav Singh" description="About Utsav Singh" />
+		<meta http-equiv="refresh" content={`0;url=${aboutHref}`} />
+		<link rel="canonical" href={aboutHref} />
+	</head>
+	<body>
+		<p><a href={aboutHref}>Continue to profile →</a></p>
+	</body>
+</html>
