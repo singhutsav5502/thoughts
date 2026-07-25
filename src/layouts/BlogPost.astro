@@ -12,7 +12,13 @@ const { title, description, pubDate, updatedDate, heroImage, tags, sourceUrl } =
 
 <html lang="en">
 	<head>
-		<BaseHead title={`${title} · Utsav Singh`} description={description} image={heroImage} />
+		<BaseHead
+			title={`${title} · Utsav Singh`}
+			description={description}
+			image={heroImage}
+			ogType="article"
+			imageAlt={title}
+		/>
 	</head>
 	<body>
 		<Header />

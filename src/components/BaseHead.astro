@@ -1,26 +1,46 @@
 ---
 import '../styles/global.css';
 import type { ImageMetadata } from 'astro';
-import FallbackImage from '../assets/blog-placeholder-1.jpg';
-import { SITE_TITLE } from '../consts';
+import {
+	SITE_DESCRIPTION,
+	SITE_OG_IMAGE,
+	SITE_OG_IMAGE_ALT,
+	SITE_OG_TITLE,
+	SITE_TITLE,
+	SOCIAL,
+} from '../consts';
 import { Font } from 'astro:assets';
 
 interface Props {
-	title: string;
-	description: string;
+	title?: string;
+	description?: string;
 	image?: ImageMetadata | string;
+	ogType?: 'website' | 'article';
+	imageAlt?: string;
 }
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const { title, description, image = FallbackImage } = Astro.props;
+const {
+	title = SITE_OG_TITLE,
+	description = SITE_DESCRIPTION,
+	image = SITE_OG_IMAGE,
+	ogType = 'website',
+	imageAlt = SITE_OG_IMAGE_ALT,
+} = Astro.props;
+
 const base = import.meta.env.BASE_URL;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const ogImage =
-	typeof image === 'string' ? image : new URL(image.src, Astro.url).href;
+	typeof image === 'string'
+		? image.startsWith('http')
+			? image
+			: new URL(image, Astro.site).href
+		: new URL(image.src, Astro.site).href;
 ---
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="theme-color" content="#0a7c8c" />
 <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
 <link rel="icon" href={`${base}favicon.ico`} />
 <link rel="sitemap" href={`${base}sitemap-index.xml`} />
@@ -31,6 +51,7 @@ const ogImage =
 	href={new URL('rss.xml', Astro.site)}
 />
 <meta name="generator" content={Astro.generator} />
+<meta name="author" content={SITE_TITLE} />
 
 <Font cssVariable="--font-display" preload />
 <Font cssVariable="--font-body" preload />
@@ -41,13 +62,23 @@ const ogImage =
 <title>{title}</title>
 <meta name="description" content={description} />
 
-<meta property="og:type" content="website" />
-<meta property="og:url" content={Astro.url} />
+<meta property="og:type" content={ogType} />
+<meta property="og:site_name" content={SITE_TITLE} />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={ogImage} />
+<meta property="og:image:secure_url" content={ogImage} />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={imageAlt} />
 
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content={SOCIAL.twitterHandle} />
+<meta name="twitter:creator" content={SOCIAL.twitterHandle} />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImage} />
+<meta name="twitter:image:alt" content={imageAlt} />

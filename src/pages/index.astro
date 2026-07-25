@@ -4,7 +4,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE, SOCIAL } from '../consts';
+import { SITE_DESCRIPTION, SITE_OG_TITLE, SOCIAL } from '../consts';
 import { EXPERIENCE, HIGHLIGHT_PROJECTS, PROFILE } from '../data/profile';
 
 const posts = (await getCollection('blog'))
@@ -17,7 +17,7 @@ const base = import.meta.env.BASE_URL;
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead title={SITE_OG_TITLE} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
 		<Header />
