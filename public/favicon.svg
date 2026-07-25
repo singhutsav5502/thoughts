@@ -1,12 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-	<rect width="32" height="32" rx="6" fill="#0a7c8c"/>
-	<text
-		x="16"
-		y="22"
-		text-anchor="middle"
-		font-family="Georgia, 'Times New Roman', serif"
-		font-size="18"
-		font-weight="700"
+	<rect width="32" height="32" rx="6" fill="#0a7c8c" />
+	<path
 		fill="#f4f1ea"
-	>U</text>
+		d="M9 7h3.4v11.2c0 2.9 1.5 4.5 3.6 4.5s3.6-1.6 3.6-4.5V7H23v11.4c0 5-2.9 7.8-7 7.8s-7-2.8-7-7.8V7z"
+	/>
 </svg>

@@ -5,6 +5,7 @@ export const SITE_URL = 'https://utsv.work';
 /** Default social card title when a page doesn’t override it. */
 export const SITE_OG_TITLE = 'Utsav Singh | utsv.work';
 export const SITE_OG_IMAGE = '/og.png';
+export const SITE_TWITTER_IMAGE = '/twitter.jpg';
 export const SITE_OG_IMAGE_ALT =
 	'Utsav Singh - financial systems, agentic AI, and fullstack engineering';
 
