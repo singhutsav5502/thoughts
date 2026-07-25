@@ -1,7 +1,7 @@
 export const SITE_TITLE = 'Utsav Singh';
 export const SITE_DESCRIPTION =
 	'Fullstack engineer interested in financial systems, building agentic systems and AI/ML.';
-export const SITE_URL = 'https://singhutsav5502.github.io/personal-website';
+export const SITE_URL = 'https://utsv.work';
 
 export const SOCIAL = {
 	github: 'https://github.com/singhutsav5502',
