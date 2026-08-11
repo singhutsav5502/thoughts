@@ -1,28 +1,28 @@
 ---
 /**
- * Not-found page, and the case-repair for /Glider/.
+ * Not-found page for utsv.work: an isometric block city that spells 404,
+ * over a static overlay that stands on its own.
  *
- * GitHub Pages serves this file for every 404 on the site, and it is the only
- * hook available: a static host has no rewrite rules, and a per-spelling
- * redirect stub cannot exist either, because public/glider/ and public/Glider/
- * are the same directory on a case-insensitive filesystem such as Windows.
+ * GitHub Pages serves this one file for every 404 anywhere on the site, the
+ * /Glider subpath included. So every link and asset path is site-absolute and
+ * all CSS is inline: the page must render the same whether it answers /nope or
+ * /Glider/docs/site/nope.html, where a relative path would resolve wrongly.
  *
- * So the repair happens here. The manifest below is generated at build time
- * from public/Glider/, which is a committed snapshot, so this needs no Glider
- * checkout. It maps the lowercased form of every published path to the real
- * one, which covers any mix of upper and lower case — /glider/, /GLIDER/,
- * /GliDeR/DOCS/site/TUTORIAL.HTML — and deep paths, not only the entry point.
+ * It also repairs case for /Glider. /glider/, /GLIDER/ and any other mix reach
+ * the real page. A static host has no rewrite rules, and a redirect stub per
+ * spelling cannot exist either, because public/glider/ and public/Glider/ are
+ * the same directory on a case-insensitive filesystem such as Windows. The
+ * manifest below is generated at build time from public/Glider/, so it covers
+ * deep paths and cannot drift from the snapshot. Case is the only thing it
+ * repairs: a correctly cased path that is genuinely missing gets the plain 404
+ * it deserves.
  *
- * The page only ever repairs case. A path that is already cased correctly and
- * still missing gets the plain 404 it deserves.
+ * The scene is decoration and is treated as optional throughout: three.js is
+ * imported dynamically from a CDN, and every failure path -- offline, blocked,
+ * no WebGL -- leaves the overlay readable over the gradient.
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import { SITE_TITLE } from '../consts';
 
 const GLIDER_URL_PREFIX = '/Glider/';
 // Resolved from the project root, not from import.meta.url: in frontmatter that
@@ -66,16 +66,45 @@ for (const real of publishedPaths) {
 	const key = real.toLowerCase();
 	if (!(key in caseMap)) caseMap[key] = real;
 }
+
+const CHIPS = [
+	{ label: 'Home', href: 'https://utsv.work/' },
+	{ label: 'Writing', href: 'https://utsv.work/blog/' },
+	{ label: 'Glider', href: 'https://utsv.work/Glider' },
+	{ label: 'Code', href: 'https://github.com/singhutsav5502' },
+];
+
+const SOCIAL = [
+	{ label: 'GitHub', href: 'https://github.com/singhutsav5502' },
+	{ label: 'LinkedIn', href: 'https://www.linkedin.com/in/utsav-work/' },
+	{ label: 'X', href: 'https://twitter.com/uts5501' },
+];
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead
-			title={`Page not found · ${SITE_TITLE}`}
-			description="That page does not exist."
-			noindex={true}
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+		<title>404 — off the map</title>
+		<meta name="robots" content="noindex, nofollow" />
+		<meta name="googlebot" content="noindex, nofollow" />
+		<meta name="description" content="Nothing is built here. Have a look around, then take one of the roads out." />
+		<meta name="theme-color" content="#0a7c8c" />
+		<meta name="color-scheme" content="light" />
+
+		<link rel="icon" href="/favicon.ico" sizes="48x48" />
+		<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap"
+			rel="stylesheet"
 		/>
+
 		<script is:inline define:vars={{ caseMap, GLIDER_URL_PREFIX }}>
 			// Runs before paint so a wrong-case URL does not flash the 404 copy.
 			(function () {
@@ -107,26 +136,599 @@ for (const real of publishedPaths) {
 				}
 			})();
 		</script>
+
+		<script type="importmap" is:inline>
+			{ "imports": { "three": "https://esm.sh/three@0.160.0" } }
+		</script>
+
+		{/* is:inline keeps every rule in this one file, and stops Astro scoping
+		    or extracting the block into a second request. */}
+		<style is:inline>
+			:root {
+				--accent: #0a7c8c;
+				--ink: #23231f;
+				--muted: #5f5c52;
+				--faint: #8c887c;
+				--rule: rgba(35, 35, 31, 0.14);
+				--display: 'Newsreader', Georgia, serif;
+				--mono: 'IBM Plex Mono', ui-monospace, monospace;
+			}
+
+			*,
+			*::before,
+			*::after {
+				box-sizing: border-box;
+			}
+
+			html {
+				-webkit-text-size-adjust: 100%;
+				text-size-adjust: 100%;
+			}
+
+			body {
+				margin: 0;
+				min-height: 100vh;
+				min-height: 100dvh;
+				color: var(--ink);
+				font-family: var(--display);
+				/* The only gradient on the page. */
+				background: radial-gradient(120% 100% at 22% 8%, #fbfaf6 0%, #ece8dd 52%, #e2ddd0 100%)
+					no-repeat fixed;
+			}
+
+			#city {
+				position: fixed;
+				inset: 0;
+				width: 100%;
+				height: 100%;
+				display: block;
+				z-index: 0;
+				touch-action: none; /* so a drag orbits instead of scrolling */
+				cursor: grab;
+			}
+			#city.dragging {
+				cursor: grabbing;
+			}
+
+			/* The overlay sits above the canvas but lets pointer events through to
+			   it, except on the parts that are actually interactive. */
+			.ui {
+				position: relative;
+				z-index: 1;
+				pointer-events: none;
+				min-height: 100vh;
+				min-height: 100dvh;
+				display: flex;
+				flex-direction: column;
+				padding: clamp(1.1rem, 3vw, 2.25rem) clamp(1.15rem, 4vw, 3.25rem);
+				gap: 1.5rem;
+			}
+			.ui a {
+				pointer-events: auto;
+			}
+
+			/* ── top row ───────────────────────────────────────────────── */
+			.top {
+				display: flex;
+				align-items: baseline;
+				justify-content: space-between;
+				gap: 1rem;
+				font-family: var(--mono);
+				font-size: 0.75rem;
+				letter-spacing: 0.1em;
+			}
+			.top nav {
+				display: flex;
+				gap: 1.15rem;
+			}
+			.top a {
+				color: var(--muted);
+				text-decoration: none;
+				border-bottom: 1px solid var(--rule);
+				padding-bottom: 2px;
+			}
+			.top a:hover {
+				color: var(--accent);
+				border-bottom-color: var(--accent);
+			}
+			.top-right {
+				color: var(--faint);
+				text-transform: uppercase;
+				letter-spacing: 0.16em;
+				text-align: right;
+			}
+
+			/* ── copy, pinned low-left ─────────────────────────────────── */
+			.copy {
+				margin-top: auto;
+				max-width: 46rem;
+			}
+			.copy h1 {
+				margin: 0 0 1.1rem;
+				font-family: var(--display);
+				font-weight: 300;
+				font-size: clamp(2.2rem, 5.6vw, 4rem);
+				line-height: 1;
+				letter-spacing: -0.015em;
+			}
+			.line {
+				margin: 0 0 1.6rem;
+				max-width: 40rem;
+				font-size: 1.0625rem;
+				font-weight: 300;
+				line-height: 1.6;
+				color: var(--muted);
+			}
+			.line .path {
+				font-family: var(--mono);
+				font-size: 0.9375rem;
+				color: var(--ink);
+				text-decoration: underline;
+				text-decoration-color: var(--rule);
+				text-underline-offset: 3px;
+				word-break: break-all;
+			}
+
+			.chips {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.6rem;
+			}
+			.chip {
+				display: inline-flex;
+				align-items: center;
+				min-height: 44px;
+				padding: 0 1.15rem;
+				border: 1px solid var(--rule);
+				background: rgba(255, 255, 255, 0.55);
+				-webkit-backdrop-filter: blur(6px);
+				backdrop-filter: blur(6px);
+				font-family: var(--mono);
+				font-size: 0.8125rem;
+				letter-spacing: 0.06em;
+				color: var(--ink);
+				text-decoration: none;
+				transition:
+					background-color 0.18s ease,
+					border-color 0.18s ease,
+					color 0.18s ease;
+			}
+			.chip:hover,
+			.chip:focus-visible {
+				background: var(--accent);
+				border-color: var(--accent);
+				color: #fff;
+				outline: none;
+			}
+
+			.hint {
+				display: flex;
+				align-items: center;
+				gap: 0.55rem;
+				margin: 1.5rem 0 0;
+				font-family: var(--mono);
+				font-size: 0.6875rem;
+				letter-spacing: 0.18em;
+				text-transform: uppercase;
+				color: var(--faint);
+			}
+			.caret {
+				width: 0.45rem;
+				height: 0.95em;
+				background: var(--accent);
+				animation: blink 1.05s step-end infinite;
+			}
+			@keyframes blink {
+				50% {
+					opacity: 0;
+				}
+			}
+
+			/* ── footer ────────────────────────────────────────────────── */
+			.foot {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				gap: 1.15rem;
+				padding-top: 1.25rem;
+				border-top: 1px solid var(--rule);
+				font-family: var(--mono);
+				font-size: 0.6875rem;
+				letter-spacing: 0.14em;
+				text-transform: uppercase;
+				color: var(--faint);
+			}
+			.foot a {
+				color: var(--muted);
+				text-decoration: none;
+			}
+			.foot a:hover {
+				color: var(--accent);
+			}
+
+			@media (max-width: 640px) {
+				.line {
+					font-size: 1rem;
+				}
+				.top {
+					font-size: 0.6875rem;
+				}
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				.caret {
+					animation: none;
+				}
+				.chip {
+					transition: none;
+				}
+			}
+		</style>
 	</head>
+
 	<body>
-		<Header />
-		<main class="page">
-			<header class="intro rise">
-				<div class="intro-copy">
-					<p class="eyebrow">404</p>
-					<h1>This page does not exist</h1>
-					<p class="lede">
-						The link may be out of date, or the address may have a typo in it.
-					</p>
-				</div>
+		<canvas id="city" aria-hidden="true"></canvas>
+
+		<div class="ui">
+			<header class="top">
+				<nav>
+					<a href="https://utsv.work/">utsv.work</a>
+					<a href="https://utsv.work/blog/">writing</a>
+				</nav>
+				<span class="top-right">404 · off the map</span>
 			</header>
-			<section class="block rise rise-delay-1">
-				<p>
-					Try the <a href="/">home page</a>, the <a href="/blog/">blog</a>, or the
-					<a href="/Glider/">Glider documentation</a>.
+
+			<div class="copy">
+				<h1>Haven&rsquo;t quite placed this brick yet.</h1>
+				<p class="line">
+					nothing is built at <span class="path" id="path">/the/page/you/wanted</span> — have a
+					look around, then take one of the roads out.
 				</p>
-			</section>
-		</main>
-		<Footer />
+
+				<div class="chips">
+					{
+						CHIPS.map((c) => (
+							<a class="chip" href={c.href}>
+								{c.label}
+							</a>
+						))
+					}
+				</div>
+
+				<p class="hint">
+					drag to look around <span class="caret" aria-hidden="true"></span>
+				</p>
+			</div>
+
+			<footer class="foot">
+				<span>© Utsav Singh</span>
+				{
+					SOCIAL.map((s) => (
+						<a href={s.href} rel="me">
+							{s.label}
+						</a>
+					))
+				}
+			</footer>
+		</div>
+
+		<script is:inline>
+			// The path readout. Deliberately not in the module below: if three.js
+			// fails to load, this must still have run.
+			(function () {
+				var el = document.getElementById('path');
+				if (!el) return;
+				var raw;
+				try {
+					raw = decodeURIComponent(location.pathname);
+				} catch (e) {
+					raw = location.pathname;
+				}
+				var segs = raw.split('/').filter(Boolean);
+				if (!segs.length) return; // keep the markup fallback
+				var shown = '/' + segs.slice(-2).join('/');
+				if (raw.charAt(raw.length - 1) === '/') shown += '/';
+				if (shown.length > 32) shown = shown.slice(0, 31) + '…';
+				el.textContent = shown;
+			})();
+		</script>
+
+		<script type="module" is:inline>
+			(async function () {
+				var canvas = document.getElementById('city');
+				if (!canvas) return;
+
+				var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+				var THREE;
+				try {
+					THREE = await import('three');
+				} catch (err) {
+					// Offline, blocked, or the CDN is down. The overlay is the page.
+					canvas.remove();
+					return;
+				}
+
+				var ACCENT = 0x0a7c8c;
+				var renderer;
+				try {
+					renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+				} catch (err) {
+					canvas.remove(); // no WebGL
+					return;
+				}
+				renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+				renderer.setSize(window.innerWidth, window.innerHeight, false);
+				renderer.shadowMap.enabled = true;
+				renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+				var scene = new THREE.Scene();
+
+				// ── camera ──────────────────────────────────────────────────
+				var FRUSTUM = 30;
+				var RADIUS = 62;
+				var PITCH = 0.86; // steep, so the glyph rows read as a plan
+				var BASE_YAW = Math.PI / 2;
+				var LOOK = new THREE.Vector3(0, 1.2, 2.5);
+
+				var camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 400);
+				function frame() {
+					var aspect = window.innerWidth / Math.max(window.innerHeight, 1);
+					camera.left = (-FRUSTUM * aspect) / 2;
+					camera.right = (FRUSTUM * aspect) / 2;
+					camera.top = FRUSTUM / 2;
+					camera.bottom = -FRUSTUM / 2;
+					camera.updateProjectionMatrix();
+				}
+				function aim(yaw) {
+					camera.position.set(
+						RADIUS * Math.cos(PITCH) * Math.sin(yaw),
+						RADIUS * Math.sin(PITCH),
+						RADIUS * Math.cos(PITCH) * Math.cos(yaw),
+					);
+					camera.lookAt(LOOK);
+				}
+				frame();
+
+				// ── light ───────────────────────────────────────────────────
+				scene.add(new THREE.HemisphereLight(0xffffff, 0xcfc7b4, 1.15));
+
+				var key = new THREE.DirectionalLight(0xffffff, 1.5);
+				key.position.set(-16, 26, 12);
+				key.castShadow = true;
+				key.shadow.mapSize.set(2048, 2048);
+				var sc = key.shadow.camera;
+				sc.left = -26;
+				sc.right = 26;
+				sc.top = 26;
+				sc.bottom = -26;
+				sc.near = 1;
+				sc.far = 100;
+				sc.updateProjectionMatrix();
+				key.shadow.bias = -0.0008; // the blocks are thin; this kills the acne
+				scene.add(key);
+
+				var fill = new THREE.DirectionalLight(ACCENT, 0.35);
+				fill.position.set(14, 10, -14);
+				scene.add(fill);
+
+				// Shadows land on the page background, not on a visible floor.
+				var ground = new THREE.Mesh(
+					new THREE.PlaneGeometry(140, 140),
+					new THREE.ShadowMaterial({ opacity: 0.16 }),
+				);
+				ground.rotation.x = -Math.PI / 2;
+				ground.receiveShadow = true;
+				scene.add(ground);
+
+				// ── the city ────────────────────────────────────────────────
+				// One deterministic hash for every random choice, so the skyline is
+				// identical on every load. A 404 that reshuffles looks broken.
+				function hash(n) {
+					var s = Math.sin(n * 127.1) * 43758.5453;
+					return s - Math.floor(s);
+				}
+
+				var GLYPHS = {
+					'4': ['10010', '10010', '10010', '11111', '00010', '00010', '00010'],
+					'0': ['01110', '10001', '10001', '10001', '10001', '10001', '01110'],
+				};
+				var WORD = ['4', '0', '4'];
+				var CELL = 1.06;
+				var LETTER = 6.4;
+				var FOOT = 0.92;
+
+				var box = new THREE.BoxGeometry(1, 1, 1);
+				var capGeo = new THREE.BoxGeometry(0.26, 0.44, 0.26);
+				var pale = new THREE.MeshLambertMaterial({ color: 0xfbf9f4 });
+				var warm = new THREE.MeshLambertMaterial({ color: 0xece6d8 });
+				var teal = new THREE.MeshLambertMaterial({ color: ACCENT });
+				var dark = new THREE.MeshLambertMaterial({ color: 0x2b2a26 });
+
+				// Letters advance along -z and glyph rows along +x, because at yaw
+				// pi/2 the camera's right vector is -z. Laying letters along +x
+				// instead stacks the word up the screen instead of across it.
+				var rows = GLYPHS['4'].length;
+				var cols = GLYPHS['4'][0].length;
+				var midX = ((rows - 1) * CELL) / 2;
+				var midZ = ((WORD.length - 1) * LETTER + (cols - 1) * CELL) / 2;
+
+				var growing = [];
+				var HALF_X = midX + FOOT; // glyph footprint, for the outskirts test
+				var HALF_Z = midZ + FOOT;
+
+				function block(x, z, h, mat, delay, seed, withCap) {
+					var m = new THREE.Mesh(box, mat);
+					m.castShadow = true;
+					m.receiveShadow = true;
+					m.position.set(x, h / 2, z);
+					m.scale.set(FOOT, h, FOOT);
+					scene.add(m);
+					var rec = { mesh: m, h: h, delay: delay, cap: null, capY: 0 };
+
+					if (withCap) {
+						var cap = new THREE.Mesh(capGeo, hash(seed + 2.7) < 0.5 ? teal : dark);
+						cap.castShadow = true;
+						cap.position.set(x, h + 0.22, z);
+						scene.add(cap);
+						rec.cap = cap;
+						rec.capY = h + 0.22;
+					}
+					growing.push(rec);
+					return rec;
+				}
+
+				function pick(r) {
+					if (r < 0.14) return teal;
+					if (r < 0.28) return warm;
+					return pale;
+				}
+
+				WORD.forEach(function (ch, li) {
+					GLYPHS[ch].forEach(function (rowStr, row) {
+						for (var col = 0; col < rowStr.length; col++) {
+							if (rowStr.charAt(col) !== '1') continue;
+							var seed = li * 137.3 + row * 17.7 + col * 3.9;
+							var h = 2.2 + hash(seed) * 4.6;
+							var x = row * CELL - midX;
+							var z = -(li * LETTER + col * CELL) + midZ;
+							// Stagger by letter, then row, then a little noise.
+							var delay = li * 0.1 + row * 0.045 + hash(seed + 5.1) * 0.22;
+							block(x, z, h, pick(hash(seed + 0.7)), delay, seed, hash(seed + 1.9) < 0.4);
+						}
+					});
+				});
+
+				// Outskirts, so the letters sit in a city rather than a void. The
+				// long side follows the word, which runs along z.
+				for (var i = 0; i < 120; i++) {
+					var ox = (hash(i * 3.17 + 11) - 0.5) * 54;
+					var oz = (hash(i * 7.71 + 29) - 0.5) * 74;
+					if (Math.abs(ox) < HALF_X && Math.abs(oz) < HALF_Z) continue; // would hit a glyph
+					var oh = 0.5 + hash(i * 11.31 + 53) * 2.4;
+					var oseed = i * 23.7 + 401;
+					block(
+						ox,
+						oz,
+						oh,
+						pick(hash(oseed + 0.7)),
+						0.25 + hash(oseed + 5.1) * 0.45,
+						oseed,
+						hash(oseed + 1.9) < 0.4,
+					);
+				}
+
+				// ── motion ──────────────────────────────────────────────────
+				var BUILD = 0.9;
+				function easeOutCubic(t) {
+					var u = 1 - t;
+					return 1 - u * u * u;
+				}
+
+				function settle(rec, e) {
+					// position.y tracks the growth so the block rises out of the
+					// ground; at e = 1 it is exactly h / 2, where it belongs.
+					rec.mesh.scale.y = Math.max(rec.h * e, 0.0001);
+					rec.mesh.position.y = (rec.h * e) / 2;
+					if (rec.cap) {
+						var ce = Math.max(0, Math.min(1, (e - 0.25) / 0.75)); // caps land later
+						var ec = easeOutCubic(ce);
+						rec.cap.visible = ce > 0;
+						rec.cap.scale.setScalar(Math.max(ec, 0.0001));
+						rec.cap.position.y = rec.capY + (1 - ec) * 1.6; // dropped in
+					}
+				}
+
+				if (reduced) {
+					growing.forEach(function (rec) {
+						settle(rec, 1);
+					});
+				} else {
+					growing.forEach(function (rec) {
+						settle(rec, 0);
+					});
+				}
+
+				var yawTarget = 0;
+				var yawCurrent = 0;
+				var dragging = false;
+				var dragFrom = 0;
+				var dragYaw = 0;
+				var CLAMP = 0.75;
+
+				function onDown(e) {
+					dragging = true;
+					dragFrom = e.clientX;
+					dragYaw = yawTarget;
+					canvas.classList.add('dragging');
+				}
+				function onMove(e) {
+					if (!dragging) return;
+					var d = (e.clientX - dragFrom) * 0.005;
+					yawTarget = Math.max(-CLAMP, Math.min(CLAMP, dragYaw + d));
+				}
+				function onUp() {
+					dragging = false;
+					canvas.classList.remove('dragging');
+				}
+				canvas.addEventListener('pointerdown', onDown);
+				window.addEventListener('pointermove', onMove);
+				window.addEventListener('pointerup', onUp);
+				window.addEventListener('pointercancel', onUp);
+
+				function onResize() {
+					frame();
+					renderer.setSize(window.innerWidth, window.innerHeight, false);
+				}
+				window.addEventListener('resize', onResize);
+
+				var start = performance.now();
+				var raf = 0;
+
+				function tick(now) {
+					var t = (now - start) / 1000;
+
+					if (!reduced) {
+						for (var i = 0; i < growing.length; i++) {
+							var rec = growing[i];
+							var e = (t - rec.delay) / BUILD;
+							if (e >= 1) {
+								if (rec.done) continue;
+								rec.done = true;
+								settle(rec, 1);
+							} else {
+								settle(rec, easeOutCubic(Math.max(0, e)));
+							}
+						}
+					}
+
+					yawCurrent += (yawTarget - yawCurrent) * 0.07; // eased drag
+					var idle = reduced ? 0 : Math.sin(t * 0.12) * 0.045;
+					aim(BASE_YAW + yawCurrent + idle);
+
+					renderer.render(scene, camera);
+					raf = requestAnimationFrame(tick);
+				}
+				raf = requestAnimationFrame(tick);
+
+				function destroy() {
+					cancelAnimationFrame(raf);
+					window.removeEventListener('resize', onResize);
+					window.removeEventListener('pointermove', onMove);
+					window.removeEventListener('pointerup', onUp);
+					window.removeEventListener('pointercancel', onUp);
+					canvas.removeEventListener('pointerdown', onDown);
+					box.dispose();
+					capGeo.dispose();
+					[pale, warm, teal, dark].forEach(function (m) {
+						m.dispose();
+					});
+					ground.geometry.dispose();
+					ground.material.dispose();
+					renderer.dispose();
+				}
+				window.addEventListener('pagehide', destroy, { once: true });
+			})();
+		</script>
 	</body>
 </html>
