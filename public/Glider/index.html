@@ -1008,10 +1008,13 @@ code{
 
 @media(max-width:620px){ .foot-in .push{margin-left:0;flex-basis:100%} }
 
+/* This line carries .wrap, so it must not set margin-inline: a plain
+   margin:0 here beats .wrap's margin-inline:auto on the cascade and drops
+   the line flush against the viewport edge, out of line with .foot-in. */
 .foot-lic{
-  margin:0;
-  padding-bottom:1.6rem;
-  max-width:70ch;
+  margin-block:0;
+  padding-block:0.9rem 1.6rem;
+  border-top:1px solid var(--rule);
   font-size:12px;
   line-height:1.7;
   color:var(--muted-lo);
@@ -1019,6 +1022,13 @@ code{
 
 .foot-lic a{color:inherit;text-decoration:underline;text-underline-offset:2px}
 .foot-lic a:hover{color:var(--citron)}
+
+.foot-lic img{
+  max-width:1em;
+  max-height:1em;
+  margin-left:0.2em;
+  vertical-align:text-bottom;
+}
 
 /* ═══════════ motion ═══════════ */
 @media(prefers-reduced-motion:no-preference){
@@ -1607,14 +1617,10 @@ body{padding-bottom:env(safe-area-inset-bottom)}
     <a href="https://github.com/singhutsav5502/Glider">Glider</a> &copy; 2026 by
     <a href="https://utsv.work/">Utsav Singh</a> is licensed under
     <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a><img
-      src="docs/site/assets/cc-cc.svg" alt=""
-      style="max-width:1em;max-height:1em;margin-left:.2em"><img
-      src="docs/site/assets/cc-by.svg" alt=""
-      style="max-width:1em;max-height:1em;margin-left:.2em"><img
-      src="docs/site/assets/cc-nc.svg" alt=""
-      style="max-width:1em;max-height:1em;margin-left:.2em"><img
-      src="docs/site/assets/cc-sa.svg" alt=""
-      style="max-width:1em;max-height:1em;margin-left:.2em">
+      src="docs/site/assets/cc-cc.svg" alt=""><img
+      src="docs/site/assets/cc-by.svg" alt=""><img
+      src="docs/site/assets/cc-nc.svg" alt=""><img
+      src="docs/site/assets/cc-sa.svg" alt="">
   </p>
 </div>
 
