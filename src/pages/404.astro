@@ -1,0 +1,132 @@
+---
+/**
+ * Not-found page, and the case-repair for /Glider/.
+ *
+ * GitHub Pages serves this file for every 404 on the site, and it is the only
+ * hook available: a static host has no rewrite rules, and a per-spelling
+ * redirect stub cannot exist either, because public/glider/ and public/Glider/
+ * are the same directory on a case-insensitive filesystem such as Windows.
+ *
+ * So the repair happens here. The manifest below is generated at build time
+ * from public/Glider/, which is a committed snapshot, so this needs no Glider
+ * checkout. It maps the lowercased form of every published path to the real
+ * one, which covers any mix of upper and lower case — /glider/, /GLIDER/,
+ * /GliDeR/DOCS/site/TUTORIAL.HTML — and deep paths, not only the entry point.
+ *
+ * The page only ever repairs case. A path that is already cased correctly and
+ * still missing gets the plain 404 it deserves.
+ */
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+
+const GLIDER_URL_PREFIX = '/Glider/';
+// Resolved from the project root, not from import.meta.url: in frontmatter that
+// URL points at the compiled chunk, so a relative walk finds nothing and the
+// repair silently does nothing.
+const gliderDir = path.join(process.cwd(), 'public', 'Glider');
+
+/** Every published path under public/Glider/, as a site-absolute URL path. */
+function walk(dir: string, prefix: string): string[] {
+	const found: string[] = [];
+	for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+		if (entry.name.startsWith('.')) continue; // .glider-source is provenance, not a page
+		const urlPath = prefix + entry.name;
+		if (entry.isDirectory()) {
+			found.push(urlPath + '/', ...walk(path.join(dir, entry.name), urlPath + '/'));
+		} else {
+			found.push(urlPath);
+		}
+	}
+	return found;
+}
+
+const publishedPaths = fs.existsSync(gliderDir)
+	? [GLIDER_URL_PREFIX, ...walk(gliderDir, GLIDER_URL_PREFIX)]
+	: [];
+
+// Fail the build rather than publish a repair that quietly does nothing. An
+// empty manifest means the snapshot is missing, which is the one way this page
+// breaks without any visible sign.
+if (publishedPaths.length < 2) {
+	throw new Error(
+		`404.astro found no published pages in ${gliderDir}. ` +
+			'Run `npm run sync:glider` to restore the snapshot.',
+	);
+}
+
+// Lowercased path -> real path. A first-wins dedupe: two published paths that
+// differ only in case would share a key, and neither is a better answer.
+const caseMap: Record<string, string> = {};
+for (const real of publishedPaths) {
+	const key = real.toLowerCase();
+	if (!(key in caseMap)) caseMap[key] = real;
+}
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead
+			title={`Page not found · ${SITE_TITLE}`}
+			description="That page does not exist."
+			noindex={true}
+		/>
+		<script is:inline define:vars={{ caseMap, GLIDER_URL_PREFIX }}>
+			// Runs before paint so a wrong-case URL does not flash the 404 copy.
+			(function () {
+				var here;
+				try {
+					here = decodeURIComponent(location.pathname);
+				} catch (e) {
+					here = location.pathname; // a malformed escape is not worth repairing
+				}
+
+				function go(target) {
+					if (!target || target === here) return false; // never redirect to self
+					location.replace(target + location.search + location.hash);
+					return true;
+				}
+
+				var key = here.toLowerCase();
+				var toggled = key.charAt(key.length - 1) === '/' ? key.slice(0, -1) : key + '/';
+
+				// A published path, whatever case it arrived in. The toggled form
+				// catches /glider with no trailing slash.
+				if (go(caseMap[key] || caseMap[toggled])) return;
+
+				// Not a path this build publishes. If only the first segment is
+				// miscased, fix that and let the rest resolve or 404 honestly.
+				var wanted = GLIDER_URL_PREFIX.toLowerCase();
+				if (key.indexOf(wanted) === 0 || key + '/' === wanted) {
+					go(GLIDER_URL_PREFIX + here.slice(wanted.length));
+				}
+			})();
+		</script>
+	</head>
+	<body>
+		<Header />
+		<main class="page">
+			<header class="intro rise">
+				<div class="intro-copy">
+					<p class="eyebrow">404</p>
+					<h1>This page does not exist</h1>
+					<p class="lede">
+						The link may be out of date, or the address may have a typo in it.
+					</p>
+				</div>
+			</header>
+			<section class="block rise rise-delay-1">
+				<p>
+					Try the <a href="/">home page</a>, the <a href="/blog/">blog</a>, or the
+					<a href="/Glider/">Glider documentation</a>.
+				</p>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>

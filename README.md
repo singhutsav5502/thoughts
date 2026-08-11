@@ -40,6 +40,20 @@ relative link, anchor and asset still resolves, and stamps the source commit
 into `public/Glider/.glider-source`. Editing Glider's docs does **not** update
 `utsv.work` until this is re-run and pushed.
 
+### Case-insensitive `/Glider/` — handled in `404.astro`
+
+`/glider/`, `/GLIDER/DOCS/SITE/TUTORIAL.HTML` and every other mix of case
+redirect to the real path. GitHub Pages has no rewrite rules, and a redirect
+stub per spelling is impossible too — `public/glider/` and `public/Glider/` are
+the same directory on a case-insensitive filesystem like Windows. So the repair
+lives in `src/pages/404.astro`, which Pages serves for every 404.
+
+It walks `public/Glider/` at build time and inlines a lowercased-to-real path
+map, so it covers deep paths, not just the entry point, and stays in step with
+the snapshot automatically. It only ever repairs **case**: a correctly cased
+path that is genuinely missing still gets a plain 404. The build throws if the
+map comes out empty, because that is the one way this breaks invisibly.
+
 ### Migrated from Hashnode
 
 `react-component-tree-visualizer.md` was imported from
