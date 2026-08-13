@@ -44,8 +44,11 @@ export const HIGHLIGHT_PROJECTS: HighlightProject[] = [
 	{
 		name: 'Glider',
 		blurb:
-			'Local AI harness above Cursor — gateway/MITM routing, Loop Engineering hoops, swarms, and per-run workspaces.',
-		href: '/blog/glider-orchestration/',
+			'One AI coding CLI hands a task to another with a trailing flag — Claude Code, Cursor Agent, Antigravity — and relays that CLI’s permission prompts back to you. Go, Windows + Linux.',
+		// utsv.work/Glider, not the blog post: that post is still draft: true and
+		// index.astro filters drafts out of the build, so /blog/glider-orchestration/
+		// is not generated and this link was a 404.
+		href: 'https://utsv.work/Glider/',
 	},
 	{
 		name: 'Graphite Editor',

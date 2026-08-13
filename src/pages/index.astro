@@ -138,7 +138,10 @@ const structuredData = [
 								<a href={project.href} target="_blank" rel="noopener noreferrer">
 									{project.name}
 								</a>
-								— {project.blurb}
+								{/* One expression, so the space before the dash survives. On its
+								    own line the leading whitespace is trimmed and it renders
+								    "Glider— One AI ...", with the dash against the name. */}
+								{` — ${project.blurb}`}
 							</li>
 						))
 					}
