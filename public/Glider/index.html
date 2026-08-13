@@ -330,6 +330,13 @@ ul{margin:0;padding:0;list-style:none}
   object-fit:cover;
 }
 
+/* a closing line under a plate — smaller than body, wider than a caption */
+.spec-note{
+  max-width:62ch;
+  color:var(--muted-lo);
+  font-size:clamp(0.9rem,2.2vw,0.98rem);
+}
+
 /* ═══════════ two proof cells ═══════════ */
 .proof-in{
   display:grid;
@@ -515,6 +522,14 @@ code{
 .plate .sym{fill:none;stroke:var(--rule-strong);stroke-width:1.6}
 .plate .sym-on{stroke:var(--teal)}
 .plate .hub{fill:var(--teal);stroke:#3ba0ae;stroke-width:1.6}
+
+/* the record bar: the only large filled area on either plate, because it
+   is the one thing that persists across turns rather than carrying one */
+.plate .store{
+  fill:rgba(10,124,140,0.07);
+  stroke:var(--teal);
+  stroke-width:1.4;
+}
 
 .plate .route{fill:none;stroke:var(--rule-strong);stroke-width:1.4}
 .plate .route-on{fill:none;stroke:var(--teal);stroke-width:2.4;stroke-linecap:round}
@@ -1551,6 +1566,124 @@ body{padding-bottom:env(safe-area-inset-bottom)}
         </p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ══════════ spec: the memory ══════════ -->
+<section class="field-bone spec" id="memory">
+  <div class="wrap spec-in">
+    <p class="eyebrow rise">The memory</p>
+    <h2 class="spec-head rise d1">
+      The second CLI knows what the first one already did.
+    </h2>
+
+    <div class="spec-top rise d1">
+      <p>
+        A delegate is a cold process. It never saw your session, and it cannot
+        see the delegate you sent before it. Left alone, the second one asks a
+        question you already answered, or undoes the change the first one made.
+      </p>
+      <p>
+        So Glider keeps one record for each project. Every turn goes in —
+        including the ordinary ones with no flag, because those are what the
+        instruction refers to. Each delegate is handed the part that matches
+        its own task, and what it did goes back in.
+      </p>
+    </div>
+
+    <div class="plate rise d2">
+      <div class="plate-head">
+        <span>Memory plate · one session</span>
+        <span class="active">3 turns · 2 CLIs</span>
+      </div>
+
+      <div class="plate-body plate-wide">
+        <svg viewBox="0 0 1120 520" preserveAspectRatio="xMidYMid meet" role="img"
+             aria-label="One session with three turns. Every turn, including the first which carries no flag, is written into a single session record held per project. Turn two is delegated to Cursor Agent and turn three to Antigravity. Each delegate is given the part of the record that matches its own task, and the outcome of each run is written back into the record, so the second delegate knows what the first one did.">
+
+          <!-- register -->
+          <!-- Column marks sit in the GUTTERS, never on a column centre:
+               every label on this plate is centred on its column, so a rule
+               at 200/520/840 would strike through all of them. The centre
+               line is cut either side of the record bar for the same
+               reason — it would otherwise read through the translucent
+               fill and across the label inside it. -->
+          <g class="reg">
+            <line x1="40" y1="110" x2="1080" y2="110" />
+            <line x1="40" y1="254" x2="150" y2="254" />
+            <line x1="1050" y1="254" x2="1080" y2="254" />
+            <line x1="40" y1="400" x2="1080" y2="400" />
+            <line x1="360" y1="40" x2="360" y2="480" />
+            <line x1="680" y1="40" x2="680" y2="480" />
+          </g>
+
+          <!-- the three turns -->
+          <rect class="sym" x="183" y="93" width="34" height="34" />
+          <rect class="sym" x="503" y="93" width="34" height="34" />
+          <rect class="sym" x="823" y="93" width="34" height="34" />
+          <!-- Both labels go ABOVE the square. Below it is where the drop
+               line runs, and a centred label there is struck through by it. -->
+          <text x="200" y="54" text-anchor="middle">turn 1</text>
+          <text x="520" y="54" text-anchor="middle">turn 2</text>
+          <text x="840" y="54" text-anchor="middle">turn 3</text>
+          <text class="t-dim" x="200" y="80" text-anchor="middle">no flag</text>
+          <text class="t-on" x="520" y="80" text-anchor="middle">/cursor-agent</text>
+          <text class="t-on" x="840" y="80" text-anchor="middle">/agy</text>
+
+          <!-- every turn drops into the record, flagged or not -->
+          <path class="route-on" d="M 200 127 L 200 218" />
+          <path class="route-on" d="M 520 127 L 520 218" />
+          <path class="route-on" d="M 840 127 L 840 218" />
+
+          <!-- Glider owns the record -->
+          <path class="hub" d="M 118 254 L 107 274 L 84 274 L 72 254 L 84 234 L 107 234 Z" />
+          <text class="t-hub" x="95" y="302" text-anchor="middle">GLIDER</text>
+
+          <!-- the record itself -->
+          <rect class="store" x="150" y="218" width="900" height="72" />
+          <text class="t-sub" x="170" y="246">SESSION RECORD · ONE PER PROJECT</text>
+          <!-- not t-dim: this line states the selection rule, which is the
+               mechanism the plate exists to show, not a side annotation -->
+          <text x="170" y="272">60 entries · the part that matches the task, not the newest part</text>
+
+          <!-- out to each delegate -->
+          <path class="route-on" d="M 520 290 L 520 385" />
+          <path class="route-on" d="M 840 290 L 840 385" />
+
+          <!-- and the outcome back in -->
+          <path class="ret" d="M 545 400 L 610 400 L 610 290" />
+          <path class="ret" d="M 865 400 L 930 400 L 930 290" />
+
+          <!-- delegates -->
+          <path class="sym sym-on" d="M 520 385 L 537 415 L 503 415 Z" />
+          <path class="sym sym-on" d="M 840 385 L 857 415 L 823 415 Z" />
+          <text class="t-on" x="520" y="442" text-anchor="middle">cursor-agent</text>
+          <text class="t-on" x="840" y="442" text-anchor="middle">agy</text>
+          <text class="t-dim" x="520" y="464" text-anchor="middle">cold process</text>
+          <text class="t-dim" x="840" y="464" text-anchor="middle">cold process</text>
+
+          <!-- turn 1 is the point of the whole plate -->
+          <text class="t-dim" x="200" y="442" text-anchor="middle">no delegate</text>
+          <text class="t-dim" x="200" y="464" text-anchor="middle">still recorded</text>
+        </svg>
+      </div>
+
+      <div class="plate-legend">
+        <span>Square = a turn</span>
+        <span>Hexagon = Glider</span>
+        <span>Bar = the record</span>
+        <span>Triangle = delegate CLI</span>
+        <span>Solid = into the record</span>
+        <span>Dashed = outcome back</span>
+      </div>
+    </div>
+
+    <p class="spec-note rise d3">
+      The record lives in <span class="chip">~/.glider</span>, never in your
+      repository — it is Glider's bookkeeping, and it would show up in
+      <span class="chip">git status</span> forever if it sat in your project.
+      <a href="docs/site/context.html#across-clis">How the record is built</a>
+    </p>
   </div>
 </section>
 
