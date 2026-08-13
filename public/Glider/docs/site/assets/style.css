@@ -1,16 +1,21 @@
+/* Colours come from the :root block in the repo-root index.html, which is
+   the source of truth for the whole product. See design-system/glider/MASTER.md.
+   These were within a few points of the landing values already; the small
+   drift was visible when moving between the landing page and a docs page,
+   so they are now exact. */
 :root {
-  --ink: #12151a;
-  --ink-soft: #3a4250;
-  --paper: #f4f1ea;
-  --paper-deep: #e8e3d6;
-  --line: #d4cec0;
+  --ink: #12100e;
+  --ink-soft: #55524a;
+  --paper: #f5f1e8;
+  --paper-deep: #e6e4dc;
+  --line: #cfccc2;
   --accent: #0a7c8c;
   --accent-strong: #086672;
-  --surface: rgba(255, 252, 246, 0.72);
+  --surface: rgba(251, 250, 247, 0.72);
 
-  --code-bg: #171b22;
-  --code-text: #e8e4da;
-  --code-border: #2a313c;
+  --code-bg: #12100e;
+  --code-text: #f5f1e8;
+  --code-border: #2f2b25;
 
   --font-display: "Fraunces", Georgia, serif;
   --font-body: "IBM Plex Sans", system-ui, sans-serif;
@@ -512,11 +517,92 @@ main.prose,
   line-height: 1.7;
 }
 
-.foot .lic img {
-  max-width: 1em;
-  max-height: 1em;
-  margin-left: 0.2em;
-  vertical-align: text-bottom;
+/* ── context-flow figure ─────────────────────────────────────────────
+   One inline SVG, no script and no external file. It scrolls inside its
+   own box on a narrow screen rather than making the page scroll. */
+.ctxfig {
+  margin: 1.6rem 0;
+  overflow-x: auto;
+}
+
+.ctxfig svg {
+  display: block;
+  width: 100%;
+  min-width: 640px;
+  height: auto;
+  color: var(--accent); /* currentColor drives the arrowheads */
+}
+
+.ctxfig figcaption {
+  margin-top: 0.7rem;
+  color: var(--ink-soft);
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+.ctx-lane {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  fill: var(--ink-soft);
+}
+
+.ctx-turn text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  fill: var(--ink-soft);
+  text-anchor: middle;
+}
+
+.ctx-box rect {
+  fill: var(--surface);
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.ctx-txt text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: var(--ink);
+  text-anchor: middle;
+}
+
+.ctx-store {
+  fill: var(--paper-deep);
+  stroke: var(--accent);
+  stroke-width: 1;
+}
+
+.ctx-store-lbl {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  fill: var(--ink);
+}
+
+.ctx-store-sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  fill: var(--ink-soft);
+}
+
+.ctx-tick circle { fill: var(--accent); }
+
+.ctx-line path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+.ctx-back path { stroke-dasharray: 4 3; }
+
+.ctx-note,
+.ctx-note text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  fill: var(--ink-soft);
 }
 
 .steps {

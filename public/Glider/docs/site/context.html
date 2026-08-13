@@ -70,6 +70,138 @@
         block from this record at the start of every delegate call. The delegate sees the block with
         the name "Earlier in the calling session".
       </p>
+
+      <h3 id="across-clis">How context moves across CLIs</h3>
+      <p>
+        The diagram shows one session with three turns. The person stays in Claude Code for all
+        three. Turn 2 goes to cursor-agent, and turn 3 goes to agy. Neither delegate can see the
+        Claude Code session, and neither can see the other. The continuity record is the only thing
+        that connects them.
+      </p>
+
+      <figure class="ctxfig">
+        <svg viewBox="0 0 720 372" role="img"
+             aria-label="Three turns in one Claude Code session. Glider records every turn in a continuity record for the workspace. Turn 2 is delegated to cursor-agent and turn 3 to agy. Each delegate receives a context file built from that record, and its outcome is written back into the record.">
+          <defs>
+            <marker id="ctx-arrow" viewBox="0 0 10 10" refX="9" refY="5"
+                    markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" />
+            </marker>
+          </defs>
+
+          <!-- lanes: labels sit ABOVE each band, never beside it, so they
+               cannot collide with a box as the band grows -->
+          <text class="ctx-lane" x="40" y="26">You — Claude Code</text>
+          <text class="ctx-lane" x="40" y="132">Glider</text>
+          <text class="ctx-lane" x="40" y="242">Delegate</text>
+
+          <!-- turn columns -->
+          <g class="ctx-turn">
+            <text x="118" y="52">turn 1</text>
+            <text x="330" y="52">turn 2</text>
+            <text x="542" y="52">turn 3</text>
+          </g>
+
+          <!-- the three user turns -->
+          <g class="ctx-box">
+            <rect x="40" y="62" width="156" height="40" rx="4" />
+            <rect x="252" y="62" width="156" height="40" rx="4" />
+            <rect x="464" y="62" width="156" height="40" rx="4" />
+          </g>
+          <g class="ctx-txt">
+            <text x="118" y="80">"the auth test fails"</text>
+            <text x="118" y="94">no flag</text>
+            <text x="330" y="80">"fix it</text>
+            <text x="330" y="94">/cursor-agent"</text>
+            <text x="542" y="80">"now document it</text>
+            <text x="542" y="94">/agy"</text>
+          </g>
+
+          <!-- down into the record -->
+          <g class="ctx-line">
+            <path d="M 118 102 L 118 138" marker-end="url(#ctx-arrow)" />
+            <path d="M 330 102 L 330 138" marker-end="url(#ctx-arrow)" />
+            <path d="M 542 102 L 542 138" marker-end="url(#ctx-arrow)" />
+          </g>
+
+          <!-- continuity record -->
+          <rect class="ctx-store" x="40" y="140" width="580" height="46" rx="4" />
+          <text class="ctx-store-lbl" x="52" y="158">continuity record — one per workspace</text>
+          <text class="ctx-store-sub" x="52" y="176">~/.glider/continuity/&lt;name&gt;-&lt;hash&gt;.md · a ring of 60 entries</text>
+
+          <!-- record ticks under each turn -->
+          <g class="ctx-tick">
+            <circle cx="118" cy="186" r="3" />
+            <circle cx="330" cy="186" r="3" />
+            <circle cx="542" cy="186" r="3" />
+          </g>
+
+          <!-- context packs down to delegates -->
+          <g class="ctx-line">
+            <path d="M 330 186 L 330 246" marker-end="url(#ctx-arrow)" />
+            <path d="M 542 186 L 542 246" marker-end="url(#ctx-arrow)" />
+          </g>
+          <g class="ctx-note">
+            <text x="338" y="214">ranked against</text>
+            <text x="338" y="228">THIS task, not by time</text>
+            <text x="550" y="214">includes what</text>
+            <text x="550" y="228">cursor-agent did</text>
+          </g>
+
+          <!-- delegate boxes -->
+          <g class="ctx-box">
+            <rect x="252" y="248" width="156" height="44" rx="4" />
+            <rect x="464" y="248" width="156" height="44" rx="4" />
+          </g>
+          <g class="ctx-txt">
+            <text x="330" y="266">cursor-agent</text>
+            <text x="330" y="282">reads AGENTS.md</text>
+            <text x="542" y="266">agy</text>
+            <text x="542" y="282">reads AGENTS.md</text>
+          </g>
+
+          <!-- outcomes written back: routed below both delegate boxes and
+               up the right margin, so it crosses no label and no box -->
+          <g class="ctx-line ctx-back">
+            <path d="M 330 292 L 330 314 L 660 314 L 660 163 L 626 163" marker-end="url(#ctx-arrow)" />
+          </g>
+          <text class="ctx-note" x="40" y="336">the outcome is written back under YOUR identity,</text>
+          <text class="ctx-note" x="40" y="350">so the next delegate does not redo or undo it</text>
+        </svg>
+        <figcaption>
+          One session, three turns, two different delegates. Turn 1 carries no flag and still enters
+          the record — that is why the delegate in turn 2 knows which test was failing.
+        </figcaption>
+      </figure>
+
+      <p>
+        Two properties matter, and both are easy to miss:
+      </p>
+      <table>
+        <tr><th>Property</th><th>Why it is there</th></tr>
+        <tr>
+          <td>A turn with no flag is still recorded</td>
+          <td>
+            Most turns in a session are ordinary chat. If Glider recorded only the delegate turns,
+            a delegate would receive the instruction and nothing that led to it.
+          </td>
+        </tr>
+        <tr>
+          <td>The outcome returns under the identity of the front CLI</td>
+          <td>
+            The result belongs to the session that sent the work, and not to the delegate that did
+            it. A later delegate in the same workspace then knows the run occurred. Without this,
+            a second delegate can undo the change the first one made.
+          </td>
+        </tr>
+      </table>
+
+      <p class="note">
+        A delegate receives a <em>file</em>, and not a longer prompt. Glider makes a private
+        directory for each run and writes the context into the file that the vendor already reads
+        by itself: <code>AGENTS.md</code> for cursor-agent and agy,
+        <code>glider-context.md</code> for claude. The directory goes away when the run ends.
+      </p>
       <table>
         <tr><th>Item</th><th>Value</th></tr>
         <tr><td>The file</td><td><code>~/.glider/continuity/&lt;name&gt;-&lt;hash&gt;.md</code>, one for each workspace</td></tr>
@@ -165,11 +297,8 @@ POST /api/context/prune</pre>
       <p class="lic">
         <a href="https://github.com/singhutsav5502/Glider">Glider</a> &copy; 2026 by
         <a href="https://utsv.work/">Utsav Singh</a> is licensed under
-        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a><img
-          src="assets/cc-cc.svg" alt=""><img
-          src="assets/cc-by.svg" alt=""><img
-          src="assets/cc-nc.svg" alt=""><img
-          src="assets/cc-sa.svg" alt="">
+        <a href="https://www.gnu.org/licenses/agpl-3.0">AGPL-3.0</a>. A commercial
+        licence is available.
       </p>
     </footer>
   </div>

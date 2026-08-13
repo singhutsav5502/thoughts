@@ -297,6 +297,39 @@ ul{margin:0;padding:0;list-style:none}
   .cta:hover .arw{transform:translateX(4px)}
 }
 
+/* ═══════════ demo film ═══════════
+   The film is cut on the same ground as this band (ink, citron rule),
+   so the frame is a single hairline and nothing boxes it in twice.
+   16:9 is held by aspect-ratio, never by padding, so no reflow. */
+.film-in{
+  display:flex;
+  flex-direction:column;
+  gap:clamp(1.3rem,3.5vw,1.9rem);
+  padding-block:clamp(3rem,7vw,4.5rem);
+}
+
+.film .eyebrow{color:var(--citron)}
+
+.film-line{
+  max-width:52ch;
+  color:var(--muted);
+  font-size:clamp(0.95rem,2.4vw,1.05rem);
+}
+
+.film-frame{
+  position:relative;
+  border:1px solid var(--rule-dark);
+  background:#000;
+  aspect-ratio:16/9;
+}
+
+.film-frame video{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
 /* ═══════════ two proof cells ═══════════ */
 .proof-in{
   display:grid;
@@ -1023,13 +1056,6 @@ code{
 .foot-lic a{color:inherit;text-decoration:underline;text-underline-offset:2px}
 .foot-lic a:hover{color:var(--citron)}
 
-.foot-lic img{
-  max-width:1em;
-  max-height:1em;
-  margin-left:0.2em;
-  vertical-align:text-bottom;
-}
-
 /* ═══════════ motion ═══════════ */
 @media(prefers-reduced-motion:no-preference){
   .js .rise{opacity:0;transform:translateY(16px)}
@@ -1178,6 +1204,7 @@ body{padding-bottom:env(safe-area-inset-bottom)}
     <a class="wordmark" href="#top">Glider</a>
 
     <nav class="nav-links" aria-label="Sections">
+      <a href="#demo">Demo</a>
       <a href="#handoff">Handoff</a>
       <a href="#redirect">Redirect</a>
       <a href="#install">Install</a>
@@ -1223,6 +1250,30 @@ body{padding-bottom:env(safe-area-inset-bottom)}
       terminal you are in.
     </p>
     <a class="cta" href="#install">Get started <span class="arw" aria-hidden="true">&rarr;</span></a>
+  </div>
+</section>
+
+<!-- ══════════ demo film ══════════ -->
+<section class="field-ink film" id="demo">
+  <div class="wrap film-in">
+    <p class="eyebrow rise">Thirty seconds</p>
+    <p class="film-line rise d1">
+      One flag typed in Claude Code, the task run in another CLI, and the
+      answer back in the same window.
+    </p>
+    <div class="film-frame rise d2">
+      <video
+        id="demo-film"
+        aria-label="A thirty second film. A task typed in Claude Code ends with a flag, another CLI runs it, and the answer returns to the same window."
+        src="docs/site/assets/glider-demo.mp4"
+        poster="docs/site/assets/glider-demo-poster.jpg"
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        controls
+      ></video>
+    </div>
   </div>
 </section>
 
@@ -1585,8 +1636,8 @@ body{padding-bottom:env(safe-area-inset-bottom)}
     <p class="eyebrow rise">Support</p>
     <h2 class="rise d1">Fund the work</h2>
     <p class="rise d1">
-      Glider is free for non-commercial use, source-available, and built in the
-      open. If it is saving you tokens, you can support it.
+      Glider is free and open source under the AGPL, and built in the open. If
+      it is saving you tokens, you can support it.
     </p>
 
     <a class="sponsor rise d2" href="https://github.com/sponsors/singhutsav5502">
@@ -1616,11 +1667,8 @@ body{padding-bottom:env(safe-area-inset-bottom)}
   <p class="wrap foot-lic">
     <a href="https://github.com/singhutsav5502/Glider">Glider</a> &copy; 2026 by
     <a href="https://utsv.work/">Utsav Singh</a> is licensed under
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a><img
-      src="docs/site/assets/cc-cc.svg" alt=""><img
-      src="docs/site/assets/cc-by.svg" alt=""><img
-      src="docs/site/assets/cc-nc.svg" alt=""><img
-      src="docs/site/assets/cc-sa.svg" alt="">
+    <a href="https://www.gnu.org/licenses/agpl-3.0">AGPL-3.0</a>. A commercial
+    licence is available.
   </p>
 </div>
 
@@ -1691,6 +1739,30 @@ body{padding-bottom:env(safe-area-inset-bottom)}
       });
     }, { rootMargin: '-45% 0px -45% 0px' });
     linkFor.forEach((_, sec) => hereIO.observe(sec));
+  }
+
+  /* ── demo film ─────────────────────────────────────────────────
+     The film plays only while it is on screen, and only when the
+     reader accepts motion. Under prefers-reduced-motion it keeps its
+     poster and its controls, so the reader starts it. The markup
+     already carries controls, so this adds behaviour and never the
+     only way to play. */
+  const film = document.getElementById('demo-film');
+  if (film && motionOk.matches && 'IntersectionObserver' in window) {
+    film.autoplay = true;
+    const filmIO = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          // A refused play is normal on a policy the browser holds.
+          // The controls stay, so nothing is lost.
+          const p = film.play();
+          if (p && p.catch) p.catch(() => {});
+        } else {
+          film.pause();
+        }
+      });
+    }, { threshold: 0.25 });
+    filmIO.observe(film);
   }
 
   /* ── entrance ── */
