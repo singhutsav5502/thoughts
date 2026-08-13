@@ -38,16 +38,40 @@
       </p>
 
       <h2 id="need">1 · What you must have first</h2>
+      <p>The list is short. Everything after it is optional.</p>
       <ul>
-        <li><strong>Go 1.22 or later</strong>, to build Glider.</li>
-        <li><strong>A minimum of one AI coding CLI</strong>: <code>claude</code>, <code>cursor-agent</code> or <code>agy</code>. Two or more give you the handoff.</li>
-        <li><strong>Windows or Linux.</strong> Transparent redirection does not operate on macOS yet.</li>
-        <li><strong>Ollama</strong> — only if you want the local model. It is not necessary for the handoff.</li>
+        <li><strong>Go 1.25 or later</strong>, to build Glider. The module declares
+          <code>go 1.25.0</code>, and an older toolchain refuses it.</li>
+        <li><strong>A C compiler, on Windows only.</strong> The tray and the native
+          window bind to Win32, so <code>cgo</code> is required and a build with
+          <code>CGO_ENABLED=0</code> fails. Any gcc is sufficient: MSYS2 UCRT64, or
+          TDM-GCC. Linux needs no compiler.</li>
+        <li><strong>A minimum of one AI coding CLI</strong>: <code>claude</code>,
+          <code>cursor-agent</code> or <code>agy</code>. Two or more give you the
+          handoff.</li>
+        <li><strong>Windows or Linux.</strong></li>
       </ul>
       <p>Make sure that each CLI operates by itself first:</p>
-      <pre>claude --version
+      <pre>go version
+gcc --version      # Windows only
+claude --version
 cursor-agent --version
 agy --version</pre>
+
+      <h3>What you do not need for a handoff</h3>
+      <p>
+        A handoff to another CLI needs none of the following. Each one belongs to a
+        different part of Glider, and you can add it later.
+      </p>
+      <table>
+        <tr><th>Not needed for a handoff</th><th>What it is for</th></tr>
+        <tr><td><strong>A certificate</strong></td><td>Only MITM and transparent mode decrypt traffic. A handoff sends nothing through TLS that Glider reads.</td></tr>
+        <tr><td><strong>Ollama, or any local model</strong></td><td>Only routing a turn to your own machine. Refer to step 9.</td></tr>
+        <tr><td><strong>Administrator or root</strong></td><td>Only transparent redirection. Refer to step 4.</td></tr>
+        <tr><td><strong>WinDivert, or iptables</strong></td><td>Transparent redirection, on Windows and on Linux in that order.</td></tr>
+        <tr><td><strong>The WebView2 Runtime</strong></td><td>Only the dashboard in a window of its own, on Windows. Windows 11 has it. Without it, the dashboard still opens in a browser at <code>127.0.0.1:8081</code>.</td></tr>
+        <tr><td><strong>Docker</strong></td><td>Only the GitHub MCP server over stdio. The HTTP transport needs no Docker.</td></tr>
+      </table>
 
       <h2 id="build">2 · Build Glider</h2>
       <pre>git clone https://github.com/singhutsav5502/Glider
@@ -186,6 +210,18 @@ refactor this module /agy:headless</pre>
       </p>
       <pre>ollama serve
 ollama pull qwen2.5-coder:14b</pre>
+      <p class="note">
+        <strong>Choose a model that fits your card.</strong> Glider reads the true
+        size of your GPU when it starts, and it refuses a model that cannot fit. It
+        does this in about a tenth of a second, and it names the cause, instead of
+        letting Ollama fail with a CUDA error half a minute later.
+        <code>qwen2.5-coder:14b</code> above estimates 9000 MB and wants about a
+        12 GB card. On a 4 GB card, use <code>qwen2.5-coder:3b</code> and set
+        <code>local_model</code> to it. The VRAM page shows the measured total and
+        the headroom. With no <code>nvidia-smi</code> on the machine, Glider reports
+        VRAM as not measured and stops limiting local models, rather than inventing
+        a size.
+      </p>
       <p>Then use a routing command. It can go at any position in the message:</p>
       <table>
         <tr><th>Command</th><th>Result</th></tr>

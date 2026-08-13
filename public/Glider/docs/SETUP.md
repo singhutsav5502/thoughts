@@ -1,23 +1,50 @@
 # Glider — step-by-step setup
 
-Windows-focused; Linux/macOS commands are analogous (`./glider` instead of `.\glider.exe`). Transparent interception works on Windows (WinDivert) and Linux (iptables); macOS is not implemented yet.
+Windows-focused; Linux commands are analogous (`./glider` instead of `.\glider.exe`). Windows and Linux are both supported, and transparent interception exists on both — WinDivert on Windows, iptables on Linux.
 
 ---
 
 ## 0. Prerequisites
 
+Most of this is optional. Only the first table is needed to build, and only one
+line of the second is needed for the feature most people come for.
+
+### To build
+
 | Tool | Why |
 |---|---|
-| **Go 1.22+** (1.25 OK) | Build `cmd/glider` |
+| **Go 1.25+** | `go.mod` declares `go 1.25.0`; an older toolchain refuses the module |
 | **Git** | Clone this repo |
-| **Ollama** | Local inference (default model `qwen2.5-coder:14b`) |
-| Optional: **OpenAI / Anthropic API keys** | Cloud fallback / BYOK |
-| Optional: **Claude Code / Cursor / agy** | Any CLI you want Glider to route or delegate to |
+| **A C compiler — Windows only** | `cgo` is mandatory on Windows. The tray and the native dashboard window bind to Win32, and `CGO_ENABLED=0` fails with "build constraints exclude all Go files" in `webview_go`. Any gcc works: MSYS2 UCRT64, or TDM-GCC |
+
+Linux needs no C compiler. `tray_other.go` and `webviewshell_other.go` are pure
+Go fallbacks, so `CGO_ENABLED=0 go build ./cmd/glider` succeeds there.
 
 ```powershell
-go version
-ollama --version
+go version          # want 1.25 or newer
+gcc --version       # Windows only
 ```
+
+### To run
+
+| What you want | What it needs |
+|---|---|
+| **Delegate a task to another CLI** — the headline feature | At least one other agent CLI on `PATH`: `claude`, `cursor-agent` or `agy`. Glider discovers them; see step 7. **No certificate, and no local model.** |
+| Route inference to a local model | **Ollama** (or vLLM), plus a model that fits your GPU — see the note below |
+| The dashboard in its own window (Windows) | **WebView2 Runtime**. Windows 11 ships it; some Windows 10 installs do not. Without it the dashboard is still fully usable at <http://127.0.0.1:8081> in any browser |
+| Transparent interception (Windows) | **WinDivert** `WinDivert.dll` + `WinDivert64.sys` in `~/.glider/mitm/windivert/`, and **Administrator**. Without the DLL Glider falls back to ordinary MITM |
+| Transparent interception (Linux) | **iptables**, and **root** or `CAP_NET_ADMIN` |
+| MITM or transparent mode, either OS | Glider's CA trusted by the OS — step 6. **Not needed for delegation or for gateway mode** |
+| Cloud fallback / BYOK | An **OpenAI or Anthropic API key** |
+| The GitHub MCP server over stdio | **Docker**. The HTTP transport needs no Docker |
+| VRAM accounting | **nvidia-smi** — on `PATH` with an NVIDIA GPU. Without it Glider reports VRAM as unmetered and stops limiting local models rather than inventing a size |
+
+> **Fit the model to the card.** Glider reads your real VRAM at startup and
+> refuses a model that cannot fit, in about a tenth of a second, rather than
+> letting Ollama fail with a CUDA error half a minute later. The default
+> `qwen2.5-coder:14b` estimates 9000 MB and needs roughly a 12 GB card. On a
+> 4 GB card use something like `qwen2.5-coder:3b`. The Overview page shows the
+> measured total and the headroom.
 
 ---
 
