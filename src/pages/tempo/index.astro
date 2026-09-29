@@ -7,9 +7,9 @@ import { SITE_URL, SOCIAL } from '../../consts';
 
 const REPO = 'https://github.com/singhutsav5502/Tempo';
 const VERSION = 'v0.2.1';
-const TITLE = 'Tempo: calendar, daily goals and focus blocks for Windows';
+const TITLE = 'Tempo: the Windows calendar that protects your focus';
 const DESCRIPTION =
-	'Tempo is a Windows calendar with a Claude-powered assistant. Focus blocks close the apps and sites that pull you away, and your daily goals stay in view. Open source.';
+	'Tempo is a free, open-source Windows calendar that holds the line. Tell its Claude-powered assistant what you want to get done; focus blocks shut out the apps and sites that pull you away, and your daily goals stay in view until they’re ticked.';
 
 const structuredData = {
 	'@context': 'https://schema.org',
@@ -38,12 +38,12 @@ const PALETTE = [
 const DETAILS = [
 	['Google Calendar, both ways', 'Two-way sync with your primary calendar, offline-first, with rich notes kept intact.'],
 	['Repeating events', 'Daily, weekly on chosen days, monthly, yearly. Edit this event or all of them.'],
-	['Undo anything', 'Every change, including the assistant’s, comes with Undo. Ctrl+Z works too.'],
-	['Day to year', 'Day, week, month, year and custom ranges. Drag to create, move and resize.'],
-	['Voice, on your PC', 'Speech is transcribed locally with Whisper. Your words appear as you talk.'],
-	['Reminders', 'A morning list of today’s goals, and a nudge in the evening if some are still open.'],
-	['Keyboard first', 'Every event and goal works from the keyboard; press ? for all shortcuts.'],
-	['Starts with Windows', 'Quietly, at sign-in: just the widget, until you ask for the calendar.'],
+	['Undo anything', 'Every change, the assistant’s included, is one click from undone. Ctrl+Z works too.'],
+	['Day to year', 'Day, week, month, year or any range you like. Drag to create, move and resize.'],
+	['Voice, on your PC', 'Whisper runs on your machine, so your words appear as you speak and never leave it.'],
+	['Reminders', 'Today’s goals every morning, and a gentle nudge in the evening if some are still open.'],
+	['Keyboard first', 'Every event and goal is a keystroke away. Press ? to see them all.'],
+	['Starts with Windows', 'Comes up quietly at sign-in as a small widget, and stays out of the way until you need it.'],
 ];
 ---
 
@@ -80,17 +80,17 @@ const DETAILS = [
 						</div>
 						<h1 id="t-title">Keep your day on beat.</h1>
 						<p class="t-lead">
-							A calendar with a Claude-powered assistant. Focus blocks close the apps and sites that pull you away,
-							and your daily goals stay in view, right beside your week.
+							The calendar that holds the line. Say what you want to get done: Tempo books it, shuts out whatever
+							would pull you away, and keeps today’s goals in view until they’re ticked.
 						</p>
 						<div class="t-ctas">
 							<a class="t-btn t-btn-primary" href={REPO} target="_blank" rel="noopener noreferrer">
 								<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
-								Get it on GitHub
+								Get it free on GitHub
 							</a>
-							<a class="t-btn t-btn-ghost" href="#how">See how focus works</a>
+							<a class="t-btn t-btn-ghost" href="#how">See focus in action</a>
 						</div>
-						<p class="t-meta">Open source · runs on your Claude login or an API key · {VERSION}</p>
+						<p class="t-meta">Free &amp; open source · Windows 10/11 · uses your Claude login · {VERSION}</p>
 					</div>
 
 					<!-- A day in twelve seconds: a Focus block starts, Discord gets its warning, a goal ticks off. -->
@@ -144,29 +144,31 @@ const DETAILS = [
 			</section>
 
 			<!-- ============================ PILLARS ============================ -->
-			<section class="t-section t-pillars" aria-label="What Tempo does">
+			<section class="t-section t-pillars" aria-labelledby="pillars-title">
 				<div class="t-wrap">
+					<p class="t-eyebrow reveal">Why Tempo</p>
+					<h2 id="pillars-title" class="t-h2 reveal">Making the plan is easy. Tempo helps you keep it.</h2>
 					<div class="t-pillar-grid">
 						<article class="t-pillar reveal">
 							<div class="t-icon t-icon-voice" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-							<h2>Talk to it.</h2>
-							<p>Press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd> and say <em>“deep work tomorrow 9 to 11”</em>. Claude checks your week, makes it a Focus block, and tells you what it did.</p>
+							<h3>Just say it.</h3>
+							<p>Press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd> and say <em>“deep work tomorrow 9 to 11”</em>. Claude checks your week, books a Focus block and tells you exactly what it did. No forms, no fiddling.</p>
 						</article>
 						<article class="t-pillar reveal">
 							<div class="t-icon t-icon-ring" aria-hidden="true">
 								<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="18" fill="none" stroke="currentColor" stroke-opacity=".18" stroke-width="5" /><circle class="t-ring" cx="24" cy="24" r="18" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" transform="rotate(-90 24 24)" /></svg>
 								<b>3/5</b>
 							</div>
-							<h2>Keep goals in view.</h2>
-							<p>Gym, LeetCode, a calorie limit. Tick them off beside your calendar; type a number and the tick or cross follows. Streaks show what’s working.</p>
+							<h3>Goals you can’t ignore.</h3>
+							<p>Gym. One LeetCode problem. Under 1,600 kcal. Your daily goals sit right beside your calendar, score themselves when you log a number, and build streaks worth protecting.</p>
 						</article>
 						<article class="t-pillar reveal">
 							<div class="t-icon t-icon-shield" aria-hidden="true">
 								<span class="t-app">Discord</span>
 								<svg viewBox="0 0 24 24" width="30" height="30"><path d="M12 3l8 3v6c0 4.5-3.3 8-8 9-4.7-1-8-4.5-8-9V6z" fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" /></svg>
 							</div>
-							<h2>Protect focus time.</h2>
-							<p>Give an event a type like Focus. While it’s on, the apps and sites you chose are closed and blocked, with a soft “allow 5 minutes” when you truly need it.</p>
+							<h3>Focus that holds.</h3>
+							<p>When a Focus block starts, Discord, Steam and YouTube get out of the way on their own. Truly need a minute? Take five. Then it’s back to work.</p>
 						</article>
 					</div>
 				</div>
@@ -176,7 +178,7 @@ const DETAILS = [
 			<section class="t-section t-tour" aria-labelledby="tour-title">
 				<div class="t-wrap">
 					<p class="t-eyebrow reveal">The app</p>
-					<h2 id="tour-title" class="t-h2 reveal">Your week, your goals, one glance.</h2>
+					<h2 id="tour-title" class="t-h2 reveal">Everything that matters today, at a glance.</h2>
 
 					<div class="t-row reveal">
 						<figure class="t-shot t-shot-wide">
@@ -184,8 +186,8 @@ const DETAILS = [
 								alt="Tempo week view in dark mode: standups, deep work focus blocks with a shield icon, lunch, gym sessions that repeat, and a goals panel on the right showing 3 of 5 done, with Blocking until 12:00 PM at the top." />
 						</figure>
 						<div class="t-row-copy">
-							<h3>A calendar that knows what matters now.</h3>
-							<p>Focus blocks carry a shield. The top bar says what’s being blocked and until when. Goals sit on the right on wide screens and fold into a slim strip on smaller ones, so they’re never more than a glance away.</p>
+							<h3>See what’s protected, and what’s left.</h3>
+							<p>Focus blocks wear a shield, and the top bar tells you what’s blocked and until when. Your goals ride along on the right, or fold into a slim strip on smaller screens. What you promised yourself is never more than a glance away.</p>
 						</div>
 					</div>
 
@@ -195,8 +197,8 @@ const DETAILS = [
 							<figure class="t-shot t-shot-tall t-offset"><img src="/tempo/shots/widget-today-light.webp" width="600" height="900" loading="lazy" decoding="async" alt="The Tempo widget Today tab: 3 of 5 goals done, to go: Badminton and Hobby, with tick and cross buttons and number inputs for LeetCode and Calories." /></figure>
 						</div>
 						<div class="t-row-copy">
-							<h3>An assistant that checks before it acts.</h3>
-							<p>The floating widget stays on top of your work. Ask in plain words, or talk. This is a real exchange: asked for two hours of deep work, it noticed one was already booked and offered another slot instead of double-booking.</p>
+							<h3>An assistant that thinks before it books.</h3>
+							<p>A small widget floats above your work: type or talk. In this real exchange, asked for two hours of deep work, it spotted the block already on the calendar and offered the afternoon instead. No double-booking, no surprises, and everything it does comes with Undo.</p>
 							<p class="t-small">Runs on your Claude Code login, no API key needed, or on an Anthropic API key if you prefer.</p>
 						</div>
 					</div>
@@ -204,8 +206,8 @@ const DETAILS = [
 					<div class="t-row reveal">
 						<figure class="t-shot t-shot-wide"><img src="/tempo/shots/goals-light.webp" width="1600" height="964" loading="lazy" decoding="async" alt="The Tempo goals sheet: Gym, Badminton, LeetCode, Hobby and Calories for today, and a 14-day grid of ticks, crosses and numbers with streaks, best streak and 30-day rates." /></figure>
 						<div class="t-row-copy">
-							<h3>Goals that tick themselves.</h3>
-							<p>Tick-or-cross goals, or numbers with a target: at least one LeetCode problem, at most 1,600 kcal. Enter what actually happened and Tempo marks it. Fourteen days at a glance, with streaks and your 30-day rate.</p>
+							<h3>Progress you can actually see.</h3>
+							<p>Tick-or-cross goals, or numbers with a target: at least one LeetCode problem, at most 1,600 kcal. Log what happened and Tempo scores it. Two weeks on one screen, with streaks and 30-day rates, so you know what’s sticking and what isn’t.</p>
 						</div>
 					</div>
 
@@ -213,7 +215,7 @@ const DETAILS = [
 						<figure class="t-shot t-shot-wide"><img src="/tempo/shots/wizard-focus-dark.webp" width="1600" height="964" loading="lazy" decoding="async" alt="Tempo setup, step 4 of 6: What should Focus time block? Apps to close shown by name, apps open right now to add, and a grid of websites to block." /></figure>
 						<div class="t-row-copy">
 							<h3>Set up in two minutes.</h3>
-							<p>A short guided setup picks your assistant, your goals and what Focus time should block: choose from the apps you actually have open, by name. Google Calendar is optional, and one step.</p>
+							<p>A guided setup picks your assistant, your goals and what Focus should block, chosen by name from the apps you actually have open. Connect Google Calendar in one step, or skip it entirely.</p>
 						</div>
 					</div>
 				</div>
@@ -228,7 +230,7 @@ const DETAILS = [
 						<li><span class="t-step-n">1</span><h3>Plan it</h3><p>Mark an event as Focus in the editor, or just say it. The editor tells you exactly what it will close and block.</p></li>
 						<li><span class="t-step-n">2</span><h3>It starts</h3><p>Listed apps get a ten-second warning to save work, then close. Listed sites stop resolving until the block ends.</p></li>
 						<li><span class="t-step-n">3</span><h3>Need a minute?</h3><p>“Allow 5 min” is there, three times per block. Set it to zero when you want strict.</p></li>
-						<li><span class="t-step-n">4</span><h3>It ends</h3><p>Everything comes back on its own. Tempo never needs to run as administrator.</p></li>
+						<li><span class="t-step-n">4</span><h3>It ends</h3><p>Everything comes back on its own the moment the block ends. Tempo itself never runs as administrator.</p></li>
 					</ol>
 					<figure class="t-alert-shot reveal"><img src="/tempo/shots/alert-dark.webp" width="570" height="264" loading="lazy" decoding="async" alt="Tempo's block warning: Focus time. Discord is blocked right now. Save your work: Discord closes in 8s. Buttons: Close it now, and Allow 5 min (3 left)." /></figure>
 				</div>
@@ -237,7 +239,7 @@ const DETAILS = [
 			<!-- ============================ DETAILS ============================ -->
 			<section class="t-section t-details" aria-labelledby="details-title">
 				<div class="t-wrap">
-					<h2 id="details-title" class="t-h2 reveal">The details.</h2>
+					<h2 id="details-title" class="t-h2 reveal">And all the little things.</h2>
 					<ul class="t-detail-grid">
 						{DETAILS.map(([title, body]) => (
 							<li class="reveal"><h3>{title}</h3><p>{body}</p></li>
@@ -290,8 +292,8 @@ const DETAILS = [
 			<!-- ============================ GET IT ============================ -->
 			<section class="t-section t-get" aria-labelledby="get-title">
 				<div class="t-wrap t-get-inner reveal">
-					<h2 id="get-title" class="t-h2">Run it today.</h2>
-					<p>Windows 10 or 11, Node.js 22 or later, and either Claude Code (signed in) or an Anthropic API key.</p>
+					<h2 id="get-title" class="t-h2">Get your day back on beat.</h2>
+					<p>Free and open source. All you need is Windows 10 or 11, Node.js 22 or later, and either Claude Code (signed in) or an Anthropic API key.</p>
 					<pre><code><span class="c"># get Tempo</span>
 git clone {REPO}.git
 cd Tempo
@@ -475,7 +477,7 @@ npm start</code></pre>
 	.t-pillars { padding-top: clamp(3rem, 6vw, 5rem); }
 	.t-pillar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
 	.t-pillar { background: rgba(255, 252, 246, 0.8); border: 1px solid var(--line); border-radius: 20px; padding: 1.6rem 1.5rem 1.4rem; box-shadow: 0 1px 0 rgba(255,255,255,.6) inset; }
-	.t-pillar h2 { font-size: 1.35rem; margin: 1.1rem 0 0.5rem; color: var(--t-ink); }
+	.t-pillar h3 { font-size: 1.35rem; margin: 1.1rem 0 0.5rem; color: var(--t-ink); }
 	.t-pillar p { margin: 0; color: var(--t-ink-soft); font-size: 1rem; line-height: 1.6; }
 	.t-pillar kbd { font-family: var(--font-mono); font-size: 0.78em; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; padding: 0 0.3em; background: #fff; }
 	.t-icon { height: 56px; display: flex; align-items: center; color: var(--t-beat-deep); }
