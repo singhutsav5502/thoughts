@@ -1,0 +1,594 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import { SITE_URL, SOCIAL } from '../../consts';
+
+const REPO = 'https://github.com/singhutsav5502/Tempo';
+const VERSION = 'v0.2.1';
+const TITLE = 'Tempo: calendar, daily goals and focus blocks for Windows';
+const DESCRIPTION =
+	'Tempo is a Windows calendar with a Claude-powered assistant. Focus blocks close the apps and sites that pull you away, and your daily goals stay in view. Open source.';
+
+const structuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'SoftwareApplication',
+	name: 'Tempo',
+	url: `${SITE_URL}/tempo/`,
+	applicationCategory: 'ProductivityApplication',
+	operatingSystem: 'Windows 10, Windows 11',
+	description: DESCRIPTION,
+	softwareVersion: VERSION.slice(1),
+	image: `${SITE_URL}/tempo/brand/og.png`,
+	offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+	author: { '@type': 'Person', name: 'Utsav Singh', url: `${SITE_URL}/` },
+	codeRepository: REPO,
+};
+
+const PALETTE = [
+	{ name: 'Beat', hex: '#7C93FF', use: 'Brand, focus, primary actions' },
+	{ name: 'Night', hex: '#0E0F13', use: 'Dark surfaces' },
+	{ name: 'Done', hex: '#5CC8A1', use: 'Goals met, progress' },
+	{ name: 'Limit', hex: '#FF6B6B', use: 'Over a limit, missed' },
+	{ name: 'Meeting', hex: '#F2A65A', use: 'Meeting blocks' },
+	{ name: 'Personal', hex: '#C58AF9', use: 'Personal time' },
+];
+
+const DETAILS = [
+	['Google Calendar, both ways', 'Two-way sync with your primary calendar, offline-first, with rich notes kept intact.'],
+	['Repeating events', 'Daily, weekly on chosen days, monthly, yearly. Edit this event or all of them.'],
+	['Undo anything', 'Every change, including the assistant’s, comes with Undo. Ctrl+Z works too.'],
+	['Day to year', 'Day, week, month, year and custom ranges. Drag to create, move and resize.'],
+	['Voice, on your PC', 'Speech is transcribed locally with Whisper. Your words appear as you talk.'],
+	['Reminders', 'A morning list of today’s goals, and a nudge in the evening if some are still open.'],
+	['Keyboard first', 'Every event and goal works from the keyboard; press ? for all shortcuts.'],
+	['Starts with Windows', 'Quietly, at sign-in: just the widget, until you ask for the calendar.'],
+];
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={TITLE} description={DESCRIPTION} image="/tempo/brand/og.png" imageAlt="Tempo: keep your day on beat. The Tempo week view with goals beside it." />
+		<link rel="icon" type="image/svg+xml" href="/tempo/brand/mark.svg" />
+		<JsonLd data={structuredData} />
+		<script is:inline>document.documentElement.classList.add('js');</script>
+	</head>
+	<body>
+		<Header />
+		<main class="page tempo">
+			<!-- ============================ HERO ============================ -->
+			<section class="t-hero" aria-labelledby="t-title">
+				<div class="t-wrap t-hero-grid">
+					<div class="t-hero-copy">
+						<div class="t-brandline">
+							<svg class="t-mark t-mark-anim" viewBox="0 0 64 64" width="52" height="52" aria-hidden="true">
+								<defs>
+									<linearGradient id="t-tile" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#9aabff" /><stop offset="1" stop-color="#4f68e8" />
+									</linearGradient>
+								</defs>
+								<rect width="64" height="64" rx="16" fill="url(#t-tile)" />
+								<circle cx="32" cy="32" r="17" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="5" />
+								<circle class="t-mark-arc" cx="32" cy="32" r="17" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-dasharray="80.1 106.8" transform="rotate(-90 32 32)" />
+								<path class="t-mark-hand" d="M32 32L38.5 22.8" stroke="#fff" stroke-width="5" stroke-linecap="round" />
+								<circle cx="32" cy="32" r="3.5" fill="#fff" />
+							</svg>
+							<span class="t-wordmark">Tempo</span>
+							<span class="t-tag">for Windows</span>
+						</div>
+						<h1 id="t-title">Keep your day on beat.</h1>
+						<p class="t-lead">
+							A calendar with a Claude-powered assistant. Focus blocks close the apps and sites that pull you away,
+							and your daily goals stay in view, right beside your week.
+						</p>
+						<div class="t-ctas">
+							<a class="t-btn t-btn-primary" href={REPO} target="_blank" rel="noopener noreferrer">
+								<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
+								Get it on GitHub
+							</a>
+							<a class="t-btn t-btn-ghost" href="#how">See how focus works</a>
+						</div>
+						<p class="t-meta">Open source · runs on your Claude login or an API key · {VERSION}</p>
+					</div>
+
+					<!-- A day in twelve seconds: a Focus block starts, Discord gets its warning, a goal ticks off. -->
+					<div class="scene" role="img" aria-label="Animation: at 10:00 a Deep work focus block starts, the Tempo widget switches to it, Discord gets a ten-second warning, and the LeetCode goal is ticked, taking today to 3 of 5 goals.">
+						<div class="sc-card sc-cal" aria-hidden="true">
+							<div class="sc-cal-head"><span>Tue</span><b>29</b><span class="sc-block-chip">⛨ Blocking until 12:00</span></div>
+							<div class="sc-grid">
+								<span class="sc-hour" style="top:0%">9</span>
+								<span class="sc-hour" style="top:25%">10</span>
+								<span class="sc-hour" style="top:50%">11</span>
+								<span class="sc-hour" style="top:75%">12</span>
+								<div class="sc-ev sc-ev-meet" style="top:12.5%;height:8%"><b>Standup</b></div>
+								<div class="sc-ev sc-ev-focus" style="top:25%;height:50%">
+									<b><span class="sc-shield">⛨</span> Deep work</b>
+									<span>10:00 – 12:00 · Focus</span>
+									<span class="sc-apps"><i>Discord</i><i>Steam</i><i>youtube.com</i></span>
+								</div>
+								<div class="sc-ev sc-ev-break" style="top:87%;height:11%"><b>Lunch</b></div>
+								<div class="sc-now"></div>
+							</div>
+						</div>
+
+						<div class="sc-card sc-alert" aria-hidden="true">
+							<span class="sc-kicker">Focus time</span>
+							<b>Discord is blocked right now</b>
+							<span class="sc-sub">Save your work: Discord closes in 8s.</span>
+							<div class="sc-alert-btns"><span>Close it now</span><span class="sc-allow">Allow 5 min (3 left)</span></div>
+							<div class="sc-bar"></div>
+						</div>
+
+						<div class="sc-card sc-goal" aria-hidden="true">
+							<span class="sc-goal-name"><i></i>LeetCode <small>≥ 1 problems</small></span>
+							<span class="sc-goal-val">2</span>
+							<span class="sc-tick">✓</span>
+						</div>
+
+						<div class="sc-card sc-pill" aria-hidden="true">
+							<span class="sc-dot"></span>
+							<span class="sc-pill-text">
+								<span class="sc-a"><b>Free</b><small>Next: Deep work in 2m</small></span>
+								<span class="sc-b"><b>Deep work</b><small>Focus · 1h 58m left · until 12:00</small></span>
+							</span>
+							<span class="sc-chip">
+								<svg viewBox="0 0 20 20" width="16" height="16"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-opacity=".3" stroke-width="2.5" /><circle class="sc-chip-arc" cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" transform="rotate(-90 10 10)" /></svg>
+								<span class="sc-n2">2/5</span><span class="sc-n3">3/5</span>
+							</span>
+							<span class="sc-spark">✦</span>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- ============================ PILLARS ============================ -->
+			<section class="t-section t-pillars" aria-label="What Tempo does">
+				<div class="t-wrap">
+					<div class="t-pillar-grid">
+						<article class="t-pillar reveal">
+							<div class="t-icon t-icon-voice" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+							<h2>Talk to it.</h2>
+							<p>Press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd> and say <em>“deep work tomorrow 9 to 11”</em>. Claude checks your week, makes it a Focus block, and tells you what it did.</p>
+						</article>
+						<article class="t-pillar reveal">
+							<div class="t-icon t-icon-ring" aria-hidden="true">
+								<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="18" fill="none" stroke="currentColor" stroke-opacity=".18" stroke-width="5" /><circle class="t-ring" cx="24" cy="24" r="18" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" transform="rotate(-90 24 24)" /></svg>
+								<b>3/5</b>
+							</div>
+							<h2>Keep goals in view.</h2>
+							<p>Gym, LeetCode, a calorie limit. Tick them off beside your calendar; type a number and the tick or cross follows. Streaks show what’s working.</p>
+						</article>
+						<article class="t-pillar reveal">
+							<div class="t-icon t-icon-shield" aria-hidden="true">
+								<span class="t-app">Discord</span>
+								<svg viewBox="0 0 24 24" width="30" height="30"><path d="M12 3l8 3v6c0 4.5-3.3 8-8 9-4.7-1-8-4.5-8-9V6z" fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" /></svg>
+							</div>
+							<h2>Protect focus time.</h2>
+							<p>Give an event a type like Focus. While it’s on, the apps and sites you chose are closed and blocked, with a soft “allow 5 minutes” when you truly need it.</p>
+						</article>
+					</div>
+				</div>
+			</section>
+
+			<!-- ============================ TOUR ============================ -->
+			<section class="t-section t-tour" aria-labelledby="tour-title">
+				<div class="t-wrap">
+					<p class="t-eyebrow reveal">The app</p>
+					<h2 id="tour-title" class="t-h2 reveal">Your week, your goals, one glance.</h2>
+
+					<div class="t-row reveal">
+						<figure class="t-shot t-shot-wide">
+							<img src="/tempo/shots/week-dark.webp" width="1800" height="1085" loading="lazy" decoding="async"
+								alt="Tempo week view in dark mode: standups, deep work focus blocks with a shield icon, lunch, gym sessions that repeat, and a goals panel on the right showing 3 of 5 done, with Blocking until 12:00 PM at the top." />
+						</figure>
+						<div class="t-row-copy">
+							<h3>A calendar that knows what matters now.</h3>
+							<p>Focus blocks carry a shield. The top bar says what’s being blocked and until when. Goals sit on the right on wide screens and fold into a slim strip on smaller ones, so they’re never more than a glance away.</p>
+						</div>
+					</div>
+
+					<div class="t-row t-row-flip reveal">
+						<div class="t-duo">
+							<figure class="t-shot t-shot-tall"><img src="/tempo/shots/widget-chat-dark.webp" width="600" height="900" loading="lazy" decoding="async" alt="The Tempo widget chat: asked to block two hours of deep work tomorrow morning and log 1,450 calories, the assistant logs the calories and points out a deep work block already exists tomorrow from 10 to 12, offering an afternoon slot instead." /></figure>
+							<figure class="t-shot t-shot-tall t-offset"><img src="/tempo/shots/widget-today-light.webp" width="600" height="900" loading="lazy" decoding="async" alt="The Tempo widget Today tab: 3 of 5 goals done, to go: Badminton and Hobby, with tick and cross buttons and number inputs for LeetCode and Calories." /></figure>
+						</div>
+						<div class="t-row-copy">
+							<h3>An assistant that checks before it acts.</h3>
+							<p>The floating widget stays on top of your work. Ask in plain words, or talk. This is a real exchange: asked for two hours of deep work, it noticed one was already booked and offered another slot instead of double-booking.</p>
+							<p class="t-small">Runs on your Claude Code login, no API key needed, or on an Anthropic API key if you prefer.</p>
+						</div>
+					</div>
+
+					<div class="t-row reveal">
+						<figure class="t-shot t-shot-wide"><img src="/tempo/shots/goals-light.webp" width="1600" height="964" loading="lazy" decoding="async" alt="The Tempo goals sheet: Gym, Badminton, LeetCode, Hobby and Calories for today, and a 14-day grid of ticks, crosses and numbers with streaks, best streak and 30-day rates." /></figure>
+						<div class="t-row-copy">
+							<h3>Goals that tick themselves.</h3>
+							<p>Tick-or-cross goals, or numbers with a target: at least one LeetCode problem, at most 1,600 kcal. Enter what actually happened and Tempo marks it. Fourteen days at a glance, with streaks and your 30-day rate.</p>
+						</div>
+					</div>
+
+					<div class="t-row t-row-flip reveal">
+						<figure class="t-shot t-shot-wide"><img src="/tempo/shots/wizard-focus-dark.webp" width="1600" height="964" loading="lazy" decoding="async" alt="Tempo setup, step 4 of 6: What should Focus time block? Apps to close shown by name, apps open right now to add, and a grid of websites to block." /></figure>
+						<div class="t-row-copy">
+							<h3>Set up in two minutes.</h3>
+							<p>A short guided setup picks your assistant, your goals and what Focus time should block: choose from the apps you actually have open, by name. Google Calendar is optional, and one step.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- ============================ HOW FOCUS WORKS ============================ -->
+			<section id="how" class="t-section t-how" aria-labelledby="how-title">
+				<div class="t-wrap">
+					<p class="t-eyebrow reveal">Focus blocks</p>
+					<h2 id="how-title" class="t-h2 reveal">Firm, not frustrating.</h2>
+					<ol class="t-steps reveal">
+						<li><span class="t-step-n">1</span><h3>Plan it</h3><p>Mark an event as Focus in the editor, or just say it. The editor tells you exactly what it will close and block.</p></li>
+						<li><span class="t-step-n">2</span><h3>It starts</h3><p>Listed apps get a ten-second warning to save work, then close. Listed sites stop resolving until the block ends.</p></li>
+						<li><span class="t-step-n">3</span><h3>Need a minute?</h3><p>“Allow 5 min” is there, three times per block. Set it to zero when you want strict.</p></li>
+						<li><span class="t-step-n">4</span><h3>It ends</h3><p>Everything comes back on its own. Tempo never needs to run as administrator.</p></li>
+					</ol>
+					<figure class="t-alert-shot reveal"><img src="/tempo/shots/alert-dark.webp" width="570" height="264" loading="lazy" decoding="async" alt="Tempo's block warning: Focus time. Discord is blocked right now. Save your work: Discord closes in 8s. Buttons: Close it now, and Allow 5 min (3 left)." /></figure>
+				</div>
+			</section>
+
+			<!-- ============================ DETAILS ============================ -->
+			<section class="t-section t-details" aria-labelledby="details-title">
+				<div class="t-wrap">
+					<h2 id="details-title" class="t-h2 reveal">The details.</h2>
+					<ul class="t-detail-grid">
+						{DETAILS.map(([title, body]) => (
+							<li class="reveal"><h3>{title}</h3><p>{body}</p></li>
+						))}
+					</ul>
+				</div>
+			</section>
+
+			<!-- ============================ PRIVACY ============================ -->
+			<section class="t-section t-privacy" aria-labelledby="privacy-title">
+				<div class="t-wrap t-privacy-inner reveal">
+					<h2 id="privacy-title" class="t-h2">Your day stays on your PC.</h2>
+					<ul>
+						<li><b>Local first.</b> Calendar, goals and settings live in one file on your machine. Keys and tokens are encrypted by Windows.</li>
+						<li><b>Voice never leaves.</b> Speech is turned into text on your PC.</li>
+						<li><b>Two places, only when needed.</b> Google, to sync your calendar if you connect it. Claude, for the messages you send the assistant.</li>
+					</ul>
+				</div>
+			</section>
+
+			<!-- ============================ BRAND ============================ -->
+			<section class="t-section t-brand" aria-labelledby="brand-title">
+				<div class="t-wrap">
+					<p class="t-eyebrow reveal">Brand</p>
+					<h2 id="brand-title" class="t-h2 reveal">A ring and a beat.</h2>
+					<div class="t-brand-grid">
+						<div class="t-brand-mark reveal">
+							<img src="/tempo/brand/mark.svg" width="120" height="120" alt="The Tempo mark: an indigo rounded square with a white ring three-quarters complete and a clock hand at two o'clock." />
+							<img class="t-mono" src="/tempo/brand/mark-mono.svg" width="72" height="72" alt="The single-colour Tempo mark." />
+							<p>The ring is today’s progress, three quarters done. The hand is the beat that keeps it moving. It reads at 16 pixels and on a taskbar.</p>
+							<p class="t-small"><a href="/tempo/brand/mark.svg" download>mark.svg</a> · <a href="/tempo/brand/mark-mono.svg" download>mark-mono.svg</a> · <a href="/tempo/brand/mark-512.png" download>512 px PNG</a></p>
+						</div>
+						<ul class="t-swatches reveal" aria-label="Colour palette">
+							{PALETTE.map((c) => (
+								<li style={`--c:${c.hex}`}><span class="t-sw" aria-hidden="true"></span><b>{c.name}</b><code>{c.hex}</code><small>{c.use}</small></li>
+							))}
+						</ul>
+						<div class="t-voice reveal">
+							<h3>How Tempo talks</h3>
+							<ul>
+								<li>Says what happened: “Deleted Standup. Undo.”</li>
+								<li>Names things: “Discord”, never “discord.exe”.</li>
+								<li>Firm about focus, never scolding.</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- ============================ GET IT ============================ -->
+			<section class="t-section t-get" aria-labelledby="get-title">
+				<div class="t-wrap t-get-inner reveal">
+					<h2 id="get-title" class="t-h2">Run it today.</h2>
+					<p>Windows 10 or 11, Node.js 22 or later, and either Claude Code (signed in) or an Anthropic API key.</p>
+					<pre><code><span class="c"># get Tempo</span>
+git clone {REPO}.git
+cd Tempo
+npm install
+npm start</code></pre>
+					<p class="t-small">First launch walks you through setup. No installer yet, so it runs from source; turn on “Start Tempo when I sign in” and it comes up quietly with Windows.</p>
+					<div class="t-ctas">
+						<a class="t-btn t-btn-primary" href={REPO} target="_blank" rel="noopener noreferrer">View the code</a>
+						<a class="t-btn t-btn-ghost t-btn-ghost-dark" href={`${REPO}/blob/main/CHANGELOG.md`} target="_blank" rel="noopener noreferrer">What’s new in {VERSION}</a>
+					</div>
+					<p class="t-small">Built by <a href="/">Utsav Singh</a>. Questions or ideas: <a href={SOCIAL.email}>email</a> or <a href={`${REPO}/issues`} target="_blank" rel="noopener noreferrer">GitHub issues</a>.</p>
+				</div>
+			</section>
+		</main>
+		<Footer />
+
+		<script>
+			// Reveal sections as they scroll in. Content is visible by default; hiding only applies once JS runs
+			// (html.js), and not at all for people who prefer reduced motion.
+			const els = document.querySelectorAll('.tempo .reveal');
+			if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+				const io = new IntersectionObserver((entries) => {
+					for (const e of entries) {
+						if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+					}
+				}, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+				els.forEach((el) => io.observe(el));
+			} else {
+				els.forEach((el) => el.classList.add('in'));
+			}
+		</script>
+	</body>
+</html>
+
+<style>
+	.tempo {
+		--t-night: #0e0f13;
+		--t-night-2: #15171c;
+		--t-night-3: #1c1e25;
+		--t-line: rgba(255, 255, 255, 0.09);
+		--t-text: #eceef4;
+		--t-muted: #a9aebd;
+		--t-beat: #7c93ff;
+		--t-beat-deep: #4f68e8;
+		--t-done: #5cc8a1;
+		--t-limit: #ff6b6b;
+		--t-meet: #f2a65a;
+		--t-personal: #c58af9;
+		--t-ink: #12151a;
+		--t-ink-soft: #454d5c;
+		--t-ease: cubic-bezier(0.22, 1, 0.36, 1);
+		font-family: var(--font-body);
+		overflow-x: clip;
+		/* full-bleed: the global main rule caps width and pads for text pages */
+		width: 100%;
+		max-width: none;
+		margin: 0;
+		padding: 0;
+	}
+	.t-wrap { width: min(100% - 2 * var(--space), 72rem); margin-inline: auto; }
+	.tempo h1, .tempo h2, .tempo h3 { font-family: var(--font-body); font-weight: 600; letter-spacing: -0.02em; }
+
+	/* ---------------- hero ---------------- */
+	.t-hero {
+		position: relative;
+		color: var(--t-text);
+		background:
+			radial-gradient(60rem 30rem at 12% -10%, rgba(79, 104, 232, 0.42), transparent 60%),
+			radial-gradient(40rem 26rem at 100% 110%, rgba(92, 200, 161, 0.14), transparent 60%),
+			var(--t-night);
+		padding-block: clamp(3.5rem, 8vw, 6.5rem) clamp(3.5rem, 7vw, 6rem);
+		isolation: isolate;
+	}
+	.t-hero::after { /* fine rhythm lines: the beat */
+		content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+		background-image: repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 1px, transparent 1px 72px);
+		mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
+	}
+	.t-hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+	.t-brandline { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.6rem; }
+	.t-wordmark { font-size: 1.6rem; font-weight: 600; letter-spacing: -0.03em; }
+	.t-tag { font-family: var(--font-mono); font-size: 0.78rem; color: var(--t-muted); border: 1px solid var(--t-line); border-radius: 999px; padding: 0.15rem 0.6rem; }
+	.t-hero h1 { font-size: clamp(2.6rem, 6vw, 4.4rem); line-height: 1.02; margin: 0 0 1.2rem; color: #fff; }
+	.t-lead { font-size: clamp(1.08rem, 1.6vw, 1.25rem); line-height: 1.6; color: #c9cddb; max-width: 34rem; margin: 0 0 2rem; }
+	.t-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.4rem; }
+	.t-btn { display: inline-flex; align-items: center; gap: 0.55rem; font-weight: 600; font-size: 1rem; text-decoration: none; border-radius: 12px; padding: 0.8rem 1.25rem; transition: transform 0.2s var(--t-ease), background 0.2s, box-shadow 0.2s; }
+	.t-btn:hover { transform: translateY(-2px); }
+	.t-btn-primary { background: var(--t-beat); color: #0b0c10; box-shadow: 0 10px 30px -10px rgba(124, 147, 255, 0.7); }
+	.t-btn-primary:hover { background: #8fa3ff; }
+	.t-btn-ghost { color: var(--t-text); border: 1px solid rgba(255,255,255,.2); }
+	.t-btn-ghost:hover { background: rgba(255,255,255,.06); }
+	.t-btn-ghost-dark { color: var(--t-ink); border-color: rgba(18,21,26,.2); }
+	.t-btn-ghost-dark:hover { background: rgba(18,21,26,.05); }
+	.t-btn:focus-visible { outline: 3px solid var(--t-beat); outline-offset: 3px; }
+	.t-meta { margin: 0; font-family: var(--font-mono); font-size: 0.82rem; color: var(--t-muted); }
+
+	/* mark: arc draws in, hand sweeps once, then a slow beat */
+	.t-mark-arc { stroke-dashoffset: 0; }
+	.t-mark-hand { transform-origin: 32px 32px; }
+	.t-mark-anim .t-mark-arc { animation: t-arc-draw 1.4s var(--t-ease) 0.2s both; }
+	.t-mark-anim .t-mark-hand { animation: t-hand-sweep 1.6s var(--t-ease) 0.1s both, t-hand-beat 3.6s ease-in-out 2.4s infinite; }
+	@keyframes t-arc-draw { from { stroke-dasharray: 0 106.8; } to { stroke-dasharray: 80.1 106.8; } }
+	@keyframes t-hand-sweep { from { transform: rotate(-395deg); } to { transform: rotate(0deg); } }
+	@keyframes t-hand-beat { 0%, 86%, 100% { transform: rotate(0); } 90% { transform: rotate(8deg); } 94% { transform: rotate(-2deg); } }
+
+	/* ---------------- scene: a day in twelve seconds ---------------- */
+	.scene { position: relative; height: 470px; --d: 12s; }
+	.sc-card { position: absolute; background: rgba(21, 23, 28, 0.92); border: 1px solid var(--t-line); border-radius: 18px; box-shadow: 0 30px 60px -20px rgba(0,0,0,.6); backdrop-filter: blur(10px); }
+	.sc-cal { left: 0; top: 0; width: 62%; height: 380px; padding: 14px 16px 16px 14px; }
+	.sc-cal-head { display: flex; align-items: baseline; gap: 0.5rem; font-size: 0.85rem; color: var(--t-muted); margin-bottom: 10px; }
+	.sc-cal-head b { color: #fff; font-size: 1.15rem; background: var(--t-beat); color: #0b0c10; width: 28px; height: 28px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 0.85rem; }
+	.sc-block-chip { margin-left: auto; font-size: 0.72rem; color: #dfe4ff; background: rgba(124,147,255,.18); border-radius: 999px; padding: 0.15rem 0.55rem; opacity: 0; animation: sc-block var(--d) var(--t-ease) infinite; }
+	.sc-grid { position: relative; height: calc(100% - 40px); margin-left: 26px; border-left: 1px solid var(--t-line); background: repeating-linear-gradient(to bottom, var(--t-line) 0 1px, transparent 1px 25%); }
+	.sc-hour { position: absolute; left: -26px; transform: translateY(-50%); font-size: 0.68rem; color: #7f8596; }
+	.sc-ev { position: absolute; left: 6px; right: 6px; border-radius: 9px; padding: 6px 9px; font-size: 0.74rem; line-height: 1.3; display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
+	.sc-ev b { color: #f3f4f8; font-weight: 600; }
+	.sc-ev span { color: #aeb4c4; }
+	.sc-ev-meet { background: rgba(242,166,90,.2); border-left: 3px solid var(--t-meet); }
+	.sc-ev-break { background: rgba(92,200,161,.18); border-left: 3px solid var(--t-done); }
+	.sc-ev-focus { background: rgba(124,147,255,.16); border-left: 3px solid var(--t-beat); animation: sc-focus var(--d) var(--t-ease) infinite; }
+	.sc-shield { display: inline-block; opacity: 0.45; animation: sc-shield var(--d) var(--t-ease) infinite; }
+	.sc-apps { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+	.sc-apps i { font-style: normal; font-size: 0.66rem; color: #cfd6ff; border: 1px solid rgba(124,147,255,.35); border-radius: 999px; padding: 0 6px; position: relative; opacity: 0; animation: sc-apps var(--d) var(--t-ease) infinite; }
+	.sc-apps i:first-child::after { content: ''; position: absolute; left: 4px; right: 4px; top: 50%; height: 1.5px; background: var(--t-limit); transform: scaleX(0); transform-origin: left; animation: sc-strike var(--d) var(--t-ease) infinite; }
+	.sc-now { position: absolute; left: -4px; right: 0; height: 2px; background: var(--t-limit); top: 24%; animation: sc-now var(--d) linear infinite; }
+	.sc-now::before { content: ''; position: absolute; left: -3px; top: -3px; width: 8px; height: 8px; border-radius: 50%; background: var(--t-limit); }
+
+	.sc-alert { right: 0; top: 18px; width: 58%; padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 4px; overflow: hidden; background: #fff; color: var(--t-ink); border-color: rgba(0,0,0,.08); opacity: 0; transform: translateY(-14px) scale(0.98); animation: sc-alert var(--d) var(--t-ease) infinite; }
+	.sc-kicker { font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: var(--t-beat-deep); }
+	.sc-alert b { font-size: 0.95rem; }
+	.sc-sub { font-size: 0.78rem; color: #5a6070; }
+	.sc-alert-btns { display: flex; gap: 6px; justify-content: flex-end; margin-top: 8px; font-size: 0.7rem; }
+	.sc-alert-btns span { border: 1px solid rgba(0,0,0,.14); border-radius: 8px; padding: 4px 8px; }
+	.sc-alert-btns .sc-allow { background: var(--t-beat-deep); color: #fff; border-color: transparent; font-weight: 600; }
+	.sc-bar { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: var(--t-limit); transform-origin: left; animation: sc-bar var(--d) linear infinite; }
+
+	.sc-goal { right: 4%; top: 216px; width: 52%; padding: 10px 12px; display: flex; align-items: center; gap: 10px; border-left: 3px solid var(--t-beat); opacity: 0; transform: translateX(16px); animation: sc-goal var(--d) var(--t-ease) infinite; }
+	.sc-goal-name { flex: 1; font-size: 0.82rem; color: #f3f4f8; font-weight: 600; display: flex; flex-direction: column; }
+	.sc-goal-name small { color: var(--t-muted); font-weight: 400; font-size: 0.7rem; }
+	.sc-goal-val { font-weight: 700; background: var(--t-night-3); border-radius: 8px; padding: 2px 10px; font-size: 0.85rem; }
+	.sc-tick { width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center; border: 1.5px solid rgba(255,255,255,.2); color: #0b0c10; animation: sc-tick var(--d) var(--t-ease) infinite; }
+
+	.sc-pill { left: 10%; bottom: 0; width: 80%; height: 64px; display: flex; align-items: center; gap: 12px; padding: 0 10px 0 16px; border-radius: 20px; background: rgba(28, 30, 37, 0.96); }
+	.sc-dot { width: 10px; height: 10px; border-radius: 50%; background: #8b90a0; animation: sc-dot var(--d) var(--t-ease) infinite; }
+	.sc-pill-text { flex: 1; position: relative; height: 38px; }
+	.sc-pill-text > span { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; }
+	.sc-pill-text b { font-size: 0.92rem; color: #f3f4f8; }
+	.sc-pill-text small { font-size: 0.72rem; color: var(--t-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+	.sc-a { animation: sc-a var(--d) var(--t-ease) infinite; }
+	.sc-b { opacity: 0; animation: sc-b var(--d) var(--t-ease) infinite; }
+	.sc-chip { position: relative; display: inline-flex; align-items: center; gap: 5px; color: var(--t-beat); border: 1px solid rgba(124,147,255,.4); border-radius: 999px; padding: 4px 10px 4px 7px; font-size: 0.78rem; font-weight: 700; min-width: 70px; }
+	.sc-chip-arc { stroke-dasharray: 17.6 44; animation: sc-chip-arc var(--d) var(--t-ease) infinite; }
+	.sc-n2, .sc-n3 { transition: none; }
+	.sc-n3 { position: absolute; left: 30px; opacity: 0; animation: sc-n3 var(--d) var(--t-ease) infinite; }
+	.sc-n2 { animation: sc-n2 var(--d) var(--t-ease) infinite; }
+	.sc-spark { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: var(--t-beat); color: #0b0c10; font-size: 1rem; }
+
+	/* timeline: 0-13% calm · 14% focus starts · 24-52% warning · 64% goal ticks · 88% reset */
+	@keyframes sc-now { 0% { top: 22%; } 88% { top: 38%; } 100% { top: 22%; } }
+	@keyframes sc-focus { 0%, 13% { box-shadow: none; background: rgba(124,147,255,.16); } 16%, 84% { box-shadow: 0 0 0 1px rgba(124,147,255,.6), 0 0 34px -4px rgba(124,147,255,.55); background: rgba(124,147,255,.26); } 90%, 100% { box-shadow: none; background: rgba(124,147,255,.16); } }
+	@keyframes sc-shield { 0%, 13% { opacity: .45; transform: scale(1); } 16% { opacity: 1; transform: scale(1.35); } 20%, 84% { opacity: 1; transform: scale(1); } 90%, 100% { opacity: .45; } }
+	@keyframes sc-apps { 0%, 15% { opacity: 0; transform: translateY(4px); } 19%, 84% { opacity: 1; transform: none; } 90%, 100% { opacity: 0; } }
+	@keyframes sc-strike { 0%, 52% { transform: scaleX(0); } 56%, 84% { transform: scaleX(1); } 90%, 100% { transform: scaleX(0); } }
+	@keyframes sc-block { 0%, 14% { opacity: 0; transform: translateY(-4px); } 18%, 84% { opacity: 1; transform: none; } 90%, 100% { opacity: 0; } }
+	@keyframes sc-alert { 0%, 23% { opacity: 0; transform: translateY(-14px) scale(.98); } 27%, 50% { opacity: 1; transform: none; } 55%, 100% { opacity: 0; transform: translateY(-10px) scale(.98); } }
+	@keyframes sc-bar { 0%, 26% { transform: scaleX(1); } 52% { transform: scaleX(0); } 100% { transform: scaleX(0); } }
+	@keyframes sc-goal { 0%, 60% { opacity: 0; transform: translateX(16px); } 64%, 84% { opacity: 1; transform: none; } 90%, 100% { opacity: 0; transform: translateX(16px); } }
+	@keyframes sc-tick { 0%, 67% { background: transparent; border-color: rgba(255,255,255,.2); color: transparent; transform: scale(1); } 70% { background: var(--t-done); border-color: var(--t-done); color: #0b0c10; transform: scale(1.18); } 73%, 84% { background: var(--t-done); border-color: var(--t-done); color: #0b0c10; transform: scale(1); } 90%, 100% { background: transparent; color: transparent; } }
+	@keyframes sc-dot { 0%, 13% { background: #8b90a0; box-shadow: none; } 16%, 84% { background: var(--t-beat); box-shadow: 0 0 0 6px rgba(124,147,255,.18); } 90%, 100% { background: #8b90a0; box-shadow: none; } }
+	@keyframes sc-a { 0%, 12% { opacity: 1; transform: none; } 16%, 86% { opacity: 0; transform: translateY(-8px); } 92%, 100% { opacity: 1; transform: none; } }
+	@keyframes sc-b { 0%, 13% { opacity: 0; transform: translateY(8px); } 17%, 84% { opacity: 1; transform: none; } 90%, 100% { opacity: 0; transform: translateY(8px); } }
+	@keyframes sc-chip-arc { 0%, 68% { stroke-dasharray: 17.6 44; } 73%, 84% { stroke-dasharray: 26.4 44; } 90%, 100% { stroke-dasharray: 17.6 44; } }
+	@keyframes sc-n2 { 0%, 68% { opacity: 1; } 71%, 86% { opacity: 0; } 90%, 100% { opacity: 1; } }
+	@keyframes sc-n3 { 0%, 68% { opacity: 0; } 71%, 84% { opacity: 1; } 88%, 100% { opacity: 0; } }
+
+	/* ---------------- sections ---------------- */
+	.t-section { padding-block: clamp(3rem, 6vw, 5rem); }
+	.t-eyebrow { font-family: var(--font-mono); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--t-beat-deep); margin: 0 0 0.6rem; }
+	.t-h2 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.08; margin: 0 0 2.4rem; color: var(--t-ink); }
+
+	.t-pillars { padding-top: clamp(3rem, 6vw, 5rem); }
+	.t-pillar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+	.t-pillar { background: rgba(255, 252, 246, 0.8); border: 1px solid var(--line); border-radius: 20px; padding: 1.6rem 1.5rem 1.4rem; box-shadow: 0 1px 0 rgba(255,255,255,.6) inset; }
+	.t-pillar h2 { font-size: 1.35rem; margin: 1.1rem 0 0.5rem; color: var(--t-ink); }
+	.t-pillar p { margin: 0; color: var(--t-ink-soft); font-size: 1rem; line-height: 1.6; }
+	.t-pillar kbd { font-family: var(--font-mono); font-size: 0.78em; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; padding: 0 0.3em; background: #fff; }
+	.t-icon { height: 56px; display: flex; align-items: center; color: var(--t-beat-deep); }
+	.t-icon-voice { gap: 5px; }
+	.t-icon-voice i { width: 6px; border-radius: 3px; background: var(--t-beat-deep); height: 30%; animation: t-voice 1.3s ease-in-out infinite; }
+	.t-icon-voice i:nth-child(2) { animation-delay: .15s; } .t-icon-voice i:nth-child(3) { animation-delay: .3s; } .t-icon-voice i:nth-child(4) { animation-delay: .45s; } .t-icon-voice i:nth-child(5) { animation-delay: .6s; }
+	@keyframes t-voice { 0%, 100% { height: 22%; } 50% { height: 88%; } }
+	.t-icon-ring { gap: 10px; color: var(--t-done); }
+	.t-icon-ring svg { width: 52px; height: 52px; }
+	.t-icon-ring b { color: var(--t-ink); font-size: 1.3rem; }
+	.t-ring { stroke-dasharray: 67.9 113.1; }
+	.reveal.in .t-ring, :global(html:not(.js)) .t-ring { animation: t-ring 2.2s var(--t-ease) both; }
+	@keyframes t-ring { from { stroke-dasharray: 0 113.1; } }
+	.t-icon-shield { gap: 12px; }
+	.t-app { position: relative; font-size: 0.9rem; font-weight: 600; color: var(--t-ink-soft); border: 1px solid var(--line); border-radius: 999px; padding: 0.2rem 0.75rem; background: #fff; }
+	.t-app::after { content: ''; position: absolute; left: 10px; right: 10px; top: 52%; height: 2px; background: var(--t-limit); transform: scaleX(0); transform-origin: left; transition: transform .8s var(--t-ease) .5s; }
+	.reveal.in .t-app::after { transform: scaleX(1); }
+
+	.t-tour { background: linear-gradient(to bottom, transparent, rgba(124,147,255,.07) 30%, rgba(124,147,255,.07) 70%, transparent); }
+	.t-row { display: grid; grid-template-columns: 1.55fr 1fr; gap: clamp(1.5rem, 4vw, 3.5rem); align-items: center; margin-bottom: clamp(3rem, 7vw, 5.5rem); }
+	.t-row:last-child { margin-bottom: 0; }
+	.t-row-flip { grid-template-columns: 1fr 1.55fr; }
+	.t-row-flip > :first-child { order: 2; }
+	.t-row-copy h3 { font-size: clamp(1.35rem, 2.2vw, 1.75rem); line-height: 1.2; margin: 0 0 0.8rem; color: var(--t-ink); }
+	.t-row-copy p { margin: 0 0 0.8rem; color: var(--t-ink-soft); }
+	.t-small { font-size: 0.92rem; color: #6a7080; }
+	.t-shot { margin: 0; border-radius: 16px; overflow: hidden; background: var(--t-night); border: 1px solid rgba(18,21,26,.12); box-shadow: 0 40px 80px -30px rgba(18, 21, 40, 0.45), 0 2px 6px rgba(18,21,40,.08); }
+	.t-shot img { display: block; width: 100%; height: auto; }
+	.t-duo { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: start; }
+	.t-shot-tall { border-radius: 22px; max-width: 320px; justify-self: center; }
+	.t-offset { margin-top: 3rem; }
+
+	.t-steps { list-style: none; padding: 0; margin: 0 0 2.5rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; position: relative; }
+	.t-steps::before { content: ''; position: absolute; left: 20px; right: 20px; top: 20px; height: 2px; background: linear-gradient(90deg, var(--t-beat), var(--t-done)); transform: scaleX(0); transform-origin: left; transition: transform 1.4s var(--t-ease) .2s; }
+	.t-steps.in::before, :global(html:not(.js)) .t-steps::before { transform: scaleX(1); }
+	.t-steps li { position: relative; }
+	.t-step-n { position: relative; z-index: 1; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; background: var(--t-night); color: #fff; border: 3px solid var(--paper); }
+	.t-steps h3 { font-size: 1.15rem; margin: 1rem 0 0.4rem; color: var(--t-ink); }
+	.t-steps p { margin: 0; color: var(--t-ink-soft); font-size: 0.98rem; }
+	.t-alert-shot { margin: 0 auto; max-width: 400px; border-radius: 16px; overflow: hidden; box-shadow: 0 30px 60px -24px rgba(18, 21, 40, 0.45); }
+	.t-alert-shot img { display: block; width: 100%; height: auto; }
+
+	.t-detail-grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem 1.5rem; }
+	.t-detail-grid li { border-top: 2px solid var(--t-ink); padding-top: 0.9rem; }
+	.t-detail-grid h3 { font-size: 1.05rem; margin: 0 0 0.35rem; color: var(--t-ink); }
+	.t-detail-grid p { margin: 0; font-size: 0.95rem; color: var(--t-ink-soft); line-height: 1.55; }
+
+	.t-privacy { background: var(--t-night); color: var(--t-text); }
+	.t-privacy .t-h2 { color: #fff; }
+	.t-privacy ul { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+	.t-privacy li { color: #c3c8d6; line-height: 1.6; border-left: 2px solid var(--t-beat); padding-left: 1rem; }
+	.t-privacy b { color: #fff; display: block; margin-bottom: 0.2rem; }
+
+	.t-brand-grid { display: grid; grid-template-columns: 1.1fr 1.2fr 0.9fr; gap: 2rem; align-items: start; }
+	.t-brand-mark img { display: inline-block; vertical-align: bottom; margin-right: 1rem; }
+	.t-mono { color: var(--t-ink); opacity: .9; }
+	.t-brand-mark p { margin: 1rem 0 0; color: var(--t-ink-soft); }
+	.t-brand-mark a, .t-get a:not(.t-btn) { color: var(--t-beat-deep); }
+	.t-swatches { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.9rem; }
+	.t-swatches li { display: grid; grid-template-columns: 44px 1fr; grid-template-rows: auto auto auto; column-gap: 0.75rem; align-items: center; }
+	.t-sw { grid-row: 1 / 4; width: 44px; height: 44px; border-radius: 12px; background: var(--c); border: 1px solid rgba(18,21,26,.12); }
+	.t-swatches b { font-size: 0.95rem; color: var(--t-ink); }
+	.t-swatches code { font-family: var(--font-mono); font-size: 0.8rem; color: #6a7080; background: none; padding: 0; justify-self: start; }
+	.t-swatches small { font-size: 0.8rem; color: #6a7080; line-height: 1.3; }
+	.t-voice h3 { margin: 0 0 0.6rem; font-size: 1.1rem; color: var(--t-ink); }
+	.t-voice ul { margin: 0; padding-left: 1.1rem; color: var(--t-ink-soft); }
+	.t-voice li { margin-bottom: 0.4rem; }
+
+	.t-get-inner { max-width: 44rem; text-align: left; }
+	.t-get p { color: var(--t-ink-soft); }
+	.t-get pre { background: var(--t-night); color: #e6e8f0; border-radius: 14px; padding: 1.2rem 1.4rem; overflow-x: auto; font-size: 0.92rem; line-height: 1.7; margin: 1.2rem 0; }
+	.t-get pre .c { color: #7f8596; }
+
+	/* ---------------- reveal on scroll ---------------- */
+	:global(html.js) .tempo .reveal { opacity: 0; transform: translateY(22px); transition: opacity .8s var(--t-ease), transform .8s var(--t-ease); }
+	:global(html.js) .tempo .reveal.in { opacity: 1; transform: none; }
+
+	/* ---------------- responsive ---------------- */
+	@media (max-width: 980px) {
+		.t-hero-grid { grid-template-columns: 1fr; }
+		.scene { max-width: 560px; width: 100%; margin: 0 auto; }
+		.t-pillar-grid { grid-template-columns: 1fr; }
+		.t-row, .t-row-flip { grid-template-columns: 1fr; }
+		.t-row-flip > :first-child { order: 0; }
+		.t-steps { grid-template-columns: repeat(2, 1fr); row-gap: 2rem; }
+		.t-steps::before { display: none; }
+		.t-detail-grid { grid-template-columns: repeat(2, 1fr); }
+		.t-privacy ul { grid-template-columns: 1fr; }
+		.t-brand-grid { grid-template-columns: 1fr; }
+	}
+	@media (max-width: 560px) {
+		.scene { height: 520px; }
+		.sc-cal { width: 100%; height: 330px; }
+		.sc-alert { width: 86%; top: 150px; right: 2%; }
+		.sc-goal { width: 80%; top: 360px; right: 10%; }
+		.sc-pill { left: 0; width: 100%; }
+		.t-steps, .t-detail-grid { grid-template-columns: 1fr; }
+		.t-swatches { grid-template-columns: 1fr; }
+		.t-duo { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+		.t-offset { margin-top: 1.5rem; }
+	}
+
+	/* ---------------- reduced motion: a still frame of the story ---------------- */
+	@media (prefers-reduced-motion: reduce) {
+		.tempo *, .tempo *::before, .tempo *::after { animation: none !important; transition: none !important; }
+		.sc-block-chip, .sc-apps i, .sc-alert, .sc-goal, .sc-b, .sc-n3 { opacity: 1 !important; transform: none !important; }
+		.sc-a, .sc-n2 { opacity: 0 !important; }
+		.sc-ev-focus { box-shadow: 0 0 0 1px rgba(124,147,255,.6); background: rgba(124,147,255,.26); }
+		.sc-shield { opacity: 1; }
+		.sc-tick { background: var(--t-done); border-color: var(--t-done); color: #0b0c10; }
+		.sc-dot { background: var(--t-beat); }
+		.sc-chip-arc { stroke-dasharray: 26.4 44; }
+		.sc-bar { transform: scaleX(.6); }
+		.t-steps::before, .t-app::after { transform: scaleX(1); }
+	}
+</style>

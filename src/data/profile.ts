@@ -51,6 +51,12 @@ export const HIGHLIGHT_PROJECTS: HighlightProject[] = [
 		href: 'https://utsv.work/Glider/',
 	},
 	{
+		name: 'Tempo',
+		blurb:
+			'A Windows calendar with a Claude-powered assistant: focus blocks close distracting apps and sites, and daily goals stay in view. Electron, voice via on-device Whisper.',
+		href: 'https://utsv.work/tempo/',
+	},
+	{
 		name: 'Graphite Editor',
 		blurb:
 			'Open-source contributions (Rust / Wasm / TypeScript) — measurement overlays, node catalog filtering, transform cage work; 6+ merged PRs.',

@@ -49,6 +49,9 @@ const publishedPaths = fs.existsSync(gliderDir)
 	? [GLIDER_URL_PREFIX, ...walk(gliderDir, GLIDER_URL_PREFIX)]
 	: [];
 
+// Astro-rendered product pages that also get case repair (/Tempo/ -> /tempo/, matching the GitHub repo's spelling).
+const REPAIRED_ROUTES = ['/tempo/'];
+
 // Fail the build rather than publish a repair that quietly does nothing. An
 // empty manifest means the snapshot is missing, which is the one way this page
 // breaks without any visible sign.
@@ -62,7 +65,7 @@ if (publishedPaths.length < 2) {
 // Lowercased path -> real path. A first-wins dedupe: two published paths that
 // differ only in case would share a key, and neither is a better answer.
 const caseMap: Record<string, string> = {};
-for (const real of publishedPaths) {
+for (const real of [...publishedPaths, ...REPAIRED_ROUTES]) {
 	const key = real.toLowerCase();
 	if (!(key in caseMap)) caseMap[key] = real;
 }
@@ -71,6 +74,7 @@ const CHIPS = [
 	{ label: 'Home', href: 'https://utsv.work/' },
 	{ label: 'Writing', href: 'https://utsv.work/blog/' },
 	{ label: 'Glider', href: 'https://utsv.work/Glider' },
+	{ label: 'Tempo', href: 'https://utsv.work/tempo/' },
 	{ label: 'Code', href: 'https://github.com/singhutsav5502' },
 ];
 
