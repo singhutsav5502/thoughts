@@ -1,7 +1,6 @@
 ---
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
-import Header from '../../components/Header.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { SITE_URL, SOCIAL } from '../../consts';
 
@@ -56,10 +55,34 @@ const DETAILS = [
 		<script is:inline>document.documentElement.classList.add('js');</script>
 	</head>
 	<body>
-		<Header />
+		<!-- Tempo's own nav, in place of the site header: the product page speaks as Tempo, with a way back to utsv.work. -->
+		<div class="tn">
+			<div class="tn-in">
+				<a class="tn-word" href="#top">
+					<img src="/tempo/brand/mark.svg" width="26" height="26" alt="" />
+					<span>Tempo</span>
+				</a>
+				<nav class="tn-links" aria-label="Sections">
+					<a href="#why">Why</a>
+					<a href="#tour">Tour</a>
+					<a href="#how">Focus</a>
+					<a href="#details">Details</a>
+					<a href="#brand">Brand</a>
+				</nav>
+				<div class="tn-actions">
+					<a class="tn-icon" href={REPO} target="_blank" rel="noopener noreferrer">
+						<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
+						<span>Source</span>
+					</a>
+					<a class="tn-site" href="/">utsv.work</a>
+					<a class="tn-cta" href="#get">Get Tempo</a>
+				</div>
+			</div>
+			<div class="tn-progress" aria-hidden="true"><span></span></div>
+		</div>
 		<main class="page tempo">
 			<!-- ============================ HERO ============================ -->
-			<section class="t-hero" aria-labelledby="t-title">
+			<section id="top" class="t-hero" aria-labelledby="t-title">
 				<div class="t-wrap t-hero-grid">
 					<div class="t-hero-copy">
 						<div class="t-brandline">
@@ -144,7 +167,7 @@ const DETAILS = [
 			</section>
 
 			<!-- ============================ PILLARS ============================ -->
-			<section class="t-section t-pillars" aria-labelledby="pillars-title">
+			<section id="why" class="t-section t-pillars" aria-labelledby="pillars-title">
 				<div class="t-wrap">
 					<p class="t-eyebrow reveal">Why Tempo</p>
 					<h2 id="pillars-title" class="t-h2 reveal">Making the plan is easy. Tempo helps you keep it.</h2>
@@ -175,7 +198,7 @@ const DETAILS = [
 			</section>
 
 			<!-- ============================ TOUR ============================ -->
-			<section class="t-section t-tour" aria-labelledby="tour-title">
+			<section id="tour" class="t-section t-tour" aria-labelledby="tour-title">
 				<div class="t-wrap">
 					<p class="t-eyebrow reveal">The app</p>
 					<h2 id="tour-title" class="t-h2 reveal">Everything that matters today, at a glance.</h2>
@@ -237,7 +260,7 @@ const DETAILS = [
 			</section>
 
 			<!-- ============================ DETAILS ============================ -->
-			<section class="t-section t-details" aria-labelledby="details-title">
+			<section id="details" class="t-section t-details" aria-labelledby="details-title">
 				<div class="t-wrap">
 					<h2 id="details-title" class="t-h2 reveal">And all the little things.</h2>
 					<ul class="t-detail-grid">
@@ -249,7 +272,7 @@ const DETAILS = [
 			</section>
 
 			<!-- ============================ PRIVACY ============================ -->
-			<section class="t-section t-privacy" aria-labelledby="privacy-title">
+			<section id="privacy" class="t-section t-privacy" aria-labelledby="privacy-title">
 				<div class="t-wrap t-privacy-inner reveal">
 					<h2 id="privacy-title" class="t-h2">Your day stays on your PC.</h2>
 					<ul>
@@ -261,7 +284,7 @@ const DETAILS = [
 			</section>
 
 			<!-- ============================ BRAND ============================ -->
-			<section class="t-section t-brand" aria-labelledby="brand-title">
+			<section id="brand" class="t-section t-brand" aria-labelledby="brand-title">
 				<div class="t-wrap">
 					<p class="t-eyebrow reveal">Brand</p>
 					<h2 id="brand-title" class="t-h2 reveal">A ring and a beat.</h2>
@@ -290,7 +313,7 @@ const DETAILS = [
 			</section>
 
 			<!-- ============================ GET IT ============================ -->
-			<section class="t-section t-get" aria-labelledby="get-title">
+			<section id="get" class="t-section t-get" aria-labelledby="get-title">
 				<div class="t-wrap t-get-inner reveal">
 					<h2 id="get-title" class="t-h2">Get your day back on beat.</h2>
 					<p>Free and open source. All you need is Windows 10 or 11, Node.js 22 or later, and either Claude Code (signed in) or an Anthropic API key.</p>
@@ -324,6 +347,34 @@ npm start</code></pre>
 			} else {
 				els.forEach((el) => el.classList.add('in'));
 			}
+
+			// Nav: underline the section you're reading (navigation state, so it runs even with reduced motion).
+			const linkFor = new Map();
+			document.querySelectorAll('.tn-links a[href^="#"]').forEach((a) => {
+				const sec = document.getElementById(a.getAttribute('href')!.slice(1));
+				if (sec) linkFor.set(sec, a);
+			});
+			if ('IntersectionObserver' in window && linkFor.size) {
+				const hereIO = new IntersectionObserver((entries) => {
+					for (const e of entries) linkFor.get(e.target)?.classList.toggle('is-here', e.isIntersecting);
+				}, { rootMargin: '-45% 0px -50% 0px' });
+				linkFor.forEach((_, sec) => hereIO.observe(sec));
+			}
+
+			// Nav: scroll progress, which stands in for the links on small screens. CSS decides whether it shows.
+			const prog = document.querySelector<HTMLElement>('.tn-progress span');
+			if (prog && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+				let raf = 0;
+				const paint = () => {
+					raf = 0;
+					const max = document.documentElement.scrollHeight - innerHeight;
+					prog.style.setProperty('--sp', (max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0).toFixed(4));
+				};
+				const onScroll = () => { if (!raf) raf = requestAnimationFrame(paint); };
+				paint();
+				addEventListener('scroll', onScroll, { passive: true });
+				addEventListener('resize', onScroll, { passive: true });
+			}
 		</script>
 	</body>
 </html>
@@ -353,6 +404,44 @@ npm start</code></pre>
 		margin: 0;
 		padding: 0;
 	}
+	/* ---------- Tempo nav: dark, sticky, blurred over the page ---------- */
+	:global(html) { scroll-padding-top: 72px; }
+	.tn {
+		position: sticky; top: 0; z-index: 30;
+		padding-top: env(safe-area-inset-top);
+		background: rgba(14, 15, 19, 0.92);
+		backdrop-filter: saturate(1.4) blur(14px);
+		-webkit-backdrop-filter: saturate(1.4) blur(14px);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+		font-family: var(--font-body);
+	}
+	.tn-in { width: min(100% - 2 * var(--space), 72rem); margin-inline: auto; display: flex; align-items: center; gap: 0.5rem 1.75rem; min-height: 60px; }
+	.tn a { text-decoration: none; }
+	.tn-word { display: inline-flex; align-items: center; gap: 0.6rem; margin-right: auto; color: #f2f3f7; font-weight: 650; font-size: 1.1rem; letter-spacing: -0.01em; }
+	.tn-word img { display: block; border-radius: 7px; transition: transform .5s cubic-bezier(0.22, 1, 0.36, 1); }
+	.tn-word:hover img { transform: rotate(-12deg) scale(1.06); }
+	.tn-links { display: flex; gap: 1.6rem; align-items: center; }
+	.tn-links a { color: #a9aebd; font-size: 0.9rem; padding-block: 0.4rem; transition: color .16s ease, box-shadow .16s ease; }
+	.tn-links a:hover { color: #fff; }
+	.tn-links a.is-here { color: #fff; box-shadow: 0 2px 0 #7c93ff; }
+	.tn-actions { display: flex; align-items: center; gap: 0.35rem; padding-left: 1.25rem; border-left: 1px solid rgba(255, 255, 255, 0.1); }
+	.tn-actions a { display: inline-flex; align-items: center; gap: 0.45rem; min-height: 44px; padding-inline: 0.55rem; color: #a9aebd; font-size: 0.9rem; transition: color .16s ease; }
+	.tn-actions a:hover { color: #fff; }
+	.tn-actions svg { display: block; flex: 0 0 auto; }
+	.tn-actions a.tn-cta { min-height: 0; margin-left: 0.4rem; padding: 0.5rem 0.95rem; border-radius: 999px; background: #7c93ff; color: #0e0f13; font-weight: 600; white-space: nowrap; transition: background .16s ease, transform .16s ease; }
+	.tn-actions a.tn-cta:hover { background: #9aabff; color: #0e0f13; transform: translateY(-1px); }
+	.tn-progress { display: none; }
+	@media (max-width: 860px) { .tn-links { display: none; } }
+	@media (max-width: 520px) {
+		.tn-actions .tn-site, .tn-actions .tn-icon span { display: none; }
+		.tn-actions { border-left: 0; padding-left: 0; gap: 0; }
+	}
+	/* Below 860 the section links go; a thin progress line stands in for them. */
+	@media (max-width: 860px) and (prefers-reduced-motion: no-preference) {
+		:global(html.js) .tn-progress { display: block; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; }
+		.tn-progress span { display: block; height: 100%; width: calc(var(--sp, 0) * 100%); background: linear-gradient(90deg, #7c93ff, #5cc8a1); }
+	}
+
 	.t-wrap { width: min(100% - 2 * var(--space), 72rem); margin-inline: auto; }
 	.tempo h1, .tempo h2, .tempo h3 { font-family: var(--font-body); font-weight: 600; letter-spacing: -0.02em; }
 
