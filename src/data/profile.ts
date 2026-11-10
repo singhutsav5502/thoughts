@@ -3,7 +3,7 @@ export const PROFILE = {
 	avatar: 'https://github.com/singhutsav5502.png?size=240',
 	quirk: '⛰️ ☕ 💻',
 	lede: 'Fullstack engineer interested in financial systems, building agentic systems and AI/ML.',
-	about: `I'm currently a Spring Analyst Intern at Morgan Stanley, working on financial data dashboards and microservice integrations. Before that I was a Frontend Engineer Intern at Zamp, where I shipped marketing surfaces and an internal agentic chatbot.`,
+	about: `I'm currently an Analyst at Morgan Stanley, after finishing a Spring Analyst internship there working on financial data dashboards and microservice integrations. Before that I was a Frontend Engineer Intern at Zamp, where I shipped marketing surfaces and an internal agentic chatbot.`,
 } as const;
 
 export type Experience = {
@@ -16,8 +16,14 @@ export type Experience = {
 export const EXPERIENCE: Experience[] = [
 	{
 		company: 'Morgan Stanley',
+		role: 'Analyst',
+		dates: 'Aug 2026 – Present',
+		bullets: [],
+	},
+	{
+		company: 'Morgan Stanley',
 		role: 'Spring Analyst Intern',
-		dates: 'Jan 2026 – Present',
+		dates: 'Jan 2026 – Aug 2026',
 		bullets: [
 			'Built financial data dashboards processing up to 500K rows of daily data',
 			'Designed modular microservice architecture integrating with multiple existing codebases',
