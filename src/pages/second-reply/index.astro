@@ -1,0 +1,541 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import { SITE_URL, SOCIAL } from '../../consts';
+
+const EMAIL = SOCIAL.email;
+const TITLE = 'Second Reply: every lead answered in 30 seconds — even at 2am';
+const DESCRIPTION =
+	'Second Reply answers every enquiry that lands on your business number within 30 seconds, day or night, then follows up on day 2 and day 7 until the person books. You get a one-page report every Sunday: leads recovered this week.';
+
+const structuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'Service',
+	name: 'Second Reply',
+	url: `${SITE_URL}/second-reply/`,
+	serviceType: 'Automated lead response and follow-up for appointment businesses',
+	description: DESCRIPTION,
+	image: `${SITE_URL}/second-reply/brand/mark.svg`,
+	areaServed: ['United States', 'United Kingdom', 'Canada', 'Australia', 'India'],
+	provider: { '@type': 'Person', name: 'Utsav Singh', url: `${SITE_URL}/` },
+	offer: [
+		{
+			'@type': 'Offer',
+			name: 'Essential',
+			description: 'Rules and templates only. Instant answers, day-2 and day-7 follow-ups, weekly report.',
+			price: '4999',
+			priceCurrency: 'INR',
+		},
+		{
+			'@type': 'Offer',
+			name: 'Always-on',
+			description: 'Everything in Essential, plus natural-language replies when the rules cannot answer.',
+			price: '9999',
+			priceCurrency: 'INR',
+		},
+	],
+};
+
+const DETAILS = [
+	['Quiet hours', 'You set the window. Nothing goes out at 3am unless it is answering a lead, and never after your cut-off.'],
+	['Hands off to humans, by rule', 'Complaints, emergencies, "speak to someone" — the moments you name go straight to you, marked urgent.'],
+	['Speaks in your voice', 'Your services, your price ranges, your tone. It never invents a price and never promises a discount.'],
+	['Works with the numbers you have', 'Your WhatsApp Business or SMS number stays yours; we answer on it, we never move it.'],
+	['Booking-link aware', 'If someone asks to book, they get your booking link and a held slot offer, not a suggestion to call back.'],
+	['No app to install', 'Nothing for you or your staff to learn. The replies arrive from your number; the report arrives by email.'],
+	['Live in days, not weeks', 'A ten-question form, one test message, done. Most businesses go live inside a week of saying yes.'],
+	['Your data, clearly held', 'Leads we capture go to you in the weekly report and on request at any time. Cancel and they leave with you.'],
+];
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={TITLE} description={DESCRIPTION} image="/second-reply/brand/mark.svg" imageAlt="Second Reply: two chat bubbles, the second one solid and holding a check." />
+		<link rel="icon" type="image/svg+xml" href="/second-reply/brand/mark.svg" />
+		<JsonLd data={structuredData} />
+		<script is:inline>document.documentElement.classList.add('js');</script>
+	</head>
+	<body>
+		<!-- Second Reply's own nav, in place of the site header: the product page speaks as the product, with a way back to utsv.work. -->
+		<div class="snr">
+			<div class="snr-in">
+				<a class="snr-word" href="#top">
+					<img src="/second-reply/brand/mark.svg" width="26" height="26" alt="" />
+					<span>Second Reply</span>
+				</a>
+				<nav class="snr-links" aria-label="Sections">
+					<a href="#why">Why</a>
+					<a href="#how">How</a>
+					<a href="#details">Details</a>
+					<a href="#pricing">Pricing</a>
+				</nav>
+				<div class="snr-actions">
+					<a class="snr-site" href="/">utsv.work</a>
+					<a class="snr-cta" href="#start">Get started</a>
+				</div>
+			</div>
+		</div>
+		<main class="page sr">
+			<!-- ============================ HERO ============================ -->
+			<section id="top" class="srr-hero" aria-labelledby="sr-title">
+				<div class="srr-wrap srr-hero-grid">
+					<div class="srr-hero-copy">
+						<div class="srr-brandline in-load" style="--i:0">
+							<svg class="srr-mark" viewBox="0 0 64 64" width="52" height="52" aria-hidden="true">
+								<defs>
+									<linearGradient id="srr-tile" x1="6" y1="4" x2="58" y2="60" gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#3fbfae" /><stop offset="1" stop-color="#177a6c" />
+									</linearGradient>
+								</defs>
+								<rect width="64" height="64" rx="15" fill="url(#srr-tile)" />
+								<!-- first reply: the one most businesses send, faint and late -->
+								<path d="M14 20.5h20a5 5 0 0 1 5 5v6a5 5 0 0 1-5 5H18l-5 5v-16a5 5 0 0 1 5-5Z"
+									fill="#fff" fill-opacity=".22" stroke="#fff" stroke-opacity=".5" stroke-width="2" stroke-linejoin="round" />
+								<!-- second reply: solid, on time, followed through -->
+								<path class="srr-mark-bubble" d="M28 33.5h17a5 5 0 0 1 5 5v3a5 5 0 0 1-5 5H38l-5 4.5v-4.5h-5a5 5 0 0 1-5-5v-3a5 5 0 0 1 5-5Z"
+									fill="#fff" stroke="#fff" stroke-width="2" stroke-linejoin="round" />
+								<path class="srr-mark-check" d="M31 40.5l3 3 5.5-6" stroke="#177a6c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+							</svg>
+							<span class="srr-wordmark">Second Reply</span>
+							<span class="srr-tag">no app to install</span>
+						</div>
+						<h1 id="sr-title" class="in-load" style="--i:1">Every lead answered. Even the 2am ones.</h1>
+						<p class="srr-lead in-load" style="--i:2">
+							When someone texts your business at 9pm or 3am, Second Reply answers within 30 seconds — then keeps the
+							conversation alive with a gentle nudge on day 2 and day 7, until the person books. Every Sunday you get
+							one page: <strong>leads recovered this week.</strong>
+						</p>
+						<div class="srr-ctas in-load" style="--i:3">
+							<a class="srr-btn srr-btn-primary" href={`mailto:${EMAIL}?subject=Second%20Reply%20—%20set%20us%20up`}>
+								<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M1.5 3A1.5 1.5 0 0 0 0 4.5v.9l7.4 4.4a1.2 1.2 0 0 0 1.2 0L16 5.4v-.9A1.5 1.5 0 0 0 14.5 3h-13ZM0 6.9V11.5A1.5 1.5 0 0 0 1.5 13h13a1.5 1.5 0 0 0 1.5-1.5V6.9L9.05 11.2a2.7 2.7 0 0 1-2.1 0L0 6.9Z"/></svg>
+								Get your Sunday report started
+							</a>
+							<a class="srr-btn srr-btn-ghost" href="#how">See a 2am reply happen</a>
+						</div>
+						<p class="srr-meta in-load" style="--i:4">Clinics · Salons · Gyms · Trades · anywhere a missed text is a lost booking</p>
+					</div>
+
+					<!-- A lead in twenty seconds: a 2am message, an instant answer, the day-2 nudge, a booking. -->
+					<div class="scene" role="img" aria-label="Animation: at 2:07am a lead messages asking about walk-ins; Second Reply answers in 28 seconds and offers a slot; the lead takes one; on day 2 a polite nudge gets a reply from someone who went quiet; the Sunday counter rises to nine leads recovered, three booked.">
+						<div class="sc-phone" aria-hidden="true">
+							<div class="sc-phone-head"><b>2:07 AM</b><span>Sun · your business number</span></div>
+							<div class="sc-chat">
+								<div class="sc-bub sc-them">Hi do you take walk-ins on Monday?</div>
+								<div class="sc-speed"><span></span>answered in 28 seconds</div>
+								<div class="sc-bub sc-you srr-a">We do! Want me to hold a slot for Monday morning?</div>
+								<div class="sc-bub sc-them srr-b">yes, 10am works</div>
+								<div class="sc-booked srr-c">✓ hold sent for Monday 10:00</div>
+							</div>
+						</div>
+
+						<div class="sc-card sc-day" aria-hidden="true">
+							<span class="sc-kicker">day 2 · the quiet ones</span>
+							<b>“Just checking back — Monday’s nearly full. Want the 10:00 hold?”</b>
+							<div class="sc-day-row"><span class="sc-them-chip">lead</span> oh right, keep it!</div>
+						</div>
+
+						<div class="sc-card sc-report" aria-hidden="true">
+							<span class="sc-kicker">Sunday · the one page</span>
+							<div class="sc-report-num"><i>9</i><span>leads recovered<br />this week</span></div>
+							<ul>
+								<li><b>3</b> booked</li>
+								<li><b>5</b> answered &lt;30s</li>
+								<li><b>1</b> saved from silence</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- ============================ PILLARS ============================ -->
+			<section id="why" class="srr-section srr-pillars" aria-labelledby="sr-why">
+				<div class="srr-wrap">
+					<p class="srr-eyebrow reveal">Why it works</p>
+					<h2 id="sr-why" class="srr-h2 reveal">The first reply is table stakes. The second one is money.</h2>
+					<div class="srr-pillar-grid">
+						<article class="srr-pillar reveal">
+							<div class="srr-icon" aria-hidden="true">
+								<svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M12 2a10 10 0 1 0 4.6 18.9l-.9-1.8A8 8 0 1 1 20 12h2A10 10 0 0 0 12 2Z"/><path fill="currentColor" d="M12 6v6l4 2 -0.9 1.7L10 13V6h2Z"/><path fill="currentColor" d="M14.5 12.5 19 9l.9 1.8 -4.4 3.5Z" opacity=".6"/></svg>
+							</div>
+							<h3>Answers before interest cools.</h3>
+							<p>Most enquiries that go unanswered vanish in a few hours. Yours get answered in under 30 seconds, at 9am or 3am, whether anyone is at the desk or not.</p>
+						</article>
+						<article class="srr-pillar reveal">
+							<div class="srr-icon" aria-hidden="true">
+								<svg viewBox="0 0 24 24" width="26" height="26"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 5h12a3 3 0 0 1 3 3v4a3 3 0 0 1-3 3H9l-4 3.5V6.8A2 2 0 0 1 4 5Z"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M9 9h6M9 12h3"/></svg>
+							</div>
+							<h3>Follows up like a good front desk.</h3>
+							<p>People go quiet. Life happens. On day 2 and day 7, a short human-sounding nudge goes out — warm, useful, never pushy. That second and third touch is where the hidden bookings are.</p>
+						</article>
+						<article class="srr-pillar reveal">
+							<div class="srr-icon" aria-hidden="true">
+								<svg viewBox="0 0 24 24" width="26" height="26"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M6 3h9l4 4v14H6V3Z"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M9 9h6M9 12h6M9 15h4"/></svg>
+							</div>
+							<h3>A report you can hold to account.</h3>
+							<p>Every Sunday, one page: leads recovered, bookings made, who was saved from silence. You never wonder what it is doing — you see it every week, in numbers, or you don’t pay for month 2.</p>
+						</article>
+					</div>
+				</div>
+			</section>
+
+			<!-- ============================ HOW IT WORKS ============================ -->
+			<section id="how" class="srr-section srr-how" aria-labelledby="sr-how">
+				<div class="srr-wrap">
+					<p class="srr-eyebrow reveal">How it works</p>
+					<h2 id="sr-how" class="srr-h2 reveal">Set up once. It runs every night.</h2>
+					<ol class="srr-steps reveal">
+						<li><span class="srr-step-n">1</span><h3>Ten questions</h3><p>You fill one short form: services, price ranges, your booking link, when a human must take over, when silence is mandatory. Five minutes, no call.</p></li>
+						<li><span class="srr-step-n">2</span><h3>It goes live</h3><p>We point your WhatsApp or SMS number at the answer engine and send three test messages with you. If it doesn’t reply right — we don’t switch it on.</p></li>
+						<li><span class="srr-step-n">3</span><h3>It answers & follows up</h3><p>Every enquiry gets a reply in under 30 seconds, then a day-2 and day-7 nudge for anyone who went quiet. Emergencies and complaints reach you instantly, flagged.</p></li>
+						<li><span class="srr-step-n">4</span><h3>You get the report</h3><p>Sunday night, one page: recovered leads, bookings, silence saved. Read it over chai. That’s your whole involvement from week one on.</p></li>
+					</ol>
+					<p class="srr-how-note reveal">If anything ever breaks, the report will say it before you find out. That promise is in writing.</p>
+				</div>
+			</section>
+
+			<!-- ============================ DETAILS ============================ -->
+			<section id="details" class="srr-section srr-details" aria-labelledby="sr-details">
+				<div class="srr-wrap">
+					<h2 id="sr-details" class="srr-h2 reveal">And all the careful parts.</h2>
+					<ul class="srr-detail-grid">
+						{DETAILS.map(([title, body]) => (
+							<li class="reveal"><h3>{title}</h3><p>{body}</p></li>
+						))}
+					</ul>
+				</div>
+			</section>
+
+			<!-- ============================ PRICING ============================ -->
+			<section id="pricing" class="srr-section srr-pricing" aria-labelledby="sr-pricing">
+				<div class="srr-wrap">
+					<p class="srr-eyebrow reveal">Pricing</p>
+					<h2 id="sr-pricing" class="srr-h2 reveal">One setup fee. One monthly number. No surprises.</h2>
+					<div class="srr-tier-grid reveal">
+						<div class="srr-tier">
+							<h3>Essential</h3>
+							<p class="srr-tier-line">Instant answers from rules and templates — no language model woven in, nothing to babysit.</p>
+							<p class="srr-price">₹4,999<span>/month</span></p>
+							<p class="srr-setup">setup from ₹14,999 <small>≈ $49/mo · ≈ $199 setup</small></p>
+							<ul>
+								<li>Replies under 30 seconds, 24/7</li>
+								<li>Day-2 and day-7 follow-ups</li>
+								<li>Weekly leads-recovered report</li>
+								<li>Human handoff rules & quiet hours</li>
+							</ul>
+						</div>
+						<div class="srr-tier srr-tier-hot">
+							<span class="srr-tier-flag">for busier numbers</span>
+							<h3>Always-on</h3>
+							<p class="srr-tier-line">Everything in Essential, plus natural replies for the questions the rules can’t cover — still told never to guess a price.</p>
+							<p class="srr-price">₹9,999<span>/month</span></p>
+							<p class="srr-setup">setup from ₹24,999 <small>≈ $99/mo · ≈ $249 setup</small></p>
+							<ul>
+								<li>Everything in Essential</li>
+								<li>Open-ended questions answered</li>
+								<li>Priority queue on changes & tests</li>
+								<li>Monthly wording review of your replies</li>
+							</ul>
+						</div>
+					</div>
+					<p class="srr-pricing-note reveal">Setup is a one-time fee for the first few clients at ₹14,999/≈$199; after those, ₹24,999/≈$249. There is no contract — cancel any month, keep the recovered leads.</p>
+				</div>
+			</section>
+
+			<!-- ============================ GUARANTEE ============================ -->
+			<section class="srr-guarantee" aria-labelledby="sr-guarantee">
+				<div class="srr-wrap srr-guarantee-inner reveal">
+					<h2 id="sr-guarantee" class="srr-h2">10+ recovered leads in your first 30 days — or month 2 is free.</h2>
+					<p>The Sunday report is the referee. If it counts fewer than ten leads we reopened, answered or saved-from-silence in your first month, you owe nothing for the month after. You read the numbers; you make the call.</p>
+				</div>
+			</section>
+
+			<!-- ============================ START ============================ -->
+			<section id="start" class="srr-section srr-start" aria-labelledby="sr-start">
+				<div class="srr-wrap srr-start-inner">
+					<h2 id="sr-start" class="srr-h2 reveal">Put a reply behind every message you pay for.</h2>
+					<p class="reveal">Ads, listings, word of mouth — every channel ends with someone texting your number. The one thing that decides if they book is whether anyone answers. Email, tell us your business and your booking link, and you’ll hear back within one business day.</p>
+					<div class="srr-ctas reveal">
+						<a class="srr-btn srr-btn-primary" href={`mailto:${EMAIL}?subject=Second%20Reply%20—%20set%20us%20up`}>
+							<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M1.5 3A1.5 1.5 0 0 0 0 4.5v.9l7.4 4.4a1.2 1.2 0 0 0 1.2 0L16 5.4v-.9A1.5 1.5 0 0 0 14.5 3h-13ZM0 6.9V11.5A1.5 1.5 0 0 0 1.5 13h13a1.5 1.5 0 0 0 1.5-1.5V6.9L9.05 11.2a2.7 2.7 0 0 1-2.1 0L0 6.9Z"/></svg>
+							Email to set your reply live
+						</a>
+					</div>
+					<p class="srr-small reveal">Questions first? <a href={`mailto:${EMAIL}?subject=Second%20Reply%20—%20a%20question`}>Email a question</a> · Built by <a href="/">Utsav Singh</a>.</p>
+				</div>
+			</section>
+		</main>
+		<Footer />
+
+		<script>
+			// Reveal sections as they scroll in. Content is visible by default; hiding only applies once JS runs
+			// (html.js), and not at all for people who prefer reduced motion.
+			const els = document.querySelectorAll('.sr .reveal');
+			if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+				const io = new IntersectionObserver((entries) => {
+					for (const e of entries) {
+						if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+					}
+				}, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+				els.forEach((el) => io.observe(el));
+			} else {
+				els.forEach((el) => el.classList.add('in'));
+			}
+
+			// Nav: underline the section you're reading (navigation state, so it runs even with reduced motion).
+			const linkFor = new Map();
+			document.querySelectorAll('.snr-links a[href^="#"]').forEach((a) => {
+				const sec = document.getElementById(a.getAttribute('href')!.slice(1));
+				if (sec) linkFor.set(sec, a);
+			});
+			if ('IntersectionObserver' in window && linkFor.size) {
+				const hereIO = new IntersectionObserver((entries) => {
+					for (const e of entries) linkFor.get(e.target)?.classList.toggle('is-here', e.isIntersecting);
+				}, { rootMargin: '-45% 0px -50% 0px' });
+				linkFor.forEach((_, sec) => hereIO.observe(sec));
+			}
+		</script>
+	</body>
+</html>
+
+<style>
+	.sr {
+		--sr-night: #0b1513;
+		--sr-night-2: #11201d;
+		--sr-night-3: #182a26;
+		--sr-line: rgba(255, 255, 255, 0.09);
+		--sr-text: #ecf4f1;
+		--sr-muted: #9fb3ac;
+		--sr-teal: #17a08f;
+		--sr-teal-hi: #3fbfae;
+		--sr-teal-deep: #0f7a6c;
+		--sr-ink: #10201c;
+		--sr-ink-soft: #46584f;
+		--sr-paper: #f7f5ef;
+		--sr-ease: cubic-bezier(0.2, 0, 0, 1);
+		font-family: var(--font-body);
+		overflow-x: clip;
+		/* full-bleed: the global main rule caps width and pads for text pages */
+		width: 100%;
+		max-width: none;
+		margin: 0;
+		padding: 0;
+	}
+	/* ---------- Second Reply nav: dark, sticky, blurred over the page ---------- */
+	:global(html) { scroll-padding-top: 72px; }
+	.snr {
+		position: sticky; top: 0; z-index: 30;
+		padding-top: env(safe-area-inset-top);
+		background: rgba(11, 21, 19, 0.92);
+		backdrop-filter: saturate(1.4) blur(14px);
+		-webkit-backdrop-filter: saturate(1.4) blur(14px);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+		font-family: var(--font-body);
+	}
+	.snr-in { width: min(100% - 2 * var(--space), 72rem); margin-inline: auto; display: flex; align-items: center; gap: 0.5rem 1.75rem; min-height: 60px; }
+	.snr a { text-decoration: none; }
+	.snr-word { display: inline-flex; align-items: center; gap: 0.6rem; margin-right: auto; color: #f2f6f4; font-weight: 650; font-size: 1.1rem; letter-spacing: -0.01em; }
+	.snr-word img { display: block; border-radius: 7px; transition: transform 0.5s var(--sr-ease); }
+	@media (hover: hover) { .snr-word:hover img { transform: rotate(-10deg) scale(1.06); } }
+	.snr-links { display: flex; gap: 1.6rem; align-items: center; }
+	.snr-links a { color: var(--sr-muted); font-size: 0.9rem; padding-block: 0.4rem; transition: color 150ms ease, box-shadow 150ms ease; }
+	@media (hover: hover) { .snr-links a:hover { color: #fff; } }
+	.snr-links a.is-here { color: #fff; box-shadow: 0 2px 0 var(--sr-teal-hi); }
+	.snr-actions { display: flex; align-items: center; gap: 0.35rem; padding-left: 1.25rem; border-left: 1px solid rgba(255, 255, 255, 0.1); }
+	.snr-actions a { display: inline-flex; align-items: center; gap: 0.45rem; min-height: 44px; padding-inline: 0.55rem; color: var(--sr-muted); font-size: 0.9rem; transition: color 150ms ease; }
+	@media (hover: hover) { .snr-actions a:hover { color: #fff; } }
+	.snr-actions a.snr-cta { min-height: 0; margin-left: 0.4rem; padding: 0.5rem 0.95rem; border-radius: 999px; background: var(--sr-teal-hi); color: var(--sr-night); font-weight: 600; white-space: nowrap; transition: background-color 150ms ease, transform 150ms ease-out; }
+	.snr-actions a.snr-cta:active { transform: scale(0.96); }
+	@media (hover: hover) { .snr-actions a.snr-cta:hover { background: #5cd0c0; } }
+	@media (max-width: 860px) { .snr-links { display: none; } }
+	@media (max-width: 520px) { .snr-actions .snr-site { display: none; } .snr-actions { border-left: 0; padding-left: 0; } }
+
+	.srr-wrap { width: min(100% - 2 * var(--space), 72rem); margin-inline: auto; }
+	.sr h1, .sr h2, .sr h3 { font-family: var(--font-body); font-weight: 600; letter-spacing: -0.02em; }
+
+	/* ---------------- hero ---------------- */
+	.srr-hero {
+		position: relative;
+		color: var(--sr-text);
+		background:
+			radial-gradient(60rem 30rem at 10% -10%, rgba(23, 160, 143, 0.4), transparent 60%),
+			radial-gradient(40rem 26rem at 100% 110%, rgba(153, 214, 190, 0.12), transparent 60%),
+			var(--sr-night);
+		padding-block: clamp(3.5rem, 8vw, 6.5rem) clamp(3.5rem, 7vw, 6rem);
+		isolation: isolate;
+	}
+	.srr-hero::after { /* fine rhythm lines: the seconds ticking past */
+		content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+		background-image: repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 1px, transparent 1px 72px);
+		mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
+	}
+	.srr-hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+	.srr-brandline { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.6rem; }
+	.srr-wordmark { font-size: 1.6rem; font-weight: 600; letter-spacing: -0.03em; }
+	.srr-tag { font-family: var(--font-mono); font-size: 0.78rem; color: var(--sr-muted); border: 1px solid var(--sr-line); border-radius: 999px; padding: 0.15rem 0.6rem; }
+	.srr-hero h1 { font-size: clamp(2.5rem, 6vw, 4.3rem); line-height: 1.04; margin: 0 0 1.2rem; color: #fff; }
+	.srr-lead { font-size: clamp(1.06rem, 1.6vw, 1.22rem); line-height: 1.62; color: #c3d6cf; max-width: 34rem; margin: 0 0 2rem; }
+	.srr-lead strong { color: #e9f4f0; font-weight: 650; }
+	.srr-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.4rem; }
+	.srr-btn { display: inline-flex; align-items: center; gap: 0.55rem; font-weight: 600; font-size: 1rem; text-decoration: none; border-radius: 12px; padding: 0.8rem 1.25rem; border: 1px solid transparent; transition: transform 150ms ease-out, background-color 150ms ease, box-shadow 150ms ease; }
+	.srr-btn:active { transform: scale(0.96); }
+	.srr-btn-primary { background: var(--sr-teal-hi); color: var(--sr-night); box-shadow: 0 10px 30px -10px rgba(63, 191, 174, 0.7); }
+	.srr-btn-ghost { color: var(--sr-text); border-color: rgba(255, 255, 255, 0.2); }
+	@media (hover: hover) {
+		.srr-btn-primary:hover { background: #5cd0c0; }
+		.srr-btn-ghost:hover { background: rgba(255, 255, 255, 0.06); }
+	}
+	.srr-btn:focus-visible { outline: 3px solid var(--sr-teal-hi); outline-offset: 3px; }
+	.srr-meta { margin: 0; font-family: var(--font-mono); font-size: 0.82rem; color: var(--sr-muted); }
+
+	/* mark: the second bubble pops in, the check draws once */
+	.srr-mark-bubble { transform-origin: 50% 50%; }
+	@media (prefers-reduced-motion: no-preference) {
+		:global(html.js) .srr-mark-bubble { animation: srr-pop 0.9s var(--sr-ease) 0.9s both; }
+		:global(html.js) .srr-mark-check { stroke-dasharray: 12; animation: srr-check 0.5s ease-out 1.5s both; }
+	}
+	@keyframes srr-pop { from { transform: scale(0.25); opacity: 0; filter: blur(4px); } to { transform: scale(1); opacity: 1; filter: blur(0); } }
+	@keyframes srr-check { from { stroke-dashoffset: 12; } to { stroke-dashoffset: 0; } }
+
+	/* hero entrance: copy staggers 100ms apart — hidden state lives in the from-keyframe, fill both */
+	@media (prefers-reduced-motion: no-preference) {
+		:global(html.js) .in-load { animation: srr-enter 0.3s ease-out both; animation-delay: calc(var(--i) * 0.1s); }
+	}
+	@keyframes srr-enter { from { opacity: 0; transform: translateY(12px); filter: blur(4px); } to { opacity: 1; transform: none; filter: blur(0); } }
+
+	/* ---------------- scene: a lead, recovered over twenty seconds ---------------- */
+	.scene { position: relative; height: 470px; --d: 16s; }
+	.sc-phone { position: absolute; left: 0; top: 0; width: 58%; height: 400px; background: rgba(17, 32, 29, 0.94); border: 1px solid var(--sr-line); border-radius: 24px; box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px); display: flex; flex-direction: column; }
+	.sc-phone-head { display: flex; align-items: baseline; gap: 0.6rem; padding: 16px 18px 12px; border-bottom: 1px solid var(--sr-line); }
+	.sc-phone-head b { color: #fff; font-size: 1rem; }
+	.sc-phone-head span { color: var(--sr-muted); font-size: 0.72rem; }
+	.sc-chat { flex: 1; padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
+	.sc-bub { max-width: 88%; border-radius: 14px; padding: 8px 12px; font-size: 0.84rem; line-height: 1.4; }
+	.sc-them { background: rgba(255, 255, 255, 0.08); color: #e9efe9; border-bottom-left-radius: 4px; align-self: flex-start; }
+	.sc-you { background: var(--sr-teal); color: #06251f; border-bottom-right-radius: 4px; align-self: flex-end; }
+	.sc-speed { align-self: center; display: inline-flex; align-items: center; gap: 6px; font-size: 0.66rem; color: #9fe3d4; border: 1px solid rgba(63, 191, 174, 0.4); border-radius: 999px; padding: 2px 10px; }
+	.sc-speed span { width: 6px; height: 6px; border-radius: 999px; background: var(--sr-teal-hi); }
+	.sc-booked { align-self: flex-end; font-size: 0.74rem; color: #d7f7ee; background: rgba(63, 191, 174, 0.16); border: 1px solid rgba(63, 191, 174, 0.35); border-radius: 999px; padding: 4px 12px; }
+
+	.sc-card { position: absolute; background: rgba(24, 42, 38, 0.94); border: 1px solid var(--sr-line); border-radius: 18px; box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px); }
+	.sc-kicker { display: block; font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: var(--sr-teal-hi); margin-bottom: 6px; }
+	.sc-day { right: 0; top: 24px; width: 56%; padding: 14px 16px 16px; border-left: 3px solid var(--sr-teal-hi); display: flex; flex-direction: column; gap: 6px; }
+	.sc-day b { font-size: 0.92rem; line-height: 1.35; color: #f0f6f3; }
+	.sc-day-row { font-size: 0.8rem; color: var(--sr-muted); display: flex; align-items: center; gap: 8px; }
+	.sc-them-chip { font-size: 0.64rem; border: 1px solid var(--sr-line); border-radius: 999px; padding: 1px 8px; color: #c8d8d2; }
+
+	.sc-report { right: 2%; bottom: 0; width: 62%; padding: 16px 18px; border: 1px solid rgba(255, 255, 255, 0.04); box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.7), 0 0 0 1px transparent; display: flex; align-items: center; gap: 14px; background: #fdfcf8; color: var(--sr-ink); }
+	.sc-report .sc-kicker { color: var(--sr-teal-deep); }
+	.sc-report-num { display: flex; align-items: center; gap: 10px; border-right: 1px solid var(--sr-line); color: var(--sr-ink-soft); }
+	.sc-report-num i { font-style: normal; font-size: 2.4rem; font-weight: 700; color: var(--sr-teal-deep); font-family: var(--font-mono); }
+	.sc-report-num span { font-size: 0.76rem; line-height: 1.3; }
+	.sc-report ul { list-style: none; margin: 0; padding: 0; font-size: 0.8rem; color: var(--sr-ink-soft); display: flex; flex-direction: column; gap: 4px; }
+	.sc-report li b { color: var(--sr-ink); }
+
+	/* timeline: 0-8% message · 10% speed badge · 13% answer · 26% accepted · 34% booked · 44% day2 card · 58% reply · 92% reset */
+	@media (prefers-reduced-motion: no-preference) {
+		.sc-you.srr-a { opacity: 0; animation: sc-bub var(--d) var(--sr-ease) infinite; }
+		.sc-them.srr-b { opacity: 0; animation: sc-bub2 var(--d) var(--sr-ease) infinite; }
+		.sc-booked.srr-c { opacity: 0; animation: sc-booked var(--d) var(--sr-ease) infinite; }
+		.sc-day { opacity: 0; animation: sc-card-in var(--d) var(--sr-ease) infinite; }
+		.sc-report-num i { animation: sc-count var(--d) var(--sr-ease) infinite; }
+	}
+	@keyframes sc-bub { 0%, 12% { opacity: 0; transform: translateY(10px); } 16%, 86% { opacity: 1; transform: none; } 92%, 100% { opacity: 0; transform: translateY(10px); } }
+	@keyframes sc-bub2 { 0%, 24% { opacity: 0; transform: translateY(10px); } 28%, 86% { opacity: 1; transform: none; } 92%, 100% { opacity: 0; transform: translateY(10px); } }
+	@keyframes sc-booked { 0%, 32% { opacity: 0; transform: translateY(8px) scale(0.96); } 36%, 86% { opacity: 1; transform: none; } 92%, 100% { opacity: 0; transform: translateY(8px); } }
+	@keyframes sc-card-in { 0%, 40% { opacity: 0; transform: translateX(16px); } 46%, 66% { opacity: 1; transform: none; } 74%, 100% { opacity: 0; transform: translateX(16px); } }
+	@keyframes sc-count { 0%, 66% { color: #9fb3ac; } 72%, 92% { color: var(--sr-teal-deep); } 100% { color: #9fb3ac; } }
+
+	/* ---------------- sections ---------------- */
+	.srr-section { padding-block: clamp(3rem, 6vw, 5rem); }
+	.srr-eyebrow { font-family: var(--font-mono); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--sr-teal-deep); margin: 0 0 0.6rem; }
+	.srr-h2 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.08; margin: 0 0 2.4rem; color: var(--sr-ink); }
+
+	.srr-pillars { padding-top: clamp(3rem, 6vw, 5rem); }
+	.srr-pillar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+	/* outer radius = 12px inner card radius + 8px inner bubble inset */
+	.srr-pillar { background: var(--sr-paper); border: 1px solid var(--sr-line); border-radius: 20px; padding: 1.6rem 1.5rem 1.4rem; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 0 0 1px transparent; }
+	.srr-pillar h3 { font-size: 1.35rem; margin: 1.1rem 0 0.5rem; color: var(--sr-ink); }
+	.srr-pillar p { margin: 0; color: var(--sr-ink-soft); font-size: 1rem; line-height: 1.6; }
+	.srr-icon { height: 56px; display: flex; align-items: center; color: var(--sr-teal-deep); }
+	.srr-icon svg { width: 40px; height: 40px; color: currentColor; }
+
+	.srr-how { background: linear-gradient(to bottom, transparent, rgba(23, 160, 143, 0.07) 30%, rgba(23, 160, 143, 0.07) 70%, transparent); }
+	.srr-steps { list-style: none; padding: 0; margin: 0 0 2rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; position: relative; }
+	.srr-steps::before { content: ''; position: absolute; left: 20px; right: 20px; top: 20px; height: 2px; background: linear-gradient(90deg, var(--sr-teal-hi), #9ad6b3); transform: scaleX(0); transform-origin: left; transition: transform 1.4s var(--sr-ease) 0.2s; }
+	.srr-steps.in::before, :global(html:not(.js)) .srr-steps::before { transform: scaleX(1); }
+	.srr-steps li { position: relative; }
+	.srr-step-n { position: relative; z-index: 1; width: 42px; height: 42px; border-radius: 999px; display: grid; place-items: center; font-weight: 700; background: var(--sr-night); color: #fff; border: 3px solid var(--sr-paper); }
+	.srr-steps h3 { font-size: 1.15rem; margin: 1rem 0 0.4rem; color: var(--sr-ink); }
+	.srr-steps p { margin: 0; color: var(--sr-ink-soft); font-size: 0.98rem; }
+	.srr-how-note { margin: 0; font-size: 0.95rem; color: var(--sr-ink-soft); border-left: 3px solid var(--sr-teal-hi); padding-left: 1rem; max-width: 40rem; }
+
+	.srr-detail-grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem 1.5rem; }
+	.srr-detail-grid li { border-top: 2px solid var(--sr-teal-deep); padding-top: 0.9rem; }
+	.srr-detail-grid h3 { font-size: 1.05rem; margin: 0 0 0.35rem; color: var(--sr-ink); }
+	.srr-detail-grid p { margin: 0; font-size: 0.95rem; color: var(--sr-ink-soft); line-height: 1.55; }
+
+	.srr-pricing { background: rgba(23, 160, 143, 0.05); }
+	.srr-tier-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: stretch; margin-bottom: 2rem; }
+	/* card radius 24 = child chip radius 10 + 8 inset + border */
+	.srr-tier { background: var(--sr-paper); border: 1px solid var(--sr-line); border-radius: 24px; padding: 1.8rem 1.7rem 1.6rem; position: relative; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 0 0 1px transparent; }
+	.srr-tier-hot { background: var(--sr-night); color: var(--sr-text); border-color: transparent; box-shadow: 0 24px 60px -24px rgba(11, 21, 19, 0.55); }
+	.srr-tier-hot h3 { color: #fff; }
+	.srr-tier-hot ul { color: #c3d6cf; }
+	.srr-tier-hot li b, .srr-tier-hot .srr-price { color: #fff; }
+	.srr-tier-hot .srr-price span { color: #8fb0a6; }
+	.srr-tier-hot .srr-setup { color: var(--sr-muted); }
+	.srr-tier-hot .srr-setup small { color: #8fb0a6; }
+	.srr-tier-flag { position: absolute; top: -12px; right: 18px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--sr-night); background: var(--sr-teal-hi); border-radius: 999px; padding: 0.25rem 0.8rem; }
+	.srr-tier h3 { font-size: 1.3rem; margin: 0 0 0.5rem; }
+	.srr-tier-line { font-size: 0.95rem; line-height: 1.55; margin: 0 0 1.2rem; color: var(--sr-ink-soft); }
+	.srr-price { font-size: 2.1rem; font-weight: 700; letter-spacing: -0.02em; color: var(--sr-ink); margin: 0 0 0.15rem; font-family: var(--font-mono); }
+	.srr-price span { font-size: 0.9rem; font-weight: 500; color: var(--sr-muted); font-family: var(--font-body); }
+	.srr-setup { font-size: 0.9rem; color: var(--sr-ink-soft); margin: 0 0 1.2rem; }
+	.srr-setup small { display: block; font-size: 0.78rem; color: #6a7a72; font-family: var(--font-mono); }
+	.srr-tier ul { list-style: none; margin: 0; padding: 0; color: var(--sr-ink-soft); font-size: 0.95rem; display: flex; flex-direction: column; gap: 0.45rem; }
+	.srr-tier li::before { content: '✓ '; color: var(--sr-teal-deep); font-weight: 700; }
+	.srr-tier-hot li::before { color: var(--sr-teal-hi); }
+	.srr-pricing-note { margin: 0; font-size: 0.95rem; color: var(--sr-ink-soft); max-width: 46rem; }
+
+	.srr-guarantee { background: var(--sr-night); color: var(--sr-text); padding-block: clamp(3rem, 6vw, 4.5rem); }
+	.srr-guarantee .srr-h2 { color: #fff; margin-bottom: 1rem; }
+	.srr-guarantee p { margin: 0; color: #c3d6cf; max-width: 46rem; line-height: 1.65; }
+
+	.srr-start-inner { max-width: 46rem; }
+	.srr-start p { color: var(--sr-ink-soft); }
+	.srr-small { font-size: 0.92rem; color: #6a7a72; }
+	.srr-start a:not(.srr-btn) { color: var(--sr-teal-deep); }
+
+	/* ---------------- reveal on scroll ---------------- */
+	:global(html.js) .sr .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.8s var(--sr-ease), transform 0.8s var(--sr-ease); }
+	:global(html.js) .sr .reveal.in { opacity: 1; transform: none; }
+
+	/* ---------------- responsive ---------------- */
+	@media (max-width: 980px) {
+		.srr-hero-grid { grid-template-columns: 1fr; }
+		.scene { max-width: 560px; width: 100%; margin: 0 auto; }
+		.srr-pillar-grid { grid-template-columns: 1fr; }
+		.srr-steps { grid-template-columns: repeat(2, 1fr); row-gap: 2rem; }
+		.srr-steps::before { display: none; }
+		.srr-detail-grid { grid-template-columns: repeat(2, 1fr); }
+		.srr-tier-grid { grid-template-columns: 1fr; }
+	}
+	@media (max-width: 560px) {
+		.scene { height: 520px; }
+		.sc-phone { width: 100%; height: 350px; }
+		.sc-day { width: 88%; top: 300px; right: 2%; }
+		.sc-report { width: 92%; right: 2%; bottom: -8px; }
+		.srr-steps, .srr-detail-grid { grid-template-columns: 1fr; }
+	}
+
+	/* ---------------- reduced motion: a still frame of the story ---------------- */
+	@media (prefers-reduced-motion: reduce) {
+		.sr *, .sr *::before, .sr *::after { animation: none !important; transition: none !important; }
+		.sr .in-load, .sr .reveal { opacity: 1 !important; transform: none !important; filter: none !important; }
+		.sc-you.srr-a, .sc-them.srr-b, .sc-booked.srr-c { opacity: 1 !important; transform: none !important; }
+		.sc-day { opacity: 1 !important; transform: none !important; }
+		.srr-steps::before { transform: scaleX(1); }
+	}
+</style>
