@@ -3,6 +3,7 @@ import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { SITE_URL, SOCIAL } from '../../consts';
+import markUrl from './mark.svg';
 
 const EMAIL = SOCIAL.email;
 const TITLE = 'Second Reply: every lead answered in 30 seconds — even at 2am';
@@ -52,8 +53,8 @@ const DETAILS = [
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={TITLE} description={DESCRIPTION} image="/second-reply/brand/mark.svg" imageAlt="Second Reply: two chat bubbles, the second one solid and holding a check." />
-		<link rel="icon" type="image/svg+xml" href="/second-reply/brand/mark.svg" />
+		<BaseHead title={TITLE} description={DESCRIPTION} image={markUrl} imageAlt="Second Reply: two chat bubbles, the second one solid and holding a check." />
+		<link rel="icon" type="image/svg+xml" href={markUrl} />
 		<JsonLd data={structuredData} />
 		<script is:inline>document.documentElement.classList.add('js');</script>
 	</head>
@@ -62,7 +63,7 @@ const DETAILS = [
 		<div class="snr">
 			<div class="snr-in">
 				<a class="snr-word" href="#top">
-					<img src="/second-reply/brand/mark.svg" width="26" height="26" alt="" />
+					<img src={markUrl} width="26" height="26" alt="" />
 					<span>Second Reply</span>
 				</a>
 				<nav class="snr-links" aria-label="Sections">
