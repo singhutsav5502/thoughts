@@ -7,7 +7,6 @@ tags:
   - Python
   - Windows
   - macOS
-sourceUrl: https://github.com/singhutsav5502/Wisp
 ---
 
 <img src="/blog/wisp/wisp-icon.png" alt="The Wisp icon: a small teal spirit carrying a mouse pointer" width="96" height="96" style="width:96px">
