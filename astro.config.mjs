@@ -65,6 +65,10 @@ if (gliderUrls.length === 0) {
 // https://astro.build/config
 export default defineConfig({
 	site: SITE,
+	// short link for the Wisp post
+	redirects: {
+		'/wisp': '/blog/wisp/',
+	},
 	integrations: [
 		mdx(),
 		sitemap({
