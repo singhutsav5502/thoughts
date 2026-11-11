@@ -1,0 +1,511 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import { SITE_URL, SOCIAL } from '../../consts';
+
+const REPO = 'https://github.com/singhutsav5502/Decant';
+const VERSION = '0.9.0';
+const PRICE = 19;
+// Paste the Polar checkout link here. Until then the buy buttons become an email waitlist.
+const CHECKOUT_URL = '';
+const WAITLIST = `${SOCIAL.email}?subject=${encodeURIComponent('Decant founder licence')}&body=${encodeURIComponent('Tell me when the Decant founder licence is on sale. My Mac: ')}`;
+const BUY = CHECKOUT_URL || WAITLIST;
+const BUY_LABEL = CHECKOUT_URL ? `Get Decant — $${PRICE}` : 'Join the waitlist';
+
+const TITLE = 'Decant: Windows games on your Apple Silicon Mac';
+const DESCRIPTION =
+	'Decant runs Steam and Windows games on M-series Macs. One button sets up Wine and the DirectX-to-Metal layers, your games sit in a library, and known problems are fixed at launch. Open source, with a one-time founder licence for signed builds.';
+
+const structuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'SoftwareApplication',
+	name: 'Decant',
+	url: `${SITE_URL}/decant/`,
+	applicationCategory: 'GameApplication',
+	operatingSystem: 'macOS 14 or later, Apple Silicon',
+	description: DESCRIPTION,
+	softwareVersion: VERSION,
+	image: `${SITE_URL}/decant/brand/mark-512.png`,
+	offers: { '@type': 'Offer', price: String(PRICE), priceCurrency: 'USD' },
+	author: { '@type': 'Person', name: 'Utsav Singh', url: `${SITE_URL}/` },
+	codeRepository: REPO,
+};
+
+const GAMES = [
+	{ name: 'Steam', mono: 'St', api: 'Client · store, sign-in, downloads', hue: 'a' },
+	{ name: 'Hades II', mono: 'HI', api: 'DirectX 12 · D3DMetal', hue: 'b' },
+	{ name: 'Hollow Knight: Silksong', mono: 'HK', api: 'DirectX 11 · DXMT', hue: 'c' },
+	{ name: '9 Kings', mono: '9K', api: 'DirectX 11 · DXMT', hue: 'd' },
+];
+
+const STEPS = [
+	['Set Up Recommended', 'One button installs Wine, the DirectX-to-Metal layers and a games bottle. It only fetches what’s missing, and never touches a bottle you already have.'],
+	['Bring your games', 'Install Steam in a click, or point Decant at any Windows game or installer you’ve downloaded. It finds what the installer put on disk.'],
+	['Press Play', 'Decant picks the graphics layer for each game at launch and applies its fix recipe automatically. Nothing to configure per game.'],
+];
+
+const LAYERS = [
+	['Your game', 'The Windows .exe, unchanged'],
+	['Wine 26', 'Windows APIs, translated to macOS'],
+	['DXMT · D3DMetal · DXVK', 'DirectX 9–12, drawn with Metal'],
+	['Rosetta 2', 'x86 code on Apple Silicon'],
+	['Your Mac', 'M1 or later'],
+];
+
+const FAQ = [
+	['Which Macs does it run on?', 'Apple Silicon only: M1 or later, macOS 14 or newer. Tested on an M5 with macOS 26.6. Intel Macs are not supported.'],
+	['Will my game work?', 'Probably, if it doesn’t use kernel-level anti-cheat. Most games run without a specific fix, but only the ones listed above are confirmed. If yours doesn’t, put it in the fix queue or take the refund.'],
+	['What about DirectX 12?', 'DirectX 12 uses Apple’s D3DMetal, which can’t be redistributed. Download Apple’s free Game Porting Toolkit and Decant imports it in one step. DirectX 9, 10 and 11 need nothing extra.'],
+	['Isn’t the source free?', 'Yes: the code is MIT-licensed on GitHub. The licence pays for ready-to-run builds of the app and their updates, and for the time that goes into fixing more games.'],
+	['Apple is winding down Rosetta. Will this keep working?', 'Decant depends on Rosetta 2. Apple says it is fully supported through macOS 27, with a subset kept afterwards for older games, but its own pages disagree on the details. It’s a real risk, so you should know about it before buying.'],
+	['How do refunds work?', 'Within 30 days of buying, reply to your receipt and you get all of it back. No questions.'],
+];
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={TITLE} description={DESCRIPTION} image="/decant/brand/mark-512.png" imageAlt="The Decant app icon: a teal bottle with a gold cap on a sunset gradient." />
+		<link rel="icon" type="image/png" href="/decant/brand/mark-64.png" />
+		<link rel="apple-touch-icon" href="/decant/brand/mark-180.png" />
+		<JsonLd data={structuredData} />
+		<script is:inline>document.documentElement.classList.add('js');</script>
+	</head>
+	<body>
+		<div class="dn">
+			<div class="dn-in">
+				<a class="dn-word" href="#top">
+					<img src="/decant/brand/mark-64.png" width="28" height="28" alt="" />
+					<span>Decant</span>
+				</a>
+				<nav class="dn-links" aria-label="Sections">
+					<a href="#how">How it works</a>
+					<a href="#games">Games</a>
+					<a href="#inside">Inside</a>
+					<a href="#price">Price</a>
+					<a href="#faq">FAQ</a>
+				</nav>
+				<div class="dn-actions">
+					<a class="dn-icon" href={REPO} target="_blank" rel="noopener noreferrer">
+						<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
+						<span>Source</span>
+					</a>
+					<a class="dn-site" href="/">utsv.work</a>
+					<a class="dn-cta" href="#price">Get Decant</a>
+				</div>
+			</div>
+		</div>
+
+		<main class="page decant">
+			<!-- ============================ HERO ============================ -->
+			<section id="top" class="d-hero" aria-labelledby="d-title">
+				<div class="d-wrap d-hero-grid">
+					<div class="d-hero-copy">
+						<p class="d-chip"><span class="d-dot" aria-hidden="true"></span>Version {VERSION} · Apple Silicon</p>
+						<h1 id="d-title">Your Windows games, <span class="d-grad">poured</span> onto your Mac.</h1>
+						<p class="d-lead">Decant runs Steam and Windows games on M-series Macs. One button sets it all up, your games sit in a library, and known problems are fixed for you at launch.</p>
+						<div class="d-ctas">
+							<a class="d-btn d-btn-primary" href={BUY}>{BUY_LABEL}</a>
+							<a class="d-btn d-btn-ghost" href={REPO} target="_blank" rel="noopener noreferrer">Read the source</a>
+						</div>
+						<p class="d-meta">${PRICE} once · every 1.x update · 30-day refund</p>
+					</div>
+
+					<!-- A recreation of Decant's library window, drawn in HTML. -->
+					<div class="win" role="img" aria-label="The Decant library window: a sidebar with the games bottle, and tiles for Hades II, Hollow Knight: Silksong and 9 Kings, with Hades II launching.">
+						<div class="win-side">
+							<div class="win-lights"><i></i><i></i><i></i></div>
+							<div class="win-nav is-on"><span class="win-grid" aria-hidden="true"></span>Library</div>
+							<div class="win-label">Bottles</div>
+							<div class="win-nav"><span class="win-glass" aria-hidden="true"></span>games <b>★</b></div>
+						</div>
+						<div class="win-main">
+							<div class="win-bar">
+								<b>Library</b>
+								<span class="win-search">Search games</span>
+							</div>
+							<div class="win-tiles">
+								<div class="tile t1"><div class="art">HI<span class="play">▶ Play</span></div><b>Hades II</b><small>Added by you · games</small></div>
+								<div class="tile t2"><div class="art">HK<span class="play">▶ Play</span></div><b>Hollow Knight: Silksong</b><small>Added by you · games</small></div>
+								<div class="tile t3"><div class="art">9K<span class="play">▶ Play</span></div><b>9 Kings</b><small>Steam · games</small></div>
+							</div>
+							<div class="win-toast"><span class="spin" aria-hidden="true"></span>Launching Hades II <em>D3DMetal</em></div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- ============================ HOW ============================ -->
+			<section id="how" class="d-section d-light" aria-labelledby="how-title">
+				<div class="d-wrap reveal">
+					<p class="d-eyebrow">How it works</p>
+					<h2 id="how-title" class="d-h2">Three steps. No terminal.</h2>
+					<ol class="d-steps">
+						{STEPS.map(([h, p], i) => (
+							<li><span class="d-n">0{i + 1}</span><h3>{h}</h3><p>{p}</p></li>
+						))}
+					</ol>
+				</div>
+			</section>
+
+			<!-- ============================ GAMES ============================ -->
+			<section id="games" class="d-section d-light d-alt" aria-labelledby="games-title">
+				<div class="d-wrap reveal">
+					<p class="d-eyebrow">Tested on screen</p>
+					<h2 id="games-title" class="d-h2">Playing today.</h2>
+					<p class="d-sub">Confirmed on an M5 with macOS 26.6. Many more Steam games run through the same layers; these are the ones checked by hand so far.</p>
+					<ul class="d-games">
+						{GAMES.map((g) => (
+							<li class={`g g-${g.hue}`}>
+								<span class="g-art" aria-hidden="true">{g.mono}</span>
+								<span class="g-txt"><b>{g.name}</b><small>{g.api}</small></span>
+								<span class="g-ok">Plays</span>
+							</li>
+						))}
+					</ul>
+					<p class="d-note">Games with kernel-level anti-cheat don’t run under Wine on any Mac tool, including this one. Founders vote on which games get fixed next.</p>
+				</div>
+			</section>
+
+			<!-- ============================ INSIDE ============================ -->
+			<section id="inside" class="d-section d-dark" aria-labelledby="inside-title">
+				<div class="d-wrap d-inside reveal">
+					<div>
+						<p class="d-eyebrow d-eyebrow-dark">Inside</p>
+						<h2 id="inside-title" class="d-h2 d-h2-dark">Five layers, picked for you.</h2>
+						<p class="d-sub d-sub-dark">Every launch, Decant chooses the best graphics path for the game’s DirectX version from what’s installed. Fixes for specific games are small recipe files, matched by name when the game starts, so the core never fills up with special cases.</p>
+						<p class="d-sub d-sub-dark">The code is MIT-licensed. Read every line on <a href={REPO} target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+					</div>
+					<ol class="d-stack">
+						{LAYERS.map(([h, p], i) => (
+							<li style={`--i:${i}`}><b>{h}</b><small>{p}</small></li>
+						))}
+					</ol>
+				</div>
+			</section>
+
+			<!-- ============================ PRICE ============================ -->
+			<section id="price" class="d-section d-light" aria-labelledby="price-title">
+				<div class="d-wrap reveal">
+					<p class="d-eyebrow">Price</p>
+					<h2 id="price-title" class="d-h2">Pay once. Keep it.</h2>
+					<div class="d-price">
+						<div class="p-card p-main">
+							<p class="p-name">Founder licence</p>
+							<p class="p-amount">${PRICE}<small>one-time</small></p>
+							<ul>
+								<li>The Decant app, ready to run</li>
+								<li>Every 1.x update</li>
+								<li>A vote on which games get fixed next</li>
+								<li>Full refund within 30 days</li>
+							</ul>
+							<a class="d-btn d-btn-primary d-btn-block" href={BUY}>{BUY_LABEL}</a>
+							{!CHECKOUT_URL && <p class="p-fine">Sales open soon. Join the list and you’ll get the founder price.</p>}
+						</div>
+						<div class="p-card p-compare">
+							<p class="p-name">For comparison</p>
+							<dl>
+								<div><dt>CrossOver</dt><dd>$74 for 12 months of updates</dd></div>
+								<div><dt>Free Wine wrappers</dt><dd>You assemble Wine, DXVK and fixes yourself</dd></div>
+								<div><dt>Decant source</dt><dd>Free under MIT, if you’re happy building it</dd></div>
+							</dl>
+							<p class="p-fine">If CrossOver already runs everything you play, keep it. Decant is for people who want a lighter launcher at a one-time price.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- ============================ FAQ ============================ -->
+			<section id="faq" class="d-section d-light d-alt" aria-labelledby="faq-title">
+				<div class="d-wrap d-faq reveal">
+					<h2 id="faq-title" class="d-h2">Questions</h2>
+					<div>
+						{FAQ.map(([q, a]) => (
+							<details><summary>{q}</summary><p>{a}</p></details>
+						))}
+					</div>
+				</div>
+			</section>
+
+			<section class="d-end" aria-labelledby="end-title">
+				<div class="d-wrap reveal">
+					<img src="/decant/brand/mark-180.png" width="88" height="88" alt="" />
+					<h2 id="end-title">Pour yourself a game.</h2>
+					<div class="d-ctas d-ctas-center">
+						<a class="d-btn d-btn-primary" href={BUY}>{BUY_LABEL}</a>
+						<a class="d-btn d-btn-ghost" href={`${REPO}/issues`} target="_blank" rel="noopener noreferrer">Request a game</a>
+					</div>
+					<p class="d-small">Built by <a href="/">Utsav Singh</a>. Decant is not affiliated with Valve, Apple, CodeWeavers or any game publisher. Game names are trademarks of their owners.</p>
+				</div>
+			</section>
+		</main>
+		<Footer />
+
+		<script>
+			const els = document.querySelectorAll('.decant .reveal');
+			if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+				const io = new IntersectionObserver((entries) => {
+					for (const e of entries) {
+						if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+					}
+				}, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+				els.forEach((el) => io.observe(el));
+			} else {
+				els.forEach((el) => el.classList.add('in'));
+			}
+
+			const linkFor = new Map();
+			document.querySelectorAll('.dn-links a[href^="#"]').forEach((a) => {
+				const sec = document.getElementById(a.getAttribute('href')!.slice(1));
+				if (sec) linkFor.set(sec, a);
+			});
+			if ('IntersectionObserver' in window && linkFor.size) {
+				const hereIO = new IntersectionObserver((entries) => {
+					for (const e of entries) linkFor.get(e.target)?.classList.toggle('is-here', e.isIntersecting);
+				}, { rootMargin: '-45% 0px -50% 0px' });
+				linkFor.forEach((_, sec) => hereIO.observe(sec));
+			}
+		</script>
+	</body>
+</html>
+
+<style>
+	.decant {
+		--d-night: #140d1c;
+		--d-night-2: #1d1428;
+		--d-line: rgba(255, 255, 255, 0.1);
+		--d-text: #f4eef8;
+		--d-muted: #b8aac6;
+		--d-peach: #ff9e66;
+		--d-rose: #fa548f;
+		--d-violet: #734dd9;
+		--d-teal: #21ccb8;
+		--d-gold: #ffdb4d;
+		--d-ink: #1b1424;
+		--d-ink-soft: #5a4e68;
+		--d-paper: #fbf8fc;
+		--d-paper-2: #f3eef6;
+		--d-grad: linear-gradient(120deg, var(--d-peach), var(--d-rose) 50%, var(--d-violet));
+		--d-ease: cubic-bezier(0.22, 1, 0.36, 1);
+		font-family: var(--font-body);
+		overflow-x: clip;
+		width: 100%;
+		max-width: none;
+		margin: 0;
+		padding: 0;
+	}
+	:global(html) { scroll-padding-top: 72px; }
+
+	/* ---------------- nav ---------------- */
+	.dn {
+		position: sticky; top: 0; z-index: 30;
+		padding-top: env(safe-area-inset-top);
+		background: rgba(20, 13, 28, 0.9);
+		backdrop-filter: saturate(1.4) blur(14px);
+		-webkit-backdrop-filter: saturate(1.4) blur(14px);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+		font-family: var(--font-body);
+	}
+	.dn-in { width: min(100% - 2 * var(--space), 72rem); margin-inline: auto; display: flex; align-items: center; gap: 0.5rem 1.75rem; min-height: 60px; }
+	.dn a { text-decoration: none; }
+	.dn-word { display: inline-flex; align-items: center; gap: 0.6rem; margin-right: auto; color: #fff; font-weight: 600; font-size: 1.1rem; letter-spacing: -0.01em; }
+	.dn-word img { display: block; transition: transform .5s var(--d-ease, ease); }
+	.dn-word:hover img { transform: rotate(-12deg) scale(1.06); }
+	.dn-links { display: flex; gap: 1.5rem; align-items: center; }
+	.dn-links a { color: #b8aac6; font-size: 0.9rem; padding-block: 0.4rem; transition: color .16s ease, box-shadow .16s ease; }
+	.dn-links a:hover { color: #fff; }
+	.dn-links a.is-here { color: #fff; box-shadow: 0 2px 0 #fa548f; }
+	.dn-actions { display: flex; align-items: center; gap: 0.35rem; padding-left: 1.25rem; border-left: 1px solid rgba(255, 255, 255, 0.1); }
+	.dn-actions a { display: inline-flex; align-items: center; gap: 0.45rem; min-height: 44px; padding-inline: 0.55rem; color: #b8aac6; font-size: 0.9rem; transition: color .16s ease; }
+	.dn-actions a:hover { color: #fff; }
+	.dn-actions a.dn-cta { min-height: 0; margin-left: 0.4rem; padding: 0.5rem 1rem; border-radius: 999px; background: linear-gradient(120deg, #ff9e66, #fa548f); color: #fff; font-weight: 600; white-space: nowrap; transition: transform .16s ease, filter .16s ease; }
+	.dn-actions a.dn-cta:hover { transform: translateY(-1px); filter: brightness(1.08); }
+	@media (max-width: 860px) { .dn-links { display: none; } }
+	@media (max-width: 520px) {
+		.dn-actions .dn-site, .dn-actions .dn-icon span { display: none; }
+		.dn-actions { border-left: 0; padding-left: 0; gap: 0; }
+	}
+
+	.d-wrap { width: min(100% - 2 * var(--space), 72rem); margin-inline: auto; }
+	.decant h1, .decant h2, .decant h3 { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.02em; }
+
+	/* ---------------- hero ---------------- */
+	.d-hero {
+		position: relative; isolation: isolate; color: var(--d-text);
+		background:
+			radial-gradient(48rem 30rem at 0% -10%, rgba(255, 158, 102, 0.32), transparent 60%),
+			radial-gradient(44rem 30rem at 55% 0%, rgba(250, 84, 143, 0.22), transparent 60%),
+			radial-gradient(50rem 34rem at 100% 100%, rgba(115, 77, 217, 0.38), transparent 60%),
+			var(--d-night);
+		padding-block: clamp(3.5rem, 8vw, 6.5rem) clamp(3.5rem, 8vw, 6.5rem);
+	}
+	.d-hero::before { /* faint sparkles, like the icon's */
+		content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+		background-image:
+			radial-gradient(1.5px 1.5px at 12% 22%, rgba(255,255,255,.7), transparent 60%),
+			radial-gradient(1px 1px at 34% 78%, rgba(255,255,255,.5), transparent 60%),
+			radial-gradient(1.5px 1.5px at 58% 14%, rgba(255,255,255,.6), transparent 60%),
+			radial-gradient(1px 1px at 82% 36%, rgba(255,255,255,.5), transparent 60%),
+			radial-gradient(1.5px 1.5px at 92% 82%, rgba(255,255,255,.6), transparent 60%),
+			radial-gradient(1px 1px at 6% 64%, rgba(255,255,255,.45), transparent 60%);
+	}
+	.d-hero-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+	.d-chip { display: inline-flex; align-items: center; gap: 0.5rem; margin: 0 0 1.4rem; font-family: var(--font-mono); font-size: 0.78rem; color: var(--d-muted); border: 1px solid var(--d-line); border-radius: 999px; padding: 0.3rem 0.8rem; background: rgba(255,255,255,.04); }
+	.d-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--d-teal); box-shadow: 0 0 0 3px rgba(33,204,184,.22); }
+	.d-hero h1 { font-size: clamp(2.5rem, 5.6vw, 4.2rem); line-height: 1.03; margin: 0 0 1.25rem; color: #fff; text-wrap: balance; }
+	.d-grad { background: var(--d-grad); -webkit-background-clip: text; background-clip: text; color: transparent; font-style: italic; padding-right: .06em; }
+	.d-lead { font-size: clamp(1.05rem, 1.5vw, 1.2rem); line-height: 1.6; color: #d9cfe3; max-width: 33rem; margin: 0 0 2rem; }
+	.d-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.2rem; }
+	.d-ctas-center { justify-content: center; }
+	.d-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; font-weight: 600; font-size: 1rem; text-decoration: none; border-radius: 12px; padding: 0.85rem 1.3rem; transition: transform .2s var(--d-ease), box-shadow .2s, background .2s, filter .2s; }
+	.d-btn-primary { background: var(--d-grad); color: #fff; box-shadow: 0 10px 30px -8px rgba(250, 84, 143, 0.6); }
+	.d-btn-primary:hover { transform: translateY(-2px); filter: brightness(1.06); box-shadow: 0 16px 36px -10px rgba(250, 84, 143, 0.7); }
+	.d-btn-ghost { color: #fff; border: 1px solid rgba(255,255,255,.22); background: rgba(255,255,255,.04); }
+	.d-btn-ghost:hover { background: rgba(255,255,255,.1); transform: translateY(-2px); }
+	.d-btn-block { width: 100%; }
+	.d-meta { margin: 0; font-family: var(--font-mono); font-size: 0.8rem; color: var(--d-muted); }
+
+	/* ---------------- the library window ---------------- */
+	.win {
+		--w-bg: #f2eff5; --w-side: #e6e1ec; --w-text: #2a2233; --w-dim: #7c7287;
+		display: grid; grid-template-columns: 9.5rem 1fr; min-height: 22rem;
+		border-radius: 14px; overflow: hidden; background: var(--w-bg); color: var(--w-text);
+		box-shadow: 0 40px 80px -30px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.08), 0 0 80px -20px rgba(250,84,143,.35);
+		transform: perspective(1400px) rotateY(-6deg) rotateX(2deg);
+		font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', var(--font-body);
+		font-size: 0.82rem;
+	}
+	.win-side { background: var(--w-side); padding: 0.8rem 0.6rem; border-right: 1px solid rgba(0,0,0,.06); }
+	.win-lights { display: flex; gap: 6px; margin: 0 0 1.1rem 0.3rem; }
+	.win-lights i { width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; }
+	.win-lights i:nth-child(2) { background: #febc2e; }
+	.win-lights i:nth-child(3) { background: #28c840; }
+	.win-nav { display: flex; align-items: center; gap: 0.5rem; padding: 0.42rem 0.55rem; border-radius: 7px; }
+	.win-nav b { color: #e9b400; font-weight: 400; }
+	.win-nav.is-on { background: #5b8def; color: #fff; }
+	.win-grid { width: 11px; height: 11px; border: 1.5px solid currentColor; border-radius: 2px; background: linear-gradient(currentColor, currentColor) center / 1.5px 100% no-repeat, linear-gradient(currentColor, currentColor) center / 100% 1.5px no-repeat; }
+	.win-glass { width: 9px; height: 12px; border: 1.5px solid #3b7be8; border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%; border-bottom-width: 3px; }
+	.win-label { margin: 0.9rem 0 0.3rem 0.55rem; font-size: 0.72rem; color: var(--w-dim); }
+	.win-main { position: relative; display: flex; flex-direction: column; min-width: 0; }
+	.win-bar { display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 0.9rem; border-bottom: 1px solid rgba(0,0,0,.07); }
+	.win-bar b { font-size: 0.95rem; }
+	.win-search { margin-left: auto; color: var(--w-dim); background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 7px; padding: 0.25rem 0.6rem; font-size: 0.75rem; min-width: 7rem; }
+	.win-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; padding: 0.9rem; }
+	.tile { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+	.tile b { font-size: 0.78rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 0.35rem; }
+	.tile small { font-size: 0.66rem; color: var(--w-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+	.art { position: relative; aspect-ratio: 2 / 3; border-radius: 9px; display: grid; place-items: center; color: #fff; font-weight: 700; font-size: clamp(1.2rem, 2.4vw, 1.7rem); letter-spacing: 0.02em; box-shadow: 0 6px 14px -8px rgba(0,0,0,.4); }
+	.t1 .art { background: linear-gradient(160deg, #a0607e, #c18aa2); }
+	.t2 .art { background: linear-gradient(160deg, #8a5fb0, #b18fcb); }
+	.t3 .art { background: linear-gradient(160deg, #3f8f88, #6cb8ae); }
+	.play { position: absolute; bottom: 12%; left: 50%; transform: translateX(-50%); background: #3478f6; color: #fff; font-size: 0.66rem; font-weight: 600; padding: 0.25rem 0.55rem; border-radius: 6px; white-space: nowrap; opacity: 0; }
+	.t1 .play { animation: play 7s var(--d-ease) infinite; }
+	.t1 .art { animation: lift 7s var(--d-ease) infinite; }
+	.win-toast { position: absolute; left: 50%; bottom: 0.9rem; transform: translateX(-50%); display: flex; align-items: center; gap: 0.5rem; background: rgba(30, 22, 40, .92); color: #fff; font-size: 0.72rem; padding: 0.45rem 0.8rem; border-radius: 999px; white-space: nowrap; opacity: 0; animation: toast 7s var(--d-ease) infinite; }
+	.win-toast em { font-style: normal; font-family: var(--font-mono); font-size: 0.65rem; color: var(--d-teal); }
+	.spin { width: 10px; height: 10px; border-radius: 50%; border: 2px solid rgba(255,255,255,.25); border-top-color: #fff; animation: spin .8s linear infinite; }
+	@keyframes play { 0%, 15% { opacity: 0; } 22%, 70% { opacity: 1; } 78%, 100% { opacity: 0; } }
+	@keyframes lift { 0%, 15% { transform: none; } 22%, 70% { transform: translateY(-4px) scale(1.03); box-shadow: 0 14px 22px -10px rgba(0,0,0,.45); } 78%, 100% { transform: none; } }
+	@keyframes toast { 0%, 34% { opacity: 0; transform: translate(-50%, 8px); } 42%, 74% { opacity: 1; transform: translate(-50%, 0); } 82%, 100% { opacity: 0; transform: translate(-50%, 8px); } }
+	@keyframes spin { to { transform: rotate(360deg); } }
+
+	/* ---------------- sections ---------------- */
+	.d-section { padding-block: clamp(4rem, 9vw, 7rem); }
+	.d-light { background: var(--d-paper); color: var(--d-ink); }
+	.d-alt { background: var(--d-paper-2); }
+	.d-dark { background: var(--d-night); color: var(--d-text); }
+	.d-eyebrow { font-family: var(--font-mono); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--d-rose); margin: 0 0 0.6rem; }
+	.d-eyebrow-dark { color: var(--d-peach); }
+	.d-h2 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.08; margin: 0 0 1rem; color: var(--d-ink); text-wrap: balance; }
+	.d-h2-dark { color: #fff; }
+	.d-sub { color: var(--d-ink-soft); font-size: 1.08rem; line-height: 1.65; max-width: 40rem; margin: 0 0 2rem; }
+	.d-sub-dark { color: #cbbfd6; }
+	.d-sub-dark a { color: var(--d-peach); }
+	.d-note, .d-small { color: var(--d-ink-soft); font-size: 0.95rem; line-height: 1.6; max-width: 42rem; }
+
+	.d-steps { list-style: none; padding: 0; margin: 2.4rem 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+	.d-steps li { background: #fff; border: 1px solid rgba(27,20,36,.08); border-radius: 18px; padding: 1.6rem; box-shadow: 0 20px 40px -32px rgba(27,20,36,.4); transition: transform .3s var(--d-ease), box-shadow .3s var(--d-ease); }
+	.d-steps li:hover { transform: translateY(-4px); box-shadow: 0 28px 50px -30px rgba(115,77,217,.45); }
+	.d-n { display: inline-grid; place-items: center; width: 2.4rem; height: 2.4rem; border-radius: 12px; background: var(--d-grad); color: #fff; font-family: var(--font-mono); font-size: 0.85rem; }
+	.d-steps h3 { font-size: 1.3rem; margin: 1.1rem 0 0.5rem; color: var(--d-ink); }
+	.d-steps p { margin: 0; color: var(--d-ink-soft); line-height: 1.6; }
+
+	.d-games { list-style: none; padding: 0; margin: 0 0 1.5rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.9rem; }
+	.g { display: flex; align-items: center; gap: 1rem; background: #fff; border: 1px solid rgba(27,20,36,.08); border-radius: 16px; padding: 0.9rem 1.1rem 0.9rem 0.9rem; }
+	.g-art { flex: 0 0 auto; width: 3.2rem; height: 4.2rem; border-radius: 9px; display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 1rem; }
+	.g-a .g-art { background: linear-gradient(160deg, #3f5a86, #6f8cbd); }
+	.g-b .g-art { background: linear-gradient(160deg, #a0607e, #c18aa2); }
+	.g-c .g-art { background: linear-gradient(160deg, #8a5fb0, #b18fcb); }
+	.g-d .g-art { background: linear-gradient(160deg, #3f8f88, #6cb8ae); }
+	.g-txt { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
+	.g-txt b { color: var(--d-ink); font-size: 1.05rem; }
+	.g-txt small { color: var(--d-ink-soft); font-family: var(--font-mono); font-size: 0.78rem; }
+	.g-ok { margin-left: auto; flex: 0 0 auto; font-size: 0.78rem; font-weight: 600; color: #0f7f72; background: rgba(33,204,184,.14); border-radius: 999px; padding: 0.25rem 0.7rem; }
+
+	.d-inside { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+	.d-stack { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.55rem; }
+	.d-stack li { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 1rem 1.2rem; border-radius: 14px; background: rgba(255,255,255,.04); border: 1px solid var(--d-line); margin-inline: calc(var(--i) * 0.9rem); transition: transform .3s var(--d-ease), background .3s; }
+	.d-stack li:hover { transform: translateX(4px); background: rgba(255,255,255,.08); }
+	.d-stack li:first-child { background: var(--d-grad); border-color: transparent; }
+	.d-stack li:last-child { border-color: rgba(33,204,184,.45); }
+	.d-stack b { color: #fff; font-weight: 600; }
+	.d-stack small { color: #cbbfd6; font-size: 0.85rem; text-align: right; }
+	.d-stack li:first-child small { color: rgba(255,255,255,.88); }
+
+	.d-price { display: grid; grid-template-columns: 1.1fr 1fr; gap: 1.25rem; margin-top: 2.2rem; align-items: start; }
+	.p-card { border-radius: 22px; padding: clamp(1.5rem, 3vw, 2.2rem); background: #fff; border: 1px solid rgba(27,20,36,.08); }
+	.p-main { position: relative; background: linear-gradient(#fff, #fff) padding-box, var(--d-grad) border-box; border: 2px solid transparent; box-shadow: 0 30px 60px -36px rgba(250,84,143,.55); }
+	.p-name { margin: 0 0 0.4rem; font-weight: 600; color: var(--d-ink); }
+	.p-amount { margin: 0 0 1.2rem; font-family: var(--font-display); font-size: 3.4rem; line-height: 1; color: var(--d-ink); }
+	.p-amount small { font-family: var(--font-body); font-size: 1rem; color: var(--d-ink-soft); margin-left: 0.5rem; }
+	.p-main ul { list-style: none; padding: 0; margin: 0 0 1.6rem; display: grid; gap: 0.6rem; }
+	.p-main li { position: relative; padding-left: 1.7rem; color: var(--d-ink); }
+	.p-main li::before { content: ''; position: absolute; left: 0; top: 0.3em; width: 1rem; height: 1rem; border-radius: 50%; background: var(--d-teal) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 0.8rem no-repeat; }
+	.p-fine { margin: 1rem 0 0; color: var(--d-ink-soft); font-size: 0.9rem; line-height: 1.55; }
+	.p-compare dl { margin: 0.6rem 0 0; display: grid; gap: 1rem; }
+	.p-compare dt { font-weight: 600; color: var(--d-ink); }
+	.p-compare dd { margin: 0.15rem 0 0; color: var(--d-ink-soft); }
+
+	.d-faq { display: grid; grid-template-columns: 0.7fr 1.3fr; gap: 2rem; }
+	.d-faq details { border-bottom: 1px solid rgba(27,20,36,.12); padding: 1.1rem 0; }
+	.d-faq details:first-child { border-top: 1px solid rgba(27,20,36,.12); }
+	.d-faq summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 1rem; font-weight: 600; color: var(--d-ink); font-size: 1.05rem; }
+	.d-faq summary::-webkit-details-marker { display: none; }
+	.d-faq summary::after { content: '+'; color: var(--d-rose); font-weight: 400; font-size: 1.3rem; line-height: 1; transition: transform .2s var(--d-ease); }
+	.d-faq details[open] summary::after { transform: rotate(45deg); }
+	.d-faq details p { margin: 0.7rem 0 0; color: var(--d-ink-soft); line-height: 1.65; max-width: 42rem; }
+
+	.d-end { text-align: center; color: var(--d-text); padding-block: clamp(4.5rem, 10vw, 7.5rem); background: radial-gradient(40rem 22rem at 50% 0%, rgba(250,84,143,.3), transparent 70%), radial-gradient(40rem 22rem at 50% 100%, rgba(115,77,217,.35), transparent 70%), var(--d-night); }
+	.d-end img { display: block; margin: 0 auto 1.2rem; filter: drop-shadow(0 18px 30px rgba(250,84,143,.4)); }
+	.d-end h2 { font-size: clamp(2.2rem, 5vw, 3.4rem); color: #fff; margin: 0 0 1.6rem; }
+	.d-end .d-small { color: #b8aac6; margin: 1.4rem auto 0; }
+	.d-end .d-small a { color: #fff; }
+
+	/* ---------------- reveal on scroll ---------------- */
+	:global(html.js) .decant .reveal { opacity: 0; transform: translateY(22px); transition: opacity .8s var(--d-ease), transform .8s var(--d-ease); }
+	:global(html.js) .decant .reveal.in { opacity: 1; transform: none; }
+
+	/* ---------------- responsive ---------------- */
+	@media (max-width: 980px) {
+		.d-hero-grid, .d-inside, .d-price, .d-faq { grid-template-columns: 1fr; }
+		.win { transform: none; max-width: 560px; width: 100%; margin: 0 auto; }
+		.d-steps { grid-template-columns: 1fr; }
+	}
+	@media (max-width: 640px) {
+		.d-games { grid-template-columns: 1fr; }
+		.win { grid-template-columns: 1fr; min-height: 0; }
+		.win-tiles { padding-bottom: 3.4rem; }
+		.win-side { display: none; }
+		.win-search { display: none; }
+		.d-stack li { margin-inline: 0; flex-direction: column; gap: 0.2rem; }
+		.d-stack small { text-align: left; }
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.decant *, .decant *::before, .decant *::after { animation: none !important; transition: none !important; }
+		.t1 .play, .win-toast { opacity: 1 !important; }
+		.t1 .art { transform: translateY(-4px) scale(1.03); }
+		.win-toast { transform: translateX(-50%) !important; }
+	}
+</style>
